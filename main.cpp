@@ -1,6 +1,4 @@
-#include "Fonction.h"
-#include "Carte.h"
-#include "perso.h"
+#include "PointH/AutresFonctions.h"
 
 int main()
 {
@@ -14,46 +12,46 @@ int main()
     InitialisationSprite(fondMenu,texture);
     carte Carte[NB_CARTE];
     cartePossible choixJoueurCarte[NB_PERSO];
-    perso Perso[6];
+    Joueur joueur[NB_JOUEURS];
 
     InitialisationCarte(Carte,choixJoueurCarte);
-    InitialisationJoueur(Perso[0],choixJoueurCarte);
-    InitialisationJoueur(Perso[1],choixJoueurCarte);
-    short menu=0;
+
+    joueur[0].InitialisationJoueur(choixJoueurCarte);
+    joueur[1].InitialisationJoueur(choixJoueurCarte);
+
+    int menu=0;
+    int nbJoueurs=0;
 
     while (window.isOpen()) {
         Event event;
-
         while (window.waitEvent(event)) {
-            AffichageMenu(fondMenu,menu,window,Perso);
+            AffichageMenu(fondMenu, menu, window, joueur);
             switch (event.type) {
                 case Event::Closed:
                     window.close();
                     break;
                 case  Event::TextEntered:
-                    ClavierTexte(menu,Perso,event);
+                    ClavierTexte(menu, joueur, event);
                     break;
                 case Event::KeyPressed:
-                    Clavier(menu,Perso,event,window);
+                    Clavier(menu, joueur, event, window);
                     break;
                 case Event::MouseButtonReleased:
                     switch (event.mouseButton.button) {
                         case Mouse::Right:
                             break;
                         case Mouse::Left:
-                            ClicGauche(menu,Perso,choixJoueurCarte);
+                            ClicGauche(menu, joueur, choixJoueurCarte,nbJoueurs);
                             break;
                     }
                     break;
                 case Event::MouseMoved:
-                    SourisMouvement(menu, event, window);
+                    SourisMouvement(menu, window);
                     break;
             }
-                window.display();
-                window.clear();
-
+            window.display();
+            window.clear();
         }
-
     }
     return 0;
 }

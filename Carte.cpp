@@ -1,4 +1,4 @@
-#include "Carte.h"
+#include "PointH/Carte.h"
 
 void carte::InitCarte(ifstream& fichierTexte, int Type, int x, int y, int l, int L){
     getline(fichierTexte,nomCarte);
@@ -15,12 +15,7 @@ void carte::Couleur(ifstream& fichierTexte){
 string carte::getNom(){
     return nomCarte;
 }
-int carte::getType() {
-    return typeCarte;
-}
-Sprite carte::getSprite() {
-    return spriteCarte;
-}
+
 carte cartePossible::getCarte(){
     return Carte;
 }
@@ -48,8 +43,6 @@ void InitialisationCarte(carte Carte[NB_CARTE],cartePossible choixJoueurCarte[])
     fichierTexte.close();
 }
 
-
-
 void cartePossible::changement() {
     utilise=!utilise;
 }
@@ -62,8 +55,7 @@ void cartePossible::setCarte(carte C){
 
 void carte::dessinerCarte(RenderWindow &window, int x, int y, int l, int h) {
     sf::Vector2f targetSize(l, h);
-    /*stackOverflaw  */spriteCarte.setScale(targetSize.x / spriteCarte.getLocalBounds().width,targetSize.y / spriteCarte.getLocalBounds().height);
-
+    /*stackOverflaw */spriteCarte.setScale(targetSize.x / spriteCarte.getLocalBounds().width,targetSize.y / spriteCarte.getLocalBounds().height);
     spriteCarte.setPosition(x,y);
     window.draw(spriteCarte);
 }

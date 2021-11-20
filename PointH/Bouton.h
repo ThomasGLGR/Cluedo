@@ -1,19 +1,19 @@
-#include "Fonction.h"
+#include "IncludeAndDefine.h"
 #ifndef CLUEDO_BOUTON_H
 #define CLUEDO_BOUTON_H
 
 
-class bouton {
+class Bouton {
 private:
     int x;
     int y;
+    int h;
     int l;
-    int L;
     Color couleur;
 public:
-    bouton(int x0,int y0,int l0,int L0,Color couleur0);
+    Bouton(int x0, int y0, int h0, int l0, Color couleur0);
     int Clic(int variable);
-    void DessinerRectangle(RenderWindow& window, Event event);
+    void DessinerRectangle(RenderWindow& window);
 
 };
 

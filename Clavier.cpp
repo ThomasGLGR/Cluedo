@@ -1,33 +1,19 @@
-#include "Fonction.h"
-#include "perso.h"
+#include "PointH/AutresFonctions.h"
 
-
-void ClavierTexte(short menu,perso* Perso,Event event){
-    switch (menu) {
-        case 2:
-            for (int i = 0; i < 6; ++i) {
-                if  (Perso[i].getenCourdeModif()){
-                    Perso[i].ModifierTexteID(event);
-                }
-            }
-
-            break;
+void ClavierTexte(int menu, Joueur* joueur, Event event) {
+    for (int i = 0; i < 6; ++i) {
+        if (menu == 2) {
+            joueur[i].ModifierTexteID(event);
+        }
     }
 }
-
-void Clavier(short menu,perso* Perso,Event event,RenderWindow& window){
+void Clavier(int menu, Joueur* joueur, Event event, RenderWindow& window) {
     if (event.key.code == Keyboard::Escape) {
         window.close();
     }
-    switch (menu) {
-        case 2:
-            if (event.key.code == 59){
-                for (int i = 0; i < 6; ++i) {
-                    if (Perso[i].getenCourdeModif()) {
-                        Perso[i].SupprimerTexteID();
-                    }
-                }
-            }
-            break;
+    if (event.key.code == 59 && menu==2) {
+        for (int i = 0; i < 6; ++i) {
+                joueur[i].SupprimerTexteID();
+        }
     }
 }
