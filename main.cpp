@@ -11,18 +11,21 @@ int main()
     Sprite fondMenu[6];
     Texture texture[6];
     InitialisationSprite(fondMenu,texture);
-    Carte carte[NB_CARTE];
 
+    Carte carte[NB_CARTE];
+    Carte enveloppe[3];
     cartePossible choixJoueurCarte[NB_PERSO];
     Joueur joueur[NB_JOUEURS];
     Case plateau[NB_CASE_HAUTEUR][NB_CASE_LARGEUR];
+
     InitialisationCarte(carte, choixJoueurCarte);
     MelangerCarte(carte);
+    InitialisationEnveloppe(enveloppe,carte);
     InitialisationPlateau(plateau);
     joueur[0].InitialisationJoueur(choixJoueurCarte);
     joueur[1].InitialisationJoueur(choixJoueurCarte);
 
-        int menu=0;
+    int menu=0;
     int nbJoueurs=0;
 
     while (window.isOpen()) {

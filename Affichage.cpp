@@ -16,10 +16,13 @@ void AffichageMenu(Sprite fondMenu[], int menu, RenderWindow& window, Joueur* jo
     switch (menu) {
         case 2:
             for (int i = 0; i < NB_JOUEURS; ++i) {
-                joueur[i].AffichageCroix(window,i);
-                joueur[i].AffichageAvatarMenu2(window,i);
-                joueur[i].AffichagePictogramme(window,i);
+                joueur[i].AffichageCroix(window, i);
+                joueur[i].AffichageAvatarMenu2(window, i);
+                joueur[i].AffichagePictogramme(window, i);
             }
+            break;
+        case 5:
+            joueur[0].AfficherCarteEnMain(window);
             break;
     }
 }

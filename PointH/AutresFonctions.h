@@ -18,4 +18,5 @@ void SourisMouvement(int& menu,RenderWindow& window);
 int NombreDeJoueurs(Joueur* joueur);
 void MelangerCarte(Carte carte[NB_CARTE]);
 void DistributionCarte(Joueur* joueur,Carte* carte,int nbJoueurs);
+void InitialisationEnveloppe(Carte* enveloppe,Carte carte[NB_CARTE]);
 #endif

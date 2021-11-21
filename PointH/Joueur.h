@@ -67,7 +67,8 @@ public:
     void AffichagePictogramme(RenderWindow& window, int i);
     void AffichageCroix(RenderWindow& window,int i);
     void AffichageAvatarMenu2(RenderWindow& window,int i);
-
+    void AfficherCarteEnMain(RenderWindow& window);
+    void AfficherCarteEnMainZoom(RenderWindow &window,int x,int y, int l, int h,int i);
     };
 
 #endif //CLUEDO_PERSO_H

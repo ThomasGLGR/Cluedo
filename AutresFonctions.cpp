@@ -11,11 +11,28 @@ int NombreDeJoueurs(Joueur* joueur){
 }
 
 void DistributionCarte(Joueur* joueur,Carte* carte,int nbJoueurs){
-    int nbCarteRestante=NB_CARTE;
+    int nbCarteRestante=NB_CARTE_JOUABLE;
     int a=0;
     while (nbCarteRestante>0){
         joueur[a%nbJoueurs].PiocherCarte(carte[nbCarteRestante-1]);
         a++;
         nbCarteRestante--;
     }
+}
+
+void MelangerCarte(Carte carte[NB_CARTE]){
+    srand(time(NULL));
+    for (int i = 0; i < 500; ++i) {
+        int a=rand()%NB_CARTE;
+        int b=rand()%NB_CARTE;
+        Carte C=carte[a];
+        carte[a]=carte[b];
+        carte[b]=C;
+    }
+}
+
+void InitialisationEnveloppe(Carte* enveloppe,Carte carte[NB_CARTE]){
+     enveloppe[Perso].RemplirEnveloppe(carte,Perso);
+    enveloppe[Arme].RemplirEnveloppe(carte,Arme);
+    enveloppe[Lieu].RemplirEnveloppe(carte,Lieu);
 }

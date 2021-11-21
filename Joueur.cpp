@@ -286,5 +286,26 @@ void Joueur::AffichageAvatarMenu2(RenderWindow &window, int i) {
         }
     }
 }
+void Joueur::AfficherCarteEnMainZoom(RenderWindow &window,int x1,int y1, int x2, int y2,int i) {
+    if (Mouse::getPosition().x> x1 && Mouse::getPosition().x< x2 && Mouse::getPosition().y > y1 && Mouse::getPosition().y < y2) {
+        Deck[i].dessinerCarte(window,x1-30,y1-64,160,256);
+    }
+}
+void Joueur::AfficherCarteEnMain(RenderWindow& window) {
+    for (int i = 0; i < Deck.size(); ++i) {
+        int x1 = 300 / Deck.size() + ((700 - (2 * 300 / Deck.size())) / Deck.size()) * i;
+        Deck[i].dessinerCarte(window, x1, 750, 100, 160);
+    }
+    for (int i = 0; i < Deck.size(); ++i) {
+        if (Deck.size() > 7 && i != Deck.size() - 1) {
+            AfficherCarteEnMainZoom(window, 300 / Deck.size() + ((700 - (2 * 300 / Deck.size())) / Deck.size()) * i,
+                                    750, 300 / Deck.size() + ((700 - (2 * 300 / Deck.size())) / Deck.size()) * (i + 1),
+                                    750 + 160, i);
 
-
+    }else{
+        AfficherCarteEnMainZoom(window, 300 / Deck.size() + ((700 - (2 * 300 / Deck.size())) / Deck.size()) * i, 750,
+                                300 / Deck.size() + ((700 - (2 * 300 / Deck.size())) / Deck.size()) * i + 100,
+                                750 + 160, i);
+    }
+}
+}

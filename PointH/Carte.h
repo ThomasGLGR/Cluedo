@@ -27,6 +27,8 @@ public:
     string getNom();
     Sprite getSprite();
     Texture getTexture();
+    void RemplirEnveloppe(Carte* carte,int type);
+    virtual void setCarte(Carte C);
 };
 
 
@@ -38,6 +40,7 @@ public:
     bool getUtilise();
     Carte getCarte();
     void setCarte(Carte C);
+
 };
 
 #endif

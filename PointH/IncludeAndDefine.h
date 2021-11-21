@@ -15,6 +15,7 @@
 #define LARGEUR_CARTE 420
 #define HAUTEUR_CARTE 672
 #define NB_CARTE 27
+#define NB_CARTE_JOUABLE 24
 #define NB_PERSO 8
 #define NB_JOUEURS 6
 #define ROUGE_MENU Color(238, 29, 33)

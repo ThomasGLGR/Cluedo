@@ -1,17 +1,5 @@
 #include "PointH/Carte.h"
-
 #include <utility>
-
-void MelangerCarte(Carte carte[NB_CARTE]){
-    srand(time(NULL));
-    for (int i = 0; i < 100; ++i) {
-        int a=rand()%NB_CARTE;
-        int b=rand()%NB_CARTE;
-        Carte C=carte[a];
-        carte[a]=carte[b];
-        carte[b]=C;
-    }
-}
 
 void Carte::InitCarte(ifstream& fichierTexte, int Type, int x, int y, int l, int L){
     getline(fichierTexte,nomCarte);
@@ -95,3 +83,21 @@ void Carte::dessinerCarte(RenderWindow &window, int x, int y, int l, int h) {
     window.draw(spriteCarte);
 }
 
+void Carte::setCarte(Carte C){
+    spriteCarte=C.spriteCarte;
+    textureCarte=C.textureCarte;
+    nomCarte=C.nomCarte;
+    RGBText=C.RGBText;
+    typeCarte=C.typeCarte;
+};
+
+void Carte::RemplirEnveloppe(Carte* carte,int type){
+    bool stop=false;
+    for (int i = 0; i < NB_CARTE; ++i) {
+            if (carte[i].typeCarte==type && !stop){
+              setCarte(carte[i]);
+              carte[i].setCarte(carte[NB_CARTE-type-1]);
+              stop=true;
+        }
+    }
+}

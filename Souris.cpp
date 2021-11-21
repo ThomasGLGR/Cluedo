@@ -6,7 +6,7 @@ void PassageMenu5(int& menu, Joueur* joueur,int& nbJoueurs,Carte* carte){
     for (int i = 0; i < 6; ++i) {
         if (joueur[i].getjoueurJoue()) {
             if (joueur[i].getEtatInscription() != Pret) {
-                valide =false;
+                valide =true;
             }
         }
     }
