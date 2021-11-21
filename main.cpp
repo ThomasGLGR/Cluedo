@@ -3,23 +3,26 @@
 int main()
 {
     RenderWindow window;
-    window.create(sf::VideoMode(LARGEUR_ECRAN, HAUTEUR_ECRAN), "Cluedo",sf::Style::Fullscreen);
-    window.setPosition(sf::Vector2i(0,0));
+    window.create(VideoMode(LARGEUR_ECRAN, HAUTEUR_ECRAN), "Cluedo",Style::Fullscreen);
+    window.setPosition(Vector2i(0,0));
     window.setFramerateLimit(30);
+
 
     Sprite fondMenu[6];
     Texture texture[6];
     InitialisationSprite(fondMenu,texture);
-    carte Carte[NB_CARTE];
+    Carte carte[NB_CARTE];
+
     cartePossible choixJoueurCarte[NB_PERSO];
     Joueur joueur[NB_JOUEURS];
-
-    InitialisationCarte(Carte,choixJoueurCarte);
-
+    Case plateau[NB_CASE_HAUTEUR][NB_CASE_LARGEUR];
+    InitialisationCarte(carte, choixJoueurCarte);
+    MelangerCarte(carte);
+    InitialisationPlateau(plateau);
     joueur[0].InitialisationJoueur(choixJoueurCarte);
     joueur[1].InitialisationJoueur(choixJoueurCarte);
 
-    int menu=0;
+        int menu=0;
     int nbJoueurs=0;
 
     while (window.isOpen()) {
@@ -41,7 +44,7 @@ int main()
                         case Mouse::Right:
                             break;
                         case Mouse::Left:
-                            ClicGauche(menu, joueur, choixJoueurCarte,nbJoueurs);
+                            ClicGauche(menu, joueur, choixJoueurCarte,nbJoueurs,carte);
                             break;
                     }
                     break;

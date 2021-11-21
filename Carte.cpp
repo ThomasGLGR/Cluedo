@@ -1,44 +1,80 @@
 #include "PointH/Carte.h"
 
-void carte::InitCarte(ifstream& fichierTexte, int Type, int x, int y, int l, int L){
+#include <utility>
+
+void MelangerCarte(Carte carte[NB_CARTE]){
+    srand(time(NULL));
+    for (int i = 0; i < 100; ++i) {
+        int a=rand()%NB_CARTE;
+        int b=rand()%NB_CARTE;
+        Carte C=carte[a];
+        carte[a]=carte[b];
+        carte[b]=C;
+    }
+}
+
+void Carte::InitCarte(ifstream& fichierTexte, int Type, int x, int y, int l, int L){
     getline(fichierTexte,nomCarte);
     typeCarte=Type;
-    textureCarte.loadFromFile("../Image/ListeCarte.jpg", sf::IntRect(x, y, l, L));
-    spriteCarte.setTexture(textureCarte);
+    textureCarte.loadFromFile("../Image/ListeCarte.jpg", IntRect(x, y, l, L));
 }
-void carte::Couleur(ifstream& fichierTexte){
+void Carte::Couleur(ifstream& fichierTexte){
     int R,G,B;
     fichierTexte >> R >> G >> B;
     RGBText=Color(R,G,B);
 }
 
-string carte::getNom(){
+string Carte::getNom(){
     return nomCarte;
 }
 
-carte cartePossible::getCarte(){
-    return Carte;
+Carte::Carte() {}
+
+Carte::Carte(Sprite spriteCarte0,const Texture& textureCarte0,string nomCarte0,int typeCarte0,Color RGBText0) {
+    spriteCarte=move(spriteCarte0);
+    textureCarte=textureCarte0;
+    nomCarte=move(nomCarte0);
+    typeCarte=typeCarte0;
+    RGBText=RGBText0;
 }
-Color carte::getRGB() {
+
+Sprite Carte::getSprite(){
+    return spriteCarte;
+}
+Texture Carte::getTexture(){
+    return textureCarte;
+}
+Carte cartePossible::getCarte(){
+    Carte C(spriteCarte,textureCarte,nomCarte,typeCarte,RGBText);
+    return C;
+}
+Color Carte::getRGB() {
     return RGBText;
 }
 
-void InitialisationCarte(carte Carte[NB_CARTE],cartePossible choixJoueurCarte[]){
+void cartePossible::setCarte(Carte C){
+    spriteCarte=C.getSprite();
+    textureCarte=C.getTexture();
+    nomCarte=C.getNom();
+    RGBText=C.getRGB();
+}
+
+
+void InitialisationCarte(Carte carte[NB_CARTE], cartePossible choixJoueurCarte[]){
     ifstream fichierTexte("../PointTXT/InitialisationNomCarte.txt");
     for (int i = 0; i < NB_CARTE; ++i) {
-        if (i<8) {
-            Carte[i].InitCarte(fichierTexte,Perso,i*LARGEUR_CARTE,0,LARGEUR_CARTE,HAUTEUR_CARTE);
-
+        if (i<NB_PERSO) {
+            carte[i].InitCarte(fichierTexte,Perso,i*LARGEUR_CARTE,0,LARGEUR_CARTE,HAUTEUR_CARTE);
         }else if(i<18){
-            Carte[i].InitCarte(fichierTexte,Arme,(i-8)*LARGEUR_CARTE,HAUTEUR_CARTE,LARGEUR_CARTE,HAUTEUR_CARTE);
-
+            carte[i].InitCarte(fichierTexte,Arme,(i-8)*LARGEUR_CARTE,HAUTEUR_CARTE,LARGEUR_CARTE,HAUTEUR_CARTE);
         }else{
-            Carte[i].InitCarte(fichierTexte,Lieu,(i-18)*LARGEUR_CARTE,2*HAUTEUR_CARTE,LARGEUR_CARTE,HAUTEUR_CARTE);
+            carte[i].InitCarte(fichierTexte,Lieu,(i-18)*LARGEUR_CARTE,2*HAUTEUR_CARTE,LARGEUR_CARTE,HAUTEUR_CARTE);
         }
     }
+
     for (int i = 0; i < NB_PERSO; ++i) {
-        Carte[i].Couleur(fichierTexte);
-        choixJoueurCarte[i].setCarte(Carte[i]);
+        carte[i].Couleur(fichierTexte);
+        choixJoueurCarte[i].setCarte(carte[i]);
     }
     fichierTexte.close();
 }
@@ -49,13 +85,12 @@ void cartePossible::changement() {
 bool cartePossible::getUtilise() {
     return utilise;
 }
-void cartePossible::setCarte(carte C){
-    Carte=C;
-}
 
-void carte::dessinerCarte(RenderWindow &window, int x, int y, int l, int h) {
-    sf::Vector2f targetSize(l, h);
-    /*stackOverflaw */spriteCarte.setScale(targetSize.x / spriteCarte.getLocalBounds().width,targetSize.y / spriteCarte.getLocalBounds().height);
+
+void Carte::dessinerCarte(RenderWindow &window, int x, int y, int l, int h) {
+    Vector2f targetSize(l, h);
+    spriteCarte.setTexture(textureCarte);
+    /*stackOverflaw*/spriteCarte.setScale(targetSize.x / spriteCarte.getLocalBounds().width,targetSize.y / spriteCarte.getLocalBounds().height);
     spriteCarte.setPosition(x,y);
     window.draw(spriteCarte);
 }

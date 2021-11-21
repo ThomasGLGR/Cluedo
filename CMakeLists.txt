@@ -3,7 +3,7 @@ project(Cluedo)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(Cluedo main.cpp Affichage.cpp Clavier.cpp Carte.cpp PointH/Carte.h Souris.cpp Bouton.cpp PointH/Bouton.h Joueur.cpp PointH/Joueur.h Map.cpp PointH/Map.h PointH/IncludeAndDefine.h PointH/AutresFonctions.h AutresFonctions.cpp)
+add_executable(Cluedo main.cpp Affichage.cpp Clavier.cpp Carte.cpp PointH/Carte.h Souris.cpp Bouton.cpp PointH/Bouton.h Joueur.cpp PointH/Joueur.h Case.cpp PointH/Case.h PointH/IncludeAndDefine.h PointH/AutresFonctions.h AutresFonctions.cpp)
 
 set(SFML_STATIC_LIBRARIES TRUE)
 set(SFML_DIR C:/SFML/lib/cmake/SFML)

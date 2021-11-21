@@ -1,6 +1,6 @@
 #include "PointH/AutresFonctions.h"
 
-void PassageMenu5(int& menu, Joueur* joueur,int& nbJoueurs){
+void PassageMenu5(int& menu, Joueur* joueur,int& nbJoueurs,Carte* carte){
     bool valide=true;
     Bouton boutonMenuSuivant{1770, 920, 130, 130, Color(238, 29, 33)};
     for (int i = 0; i < 6; ++i) {
@@ -10,10 +10,12 @@ void PassageMenu5(int& menu, Joueur* joueur,int& nbJoueurs){
             }
         }
     }
-    nbJoueurs=NombreDeJoueurs(joueur);
     if (boutonMenuSuivant.Clic(5)!=-1 && valide) {
+        nbJoueurs=NombreDeJoueurs(joueur);
+        DistributionCarte(joueur,carte,nbJoueurs);
         menu = boutonMenuSuivant.Clic(5);
     }
+
 }
 
 int EnsembleBouton(int x, int y, int h, int l, bool b, int s, Joueur* joueur, bool JouerouID){
@@ -75,7 +77,7 @@ void BoutonIdentifiant(Joueur* joueur, int& I, int& J){
     }
 }
 
-void ClicGauche(int& menu, Joueur* joueur, cartePossible choixJoueurCarte[],int& nbJoueurs){
+void ClicGauche(int& menu, Joueur* joueur, cartePossible choixJoueurCarte[],int& nbJoueurs,Carte* carte){
 switch (menu){
     case 0:
         menu=1;
@@ -97,7 +99,7 @@ switch (menu){
     }
     case 2: {
 
-        PassageMenu5(menu,joueur,nbJoueurs);
+        PassageMenu5(menu,joueur,nbJoueurs,carte);
 
         int boutonPlus = EnsembleBouton(140, 520, 40, 40, false, 2, joueur, true);
         if (boutonPlus!=ERREUR) {

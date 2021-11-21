@@ -6,7 +6,7 @@ enum TypeCarte {
     Perso=0,Arme,Lieu
 };
 
-class carte{
+class Carte{
 private:
 protected:
 
@@ -18,23 +18,26 @@ protected:
 
 public:
     void InitCarte(ifstream& fichierTexte,int Type,int x,int y,int l, int L);
-    void MelangeCarte();
     void dessinerCarte(RenderWindow& window,int x,int y,int l,int h);
     void Couleur(ifstream& fichierTexte);
+
+    Carte();
+    Carte(Sprite spriteCarte0,const Texture& textureCarte0,string nomCarte0,int typeCarte0,Color RGBText0);
     Color getRGB();
     string getNom();
+    Sprite getSprite();
+    Texture getTexture();
 };
 
 
-class cartePossible{
+class cartePossible: public Carte{
 private:
-    carte Carte;
     bool utilise=false;
 public:
-    void setCarte(carte C);
     void changement();
-    carte getCarte();
     bool getUtilise();
+    Carte getCarte();
+    void setCarte(Carte C);
 };
 
 #endif

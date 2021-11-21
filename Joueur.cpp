@@ -5,7 +5,7 @@ void Joueur::choixPerso(cartePossible* choixJoueurCarte, int start){
     for (int i = start; i <NB_PERSO ; ++i) {
         if (!choixJoueurCarte[i].getUtilise() && !stop){
             choixJoueurCarte[i].changement();
-            avatar = choixJoueurCarte[i].getCarte();
+            avatar=choixJoueurCarte[i].getCarte();
             memoire = i;
             stop = true;
         }
@@ -13,7 +13,7 @@ void Joueur::choixPerso(cartePossible* choixJoueurCarte, int start){
     for (int i = 0; i < NB_PERSO; ++i) {
          if (!choixJoueurCarte[i].getUtilise() && !stop){
              choixJoueurCarte[i].changement();
-            avatar = choixJoueurCarte[i].getCarte();
+             avatar=choixJoueurCarte[i].getCarte();
             memoire = i;
             stop = true;
          }
@@ -22,9 +22,6 @@ void Joueur::choixPerso(cartePossible* choixJoueurCarte, int start){
 
 int Joueur::getMemoire()const {
     return memoire;
-}
-carte Joueur::getAvatar()const{
-    return avatar;
 }
 
 
@@ -45,12 +42,7 @@ void Joueur::setEcritureMDP(bool A){
     }
 }
 
-string Joueur::getID()const{
-    return identifiant;
-}
-string Joueur::getMDP()const{
-    return mdp;
-}
+
 void Joueur::ModifierTexteID(Event event){
     if  (enCourdeModif) {
         if (event.text.unicode != 8 && event.text.unicode != 44 &&
@@ -113,22 +105,22 @@ void Joueur::ChangementPerso(cartePossible* choixJoueurCarte){
 }
 
 void Joueur::EcrireNom(RenderWindow &window, int t, string nomPerso, int x, int y) {
-    sf::Font font;
+    Font font;
     font.loadFromFile("../font/Lato-Regular.ttf");
-    sf::Text text;
+    Text text;
     text.setFont(font);
     text.setString(nomPerso);
     text.setCharacterSize(t);
     text.setFillColor(avatar.getRGB());
-    sf::FloatRect textRect = text.getLocalBounds();
+    FloatRect textRect = text.getLocalBounds();
     text.setOrigin(textRect.width/2,textRect.height/2);
     text.setPosition(x,y);
     window.draw(text);
 }
 void Joueur::EcrireID(RenderWindow &window, int t, string Nom, int x, int y, bool protection){
-    sf::Font font;
+    Font font;
     font.loadFromFile("../font/Lato-Regular.ttf");
-    sf::Text text;
+    Text text;
     text.setFont(font);
     if (protection){
         string temp;
@@ -208,6 +200,91 @@ int Joueur::WinRate()const{
     }
 }
 
-bool Joueur::getmessageErreur()const{
-    return messageErreur;
+void Joueur::PiocherCarte(Carte carte) {
+    Deck.push_back(carte);
 }
+
+void Joueur::AffichagePictogramme(RenderWindow& window,int i) {
+    if (joueurJoue) {
+         EcrireNom(window, 28,avatar.getNom(), 320 * i + 160, 795);
+        if (etatInscription == 3) {
+            string temp = identifiant;
+            temp += " WR: ";
+            temp += to_string(WinRate());
+            temp += "%";
+            EcrireNom(window, 28, temp, 320 * i + 160, 260);
+        } else {
+            Texture texture;
+            texture.loadFromFile("../Image/Pictogramme.png");
+            Sprite sprite[2];
+            for (int j = 0; j < 2; ++j) {
+                sprite[j].setTexture(texture);
+                sprite[j].setTextureRect(IntRect(144 * j, 0, 144, 76));
+                if (etatInscription != 1 + j) {
+                    sprite[j].setColor(Color(255, 255, 255, 108));
+                }
+                sprite[j].setPosition(320 * i + 150 * j + 20, 220);
+                window.draw(sprite[j]);
+            }
+        }
+    }
+}
+void Joueur::AffichageCroix(RenderWindow &window, int i) {
+        if (!joueurJoue) {
+            //Bouton +
+            RectangleShape rectanglePlus1(Vector2f(6, 40));
+            rectanglePlus1.setFillColor(ROUGE_MENU);
+            rectanglePlus1.setPosition(320 * i + 157, 520);
+            window.draw(rectanglePlus1);
+            RectangleShape rectanglePlus2(Vector2f(40, 6));
+            rectanglePlus2.setFillColor(ROUGE_MENU);
+            rectanglePlus2.setPosition(320 * i + 140, 537);
+            window.draw(rectanglePlus2);
+        } else {
+            if (i > 1) {
+                //Bouton -
+                RectangleShape rectangleCroix1(Vector2f(4, 25));
+                rectangleCroix1.setFillColor(ROUGE_MENU);
+                rectangleCroix1.setPosition(320 * i + 35, 792);
+                rectangleCroix1.rotate(45);
+                window.draw(rectangleCroix1);
+                RectangleShape rectangleCroix2(Vector2f(4, 25));
+                rectangleCroix2.setFillColor(ROUGE_MENU);
+                rectangleCroix2.setPosition(320 * i + 18, 795);
+                rectangleCroix2.rotate(-45);
+                window.draw(rectangleCroix2);
+            }
+            //Bouton Suivant
+            RectangleShape rectangleSuivant(Vector2f(4, 25));
+            rectangleSuivant.setFillColor(ROUGE_MENU);
+            rectangleSuivant.setPosition(320 * i + 297, 800);
+            rectangleSuivant.rotate(45);
+            window.draw(rectangleSuivant);
+            rectangleSuivant.rotate(90);
+            rectangleSuivant.setPosition(320 * i + 300, 803);
+            rectangleSuivant.setFillColor(ROUGE_MENU);
+            window.draw(rectangleSuivant);
+        }
+    }
+
+void Joueur::AffichageAvatarMenu2(RenderWindow &window, int i) {
+    if (joueurJoue) {
+        if (AfficherIdentifiant) {
+            Texture texture;
+            texture.loadFromFile("../Image/Identifiant.png");
+            Sprite sprite;
+            sprite.setTexture(texture);
+            sprite.setPosition(320 * i + 16, 310);
+            window.draw(sprite);
+            EcrireID(window, 24, identifiant, 320 * i + 55, 420, false);
+            EcrireID(window, 24, mdp, 320 * i + 55, 580, true);
+            if (messageErreur) {
+                EcrireID(window, 24, "Identifiant Inconnue", 320 * i + 53, 670, false);
+            }
+        } else {
+            avatar.dessinerCarte(window, 320 * i + 16, 310, 288, 460);
+        }
+    }
+}
+
+

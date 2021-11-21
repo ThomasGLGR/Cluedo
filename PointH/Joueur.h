@@ -20,8 +20,8 @@ private:
     string identifiant="\0";
     string mdp="\0";
     int NbVictoires=0, NbJoues=0;
-    carte avatar;
-    carte *Deck;
+    Carte avatar;
+    vector <Carte> Deck;
 
     int etatInscription=Debut;
     int memoire=-1;
@@ -39,17 +39,14 @@ public:
 
     void InitialisationJoueur(cartePossible* choixJoueurCarte);
     void SupprimerJoueur(cartePossible* choixJoueurCarte);
-
     void choixPerso(cartePossible* choixJoueurCarte,int start);
 
-    carte getAvatar()const;
-    string getID()const;
-    string getMDP()const;
+
     bool getjoueurJoue()const;
     int getEtatInscription()const;
-    bool getmessageErreur()const;
     int getMemoire()const;
     bool getAfficherIdentifiant()const;
+
 
     void EcrireNom(RenderWindow& window,int t, string nomPerso,int x,int y);
     void AfficheID();
@@ -64,6 +61,13 @@ public:
     void setetatInscription(int A);
     void AjouterUnJoueur();
     void VerifierJoueurExistant();
+    void PiocherCarte(Carte carte);
+
+    //Affichage Menu 2
+    void AffichagePictogramme(RenderWindow& window, int i);
+    void AffichageCroix(RenderWindow& window,int i);
+    void AffichageAvatarMenu2(RenderWindow& window,int i);
+
     };
 
 #endif //CLUEDO_PERSO_H
