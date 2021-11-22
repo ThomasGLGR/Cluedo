@@ -66,3 +66,7 @@ void Case::drawRectangle(RenderWindow &window) {
         window.draw(rectangle);
     }
 }
+
+bool Case::getDeplacementPossible() {
+    return deplacementPossible;
+}

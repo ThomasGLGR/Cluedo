@@ -37,6 +37,13 @@ void Pion::setCoordsPion(int x0, int y0) {
     y=y0;
 }
 
+void VerifAutour(Case plateau[NB_CASE_HAUTEUR][NB_CASE_LARGEUR],int I, int J){
+   if (I-1>0){ plateau[I-1][J].setDeplacementPossible(true);}
+   if (I+1<NB_CASE_HAUTEUR){ plateau[I+1][J].setDeplacementPossible(true);}
+   if (J-1>0){ plateau[I][J-1].setDeplacementPossible(true);}
+   if (J+1<NB_CASE_LARGEUR){ plateau[I][J+1].setDeplacementPossible(true);}
+}
+
 void Pion::DeplacementPion(Case plateau[NB_CASE_HAUTEUR][NB_CASE_LARGEUR],int ValeurDe) {
     int Ideplacement;
     int Jdeplacement;
@@ -50,5 +57,39 @@ void Pion::DeplacementPion(Case plateau[NB_CASE_HAUTEUR][NB_CASE_LARGEUR],int Va
         }
     }
     plateau[Ideplacement][Jdeplacement].setDeplacementPossible(true);
+  for (int k = -ValeurDe; k < ValeurDe; ++k) {
+      for (int i = -k; i < k + 1; ++i) {
+          for (int j = -k; j < k + 1; ++j) {
+              if (abs(i) + abs(j) == k) {
+                  if (k != ValeurDe) {
+                      if (plateau[Ideplacement + i][Jdeplacement + j].getDeplacementPossible()) {
+                          VerifAutour(plateau, Ideplacement + i, Jdeplacement + j);
+                      }
+                  } else {
+                      plateau[Ideplacement + i][Jdeplacement + j].setDeplacementPossible(true);
+                  }
+              }
+          }
+      }
+  }
+}
 
+
+void BlocNote::InitialisationBlocNote() {
+    ifstream fichierTexte("../PointTXT/InitialisationNomCarte.txt");
+    for (int i = 0; i < NB_CARTE; ++i) {
+        getline(fichierTexte,nomDeCartes[i]);
+        barre[i]=false;
+    }
+    fichierTexte.close();
+}
+
+void BlocNote::BarrePremierJoueur(vector <Carte> Deck) {
+    for (int j = 0; j < NB_JOUEURS; ++j) {
+        for (int i = 0; i < Deck.size(); ++i) {
+            if (Deck[i].getNom()==nomDeCartes[j]){
+                barre[j]= true;
+            }
+        }
+    }
 }

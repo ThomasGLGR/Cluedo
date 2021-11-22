@@ -2,11 +2,15 @@
 #define CLUEDO_COMPOSANT_H
 #include "IncludeAndDefine.h"
 #include "Case.h"
+#include "Carte.h"
 
 class BlocNote{
 private:
-    string* nomDeCartes;
+    string nomDeCartes[NB_CARTE];
+    bool barre[NB_CARTE];
 public:
+    void InitialisationBlocNote();
+    void BarrePremierJoueur(vector <Carte> Deck);
     void AjouterIndice();
     void SupprimerIndice();
     void AfficherBlocNote();
@@ -34,5 +38,6 @@ void InitPion(Color C,int x0,int y0);
 void AfficherPion(RenderWindow& window);
 void setCoordsPion(int x0, int y0);
 void DeplacementPion(Case plateau[NB_CASE_HAUTEUR][NB_CASE_LARGEUR],int ValeurDe);
+
 };
 #endif //CLUEDO_COMPOSANT_H

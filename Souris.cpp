@@ -14,6 +14,9 @@ void PassageMenu5(int& menu, Joueur* joueur,int& nbJoueurs,Carte* carte,Case pla
         nbJoueurs=NombreDeJoueurs(joueur);
         InitialisationMapSuite(plateau,joueur,nbJoueurs);
         DistributionCarte(joueur,carte,nbJoueurs);
+        for (int i = 0; i < nbJoueurs; ++i) {
+            joueur[i].BarrePremierCarte();
+        }
         menu = boutonMenuSuivant.Clic(5);
     }
 
@@ -89,7 +92,7 @@ switch (menu){
         for (int i = 0; i < 3; ++i) {
             if (!stop) {
                 Bouton boutonMenuClic{LARGEUR_ECRAN / 3, 240 + 210 * i, 100, LARGEUR_ECRAN / 3, ROUGE_MENU};
-                if (boutonMenuClic.Clic(2 + i) != -1) {
+                if (boutonMenuClic.Clic(2 + i) != ERREUR) {
                     menu =boutonMenuClic.Clic(2 + i);
                     stop = true;
                 }
@@ -158,6 +161,24 @@ switch (menu){
             }
             stopDe=ERREUR;
             joueur[0].getPion().DeplacementPion(plateau,SommeDesDes);
+        }
+        bool actualise=false;
+        for (int i = 0; i < NB_CASE_HAUTEUR; ++i) {
+            for (int j = 0; j < NB_CASE_LARGEUR; ++j) {
+                if (Mouse::getPosition().x>DEBUT_PLATEAU_X + j * LONGEUR_CASE && Mouse::getPosition().x< DEBUT_PLATEAU_X + j * LONGEUR_CASE + LONGEUR_CASE && Mouse::getPosition().y > DEBUT_PLATEAU_Y + i * LONGEUR_CASE && Mouse::getPosition().y <DEBUT_PLATEAU_Y + i * LONGEUR_CASE+LONGEUR_CASE) {
+                   if  (plateau[i][j].getDeplacementPossible()) {
+                       joueur[0].setPion(DEBUT_PLATEAU_X + j * LONGEUR_CASE, DEBUT_PLATEAU_Y + i * LONGEUR_CASE);
+                       actualise = true;
+                   }
+                }
+            }
+        }
+        if  (actualise){
+        for (int i = 0; i < NB_CASE_HAUTEUR; ++i) {
+            for (int j = 0; j < NB_CASE_LARGEUR; ++j) {
+                plateau[i][j].setDeplacementPossible(false);
+            }
+        }
         }
         break;
 }

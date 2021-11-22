@@ -65,6 +65,7 @@ public:
     void AfficherCarteEnMainZoom(RenderWindow &window,int x,int y, int l, int h,int i);
     void setPion(int x0,int y0);
     void Afficherpion(RenderWindow &window);
+    void BarrePremierCarte();
 };
 
 #endif //CLUEDO_PERSO_H

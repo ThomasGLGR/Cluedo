@@ -84,6 +84,7 @@ void Joueur::InitialisationJoueur(cartePossible* choixJoueurCarte){
     if  (!joueurJoue) {
         joueurJoue = true;
         choixPerso(choixJoueurCarte, 0);
+        blocnote.InitialisationBlocNote();
     }
 }
 
@@ -320,4 +321,8 @@ void Joueur::Afficherpion(RenderWindow &window) {
 
 Pion Joueur::getPion() {
     return pion;
+}
+
+void Joueur::BarrePremierCarte() {
+blocnote.BarrePremierJoueur(Deck);
 }

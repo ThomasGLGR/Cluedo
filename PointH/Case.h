@@ -22,6 +22,7 @@ public:
     int getY();
     void drawRectangle(RenderWindow &window);
     void setDeplacementPossible(bool b);
+    bool getDeplacementPossible();
 };
 
 #endif //CLUEDO_MAP_H

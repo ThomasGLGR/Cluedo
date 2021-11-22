@@ -18,6 +18,9 @@ void DistributionCarte(Joueur* joueur,Carte* carte,int nbJoueurs){
         a++;
         nbCarteRestante--;
     }
+    for (int i = 0; i < nbJoueurs; ++i) {
+
+    }
 }
 
 void MelangerCarte(Carte carte[NB_CARTE]){
