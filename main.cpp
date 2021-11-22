@@ -31,11 +31,12 @@ int main()
     int menu=0;
     int nbJoueurs=0;
     int SommeDesDes;
+    int tour=0;
 
     while (window.isOpen()) {
         Event event;
         while (window.waitEvent(event)) {
-            AffichageMenu(fondMenu, menu, window, joueur,de,nbJoueurs,plateau);
+            AffichageMenu(fondMenu, menu, window, joueur,de,nbJoueurs,plateau,tour);
             switch (event.type) {
                 case Event::Closed:
                     window.close();
@@ -51,7 +52,7 @@ int main()
                         case Mouse::Right:
                             break;
                         case Mouse::Left:
-                            ClicGauche(menu, joueur, choixJoueurCarte, nbJoueurs, carte, de, SommeDesDes,plateau);
+                            ClicGauche(menu, joueur, choixJoueurCarte, nbJoueurs, carte, de, SommeDesDes,plateau,tour);
                             break;
                     }
                     break;

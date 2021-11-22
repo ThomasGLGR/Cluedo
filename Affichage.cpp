@@ -11,8 +11,8 @@ void InitialisationSprite(Sprite fondMenu[],Texture* texture){
     fondMenu[5].setTexture(texture[5]);
 }
 
-void AffichageMenu(Sprite fondMenu[], int menu, RenderWindow& window, Joueur* joueur,De* de,int nbJ,Case plateau[NB_CASE_HAUTEUR][NB_CASE_LARGEUR]){
-    window.draw(fondMenu[menu]);
+void AffichageMenu(Sprite fondMenu[], int menu, RenderWindow& window, Joueur* joueur,De* de,int nbJ,Case plateau[NB_CASE_HAUTEUR][NB_CASE_LARGEUR],int tour){
+    if  (menu!=ERREUR){window.draw(fondMenu[menu]);}
     switch (menu) {
         case 2:
             for (int i = 0; i < NB_JOUEURS; ++i) {
@@ -22,8 +22,13 @@ void AffichageMenu(Sprite fondMenu[], int menu, RenderWindow& window, Joueur* jo
             }
             break;
         case 5:
-            joueur[0].AfficherCarteEnMain(window);
-            joueur[0].getBlocnote().AfficherBlocNote(window);
+            joueur[tour].AfficherCarteEnMain(window);
+            joueur[tour].getBlocnote().AfficherBlocNote(window);
+            if (tour<3) {
+                joueur[tour].AfficherFlecheJoueurEnCours(window, 185, 200 * tour + 95);
+            } else{
+                joueur[tour].AfficherFlecheJoueurEnCours(window, 535, 200 * (tour-3) + 95);
+            }
             for (int j = 0; j < 2; ++j) {
                 de[j].AfficherDe(window,1400+165*j,800,160,156);
             }
@@ -34,8 +39,12 @@ void AffichageMenu(Sprite fondMenu[], int menu, RenderWindow& window, Joueur* jo
             }
             for (int i = 0; i < nbJ; ++i) {
                 joueur[i].Afficherpion(window);
-            }
-
+                if (i<3){
+                    joueur[i].AfficherJoueurEnCours(window,50,200*i+50);
+                }else{
+                    joueur[i].AfficherJoueurEnCours(window,400,200*(i-3)+50);
+                }
+           }
             break;
     }
 }

@@ -68,6 +68,8 @@ public:
     void BarrePremierCarte();
     BlocNote getBlocnote();
     void changementBlocNote();
+    void AfficherJoueurEnCours(RenderWindow &window,int x,int y);
+    void AfficherFlecheJoueurEnCours(RenderWindow &window,int x,int y);
 };
 
 #endif //CLUEDO_PERSO_H

@@ -81,7 +81,7 @@ void BoutonIdentifiant(Joueur* joueur, int& I, int& J){
     }
 }
 
-void ClicGauche(int& menu, Joueur* joueur, cartePossible choixJoueurCarte[],int& nbJoueurs,Carte* carte,De* de,int& SommeDesDes, Case plateau[NB_CASE_HAUTEUR][NB_CASE_LARGEUR]){
+void ClicGauche(int& menu, Joueur* joueur, cartePossible choixJoueurCarte[],int& nbJoueurs,Carte* carte,De* de,int& SommeDesDes, Case plateau[NB_CASE_HAUTEUR][NB_CASE_LARGEUR],int& tour){
 switch (menu){
     case 0:
         menu=1;
@@ -151,7 +151,7 @@ switch (menu){
     }
         break;
     case 5:
-        joueur[0].changementBlocNote();
+        joueur[tour].changementBlocNote();
         SommeDesDes=0;
         int stopDe=ERREUR;
         Bouton boutonLancerDe{1500, 800, 150, 315, Color::Transparent};
@@ -161,15 +161,22 @@ switch (menu){
                 SommeDesDes+=de[i].LancerDe();
             }
             stopDe=ERREUR;
-            joueur[0].getPion().DeplacementPion(plateau,SommeDesDes);
+            joueur[tour].getPion().DeplacementPion(plateau,SommeDesDes);
         }
-
+/*
         bool actualise=false;
         for (int i = 0; i < NB_CASE_HAUTEUR; ++i) {
             for (int j = 0; j < NB_CASE_LARGEUR; ++j) {
                 if (Mouse::getPosition().x>DEBUT_PLATEAU_X + j * LONGEUR_CASE && Mouse::getPosition().x< DEBUT_PLATEAU_X + j * LONGEUR_CASE + LONGEUR_CASE && Mouse::getPosition().y > DEBUT_PLATEAU_Y + i * LONGEUR_CASE && Mouse::getPosition().y <DEBUT_PLATEAU_Y + i * LONGEUR_CASE+LONGEUR_CASE) {
-                   if  (plateau[i][j].getDeplacementPossible()) {
-                       joueur[0].setPion(DEBUT_PLATEAU_X + j * LONGEUR_CASE, DEBUT_PLATEAU_Y + i * LONGEUR_CASE);
+                   if  (plateau[i][j].getDeplacementPossible() && !actualise) {
+                       joueur[tour].setPion(DEBUT_PLATEAU_X + j * LONGEUR_CASE, DEBUT_PLATEAU_Y + i * LONGEUR_CASE);
+                       if (plateau[i][j].getTypedeCase()==Salle){
+
+                       }else{
+                           int a=(tour+1)%nbJoueurs;
+                           tour=a;
+                           cout<<tour<<endl;
+                       }
                        actualise = true;
                    }
                 }
@@ -182,6 +189,7 @@ switch (menu){
             }
         }
         }
+        */
         break;
 }
 }

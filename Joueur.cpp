@@ -296,18 +296,18 @@ void Joueur::AfficherCarteEnMainZoom(RenderWindow &window,int x1,int y1, int x2,
 void Joueur::AfficherCarteEnMain(RenderWindow& window) {
     for (int i = 0; i < Deck.size(); ++i) {
         int x1 = 300 / Deck.size() + ((700 - (2 * 300 / Deck.size())) / Deck.size()) * i;
-        Deck[i].dessinerCarte(window, x1, 750, 100, 160);
+        Deck[i].dessinerCarte(window, x1, 800, 100, 160);
     }
     for (int i = 0; i < Deck.size(); ++i) {
         if (Deck.size() > 7 && i != Deck.size() - 1) {
             AfficherCarteEnMainZoom(window, 300 / Deck.size() + ((700 - (2 * 300 / Deck.size())) / Deck.size()) * i,
-                                    750, 300 / Deck.size() + ((700 - (2 * 300 / Deck.size())) / Deck.size()) * (i + 1),
-                                    750 + 160, i);
+                                    800, 300 / Deck.size() + ((700 - (2 * 300 / Deck.size())) / Deck.size()) * (i + 1),
+                                    800 + 160, i);
 
     }else{
-        AfficherCarteEnMainZoom(window, 300 / Deck.size() + ((700 - (2 * 300 / Deck.size())) / Deck.size()) * i, 750,
+        AfficherCarteEnMainZoom(window, 300 / Deck.size() + ((700 - (2 * 300 / Deck.size())) / Deck.size()) * i, 800,
                                 300 / Deck.size() + ((700 - (2 * 300 / Deck.size())) / Deck.size()) * i + 100,
-                                750 + 160, i);
+                                800 + 160, i);
     }
 }
 }
@@ -333,4 +333,21 @@ BlocNote Joueur::getBlocnote() {
 
 void Joueur::changementBlocNote() {
 blocnote.ChangementIndice();
+}
+
+void Joueur::AfficherJoueurEnCours(RenderWindow &window, int x, int y) {
+avatar.dessinerCarte(window,x,y,100,160);
+EcrireNom(window,23,avatar.getNom(),x+50,y+170,avatar.getRGB());
+}
+
+void Joueur::AfficherFlecheJoueurEnCours(RenderWindow &window,int x,int y) {
+    Texture texture;
+    texture.loadFromFile("../Image/fleche.png");
+    Sprite sprite;
+    Vector2f targetSize(65, 48);
+    sprite.setTexture(texture);
+    sprite.setScale(targetSize.x / sprite.getLocalBounds().width,targetSize.y / sprite.getLocalBounds().height);
+    sprite.setColor(avatar.getRGB());
+    sprite.setPosition(x,y);
+    window.draw(sprite);
 }
