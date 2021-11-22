@@ -326,3 +326,11 @@ Pion Joueur::getPion() {
 void Joueur::BarrePremierCarte() {
 blocnote.BarrePremierJoueur(Deck);
 }
+
+BlocNote Joueur::getBlocnote() {
+    return blocnote;
+}
+
+void Joueur::changementBlocNote() {
+blocnote.ChangementIndice();
+}

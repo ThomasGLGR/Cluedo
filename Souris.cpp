@@ -151,6 +151,7 @@ switch (menu){
     }
         break;
     case 5:
+        joueur[0].changementBlocNote();
         SommeDesDes=0;
         int stopDe=ERREUR;
         Bouton boutonLancerDe{1500, 800, 150, 315, Color::Transparent};
@@ -162,6 +163,7 @@ switch (menu){
             stopDe=ERREUR;
             joueur[0].getPion().DeplacementPion(plateau,SommeDesDes);
         }
+
         bool actualise=false;
         for (int i = 0; i < NB_CASE_HAUTEUR; ++i) {
             for (int j = 0; j < NB_CASE_LARGEUR; ++j) {

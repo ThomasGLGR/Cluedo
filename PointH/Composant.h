@@ -3,6 +3,7 @@
 #include "IncludeAndDefine.h"
 #include "Case.h"
 #include "Carte.h"
+#include "Bouton.h"
 
 class BlocNote{
 private:
@@ -11,9 +12,8 @@ private:
 public:
     void InitialisationBlocNote();
     void BarrePremierJoueur(vector <Carte> Deck);
-    void AjouterIndice();
-    void SupprimerIndice();
-    void AfficherBlocNote();
+    void ChangementIndice();
+    void AfficherBlocNote(RenderWindow &window);
 };
 
 class De{

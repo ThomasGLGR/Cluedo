@@ -66,6 +66,8 @@ public:
     void setPion(int x0,int y0);
     void Afficherpion(RenderWindow &window);
     void BarrePremierCarte();
+    BlocNote getBlocnote();
+    void changementBlocNote();
 };
 
 #endif //CLUEDO_PERSO_H

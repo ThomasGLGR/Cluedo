@@ -23,6 +23,7 @@ void AffichageMenu(Sprite fondMenu[], int menu, RenderWindow& window, Joueur* jo
             break;
         case 5:
             joueur[0].AfficherCarteEnMain(window);
+            joueur[0].getBlocnote().AfficherBlocNote(window);
             for (int j = 0; j < 2; ++j) {
                 de[j].AfficherDe(window,1400+165*j,800,160,156);
             }

@@ -85,10 +85,63 @@ void BlocNote::InitialisationBlocNote() {
 }
 
 void BlocNote::BarrePremierJoueur(vector <Carte> Deck) {
-    for (int j = 0; j < NB_JOUEURS; ++j) {
+    for (int j = 0; j < NB_CARTE; ++j) {
         for (int i = 0; i < Deck.size(); ++i) {
             if (Deck[i].getNom()==nomDeCartes[j]){
                 barre[j]= true;
+            }
+        }
+    }
+}
+
+void BlocNote::AfficherBlocNote(RenderWindow &window) {
+    Texture textureredLine;
+    textureredLine.loadFromFile("../Image/redline.png");
+    Sprite spriteredLine;
+    Vector2f targetSize(300, 18);
+    spriteredLine.setTexture(textureredLine);
+    spriteredLine.setScale(targetSize.x / spriteredLine.getLocalBounds().width,targetSize.y / spriteredLine.getLocalBounds().height);
+    for (int i = 0; i < NB_CARTE; ++i) {
+        if (barre[i]){
+            if (i<8){
+                spriteredLine.setPosition(DEBUT_BLOCNOTE_X,DEBUT_BLOCNOTE_Y+18*i);
+            }else if (i<18){
+                spriteredLine.setPosition(DEBUT_BLOCNOTE_X,DEBUT_BLOCNOTE_Y+34+18*i);
+            }else{
+                spriteredLine.setPosition(DEBUT_BLOCNOTE_X,DEBUT_BLOCNOTE_Y+68+18*i);
+
+            }
+            window.draw(spriteredLine);
+        }
+    }
+}
+
+void BlocNote::ChangementIndice() {
+    int temp = ERREUR;
+    bool stop=false;
+    for (int i = 0; i < NB_CARTE; ++i) {
+        if (!stop) {
+            if (i < 8) {
+                Bouton bouton(DEBUT_BLOCNOTE_X, DEBUT_BLOCNOTE_Y + 18 * i, 18, 300, Color::Transparent);
+                temp = bouton.Clic(i);
+                if (temp!=ERREUR) {
+                    barre[temp] = !barre[temp];
+                    stop = true;
+                }
+            } else if (i < 18) {
+                Bouton bouton(DEBUT_BLOCNOTE_X, DEBUT_BLOCNOTE_Y + 34 + 18 * i, 18, 300, Color::Transparent);
+                temp = bouton.Clic(i);
+                if (temp!=ERREUR) {
+                    barre[temp] = !barre[temp];
+                    stop = true;
+                }
+            } else {
+                Bouton bouton(DEBUT_BLOCNOTE_X, DEBUT_BLOCNOTE_Y + 68 + 18 * i, 18, 300, Color::Transparent);
+                temp = bouton.Clic(i);
+                if (temp!=ERREUR) {
+                    barre[temp] = !barre[temp];
+                    stop = true;
+                }
             }
         }
     }
