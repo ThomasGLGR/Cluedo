@@ -11,7 +11,7 @@ void InitialisationSprite(Sprite fondMenu[],Texture* texture){
     fondMenu[5].setTexture(texture[5]);
 }
 
-void AffichageMenu(Sprite fondMenu[], int menu, RenderWindow& window, Joueur* joueur){
+void AffichageMenu(Sprite fondMenu[], int menu, RenderWindow& window, Joueur* joueur,De* de,int nbJ,Case plateau[NB_CASE_HAUTEUR][NB_CASE_LARGEUR]){
     window.draw(fondMenu[menu]);
     switch (menu) {
         case 2:
@@ -23,6 +23,18 @@ void AffichageMenu(Sprite fondMenu[], int menu, RenderWindow& window, Joueur* jo
             break;
         case 5:
             joueur[0].AfficherCarteEnMain(window);
+            for (int j = 0; j < 2; ++j) {
+                de[j].AfficherDe(window,1400+165*j,800,160,156);
+            }
+            for (int i = 0; i < NB_CASE_HAUTEUR; ++i) {
+                for (int j = 0; j < NB_CASE_LARGEUR; ++j) {
+                        plateau[i][j].drawRectangle(window);
+                    }
+            }
+            for (int i = 0; i < nbJ; ++i) {
+                joueur[i].Afficherpion(window);
+            }
+
             break;
     }
 }

@@ -17,21 +17,25 @@ int main()
     cartePossible choixJoueurCarte[NB_PERSO];
     Joueur joueur[NB_JOUEURS];
     Case plateau[NB_CASE_HAUTEUR][NB_CASE_LARGEUR];
+    De de[2];
 
     InitialisationCarte(carte, choixJoueurCarte);
     MelangerCarte(carte);
     InitialisationEnveloppe(enveloppe,carte);
     InitialisationPlateau(plateau);
+    de[0].InitialisationDe();
+    de[1].InitialisationDe();
     joueur[0].InitialisationJoueur(choixJoueurCarte);
     joueur[1].InitialisationJoueur(choixJoueurCarte);
 
     int menu=0;
     int nbJoueurs=0;
+    int SommeDesDes;
 
     while (window.isOpen()) {
         Event event;
         while (window.waitEvent(event)) {
-            AffichageMenu(fondMenu, menu, window, joueur);
+            AffichageMenu(fondMenu, menu, window, joueur,de,nbJoueurs,plateau);
             switch (event.type) {
                 case Event::Closed:
                     window.close();
@@ -47,7 +51,7 @@ int main()
                         case Mouse::Right:
                             break;
                         case Mouse::Left:
-                            ClicGauche(menu, joueur, choixJoueurCarte,nbJoueurs,carte);
+                            ClicGauche(menu, joueur, choixJoueurCarte, nbJoueurs, carte, de, SommeDesDes,plateau);
                             break;
                     }
                     break;

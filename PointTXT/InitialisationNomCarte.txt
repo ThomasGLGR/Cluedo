@@ -8,7 +8,7 @@ Mister Gin
 Mme Charlotte
 Batte
 Chandelier
-Clé anglaise
+Cle anglaise
 Corde
 Couteau
 Grenade
@@ -17,10 +17,10 @@ Marteau
 Pistolet
 Poison
 Bar
-Bureau d'échange
-Entrée
+Bureau d'echange
+Entree
 Lounge
-Machine à sous
+Machine a sous
 Roulette
 Salle de Surveillance
 Table de Jeu

@@ -104,14 +104,14 @@ void Joueur::ChangementPerso(cartePossible* choixJoueurCarte){
     }
 }
 
-void Joueur::EcrireNom(RenderWindow &window, int t, string nomPerso, int x, int y) {
+void Joueur::EcrireNom(RenderWindow &window, int t, string nomPerso, int x, int y,Color C) {
     Font font;
     font.loadFromFile("../font/Lato-Regular.ttf");
     Text text;
     text.setFont(font);
     text.setString(nomPerso);
     text.setCharacterSize(t);
-    text.setFillColor(avatar.getRGB());
+    text.setFillColor(C);
     FloatRect textRect = text.getLocalBounds();
     text.setOrigin(textRect.width/2,textRect.height/2);
     text.setPosition(x,y);
@@ -206,13 +206,13 @@ void Joueur::PiocherCarte(Carte carte) {
 
 void Joueur::AffichagePictogramme(RenderWindow& window,int i) {
     if (joueurJoue) {
-         EcrireNom(window, 28,avatar.getNom(), 320 * i + 160, 795);
+         EcrireNom(window, 28,avatar.getNom(), 320 * i + 160, 795,avatar.getRGB());
         if (etatInscription == 3) {
             string temp = identifiant;
             temp += " WR: ";
             temp += to_string(WinRate());
             temp += "%";
-            EcrireNom(window, 28, temp, 320 * i + 160, 260);
+            EcrireNom(window, 28, temp, 320 * i + 160, 260,avatar.getRGB());
         } else {
             Texture texture;
             texture.loadFromFile("../Image/Pictogramme.png");
@@ -288,6 +288,7 @@ void Joueur::AffichageAvatarMenu2(RenderWindow &window, int i) {
 }
 void Joueur::AfficherCarteEnMainZoom(RenderWindow &window,int x1,int y1, int x2, int y2,int i) {
     if (Mouse::getPosition().x> x1 && Mouse::getPosition().x< x2 && Mouse::getPosition().y > y1 && Mouse::getPosition().y < y2) {
+        EcrireNom(window,25,Deck[i].getNom(),x1+50,y1-94,Color::White);
         Deck[i].dessinerCarte(window,x1-30,y1-64,160,256);
     }
 }
@@ -308,4 +309,15 @@ void Joueur::AfficherCarteEnMain(RenderWindow& window) {
                                 750 + 160, i);
     }
 }
+}
+
+void Joueur::setPion(int x0,int y0) {
+    pion.InitPion(avatar.getRGB(),x0,y0);
+}
+void Joueur::Afficherpion(RenderWindow &window) {
+    pion.AfficherPion(window);
+}
+
+Pion Joueur::getPion() {
+    return pion;
 }

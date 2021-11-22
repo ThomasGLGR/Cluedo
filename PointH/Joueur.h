@@ -1,18 +1,10 @@
 #include "IncludeAndDefine.h"
 #include "Carte.h"
+#include "Composant.h"
 #ifndef CLUEDO_PERSO_H
 #define CLUEDO_PERSO_H
 enum etatActuelleInscription{
     Debut=0,Nouveau,Connexion,Pret
-};
-
-class BlocNote{
-private:
-    string* nomDeCartes;
-public:
-    void AjouterIndice();
-    void SupprimerIndice();
-    void AfficherBlocNote();
 };
 
 class Joueur {
@@ -23,11 +15,12 @@ private:
     Carte avatar;
     vector <Carte> Deck;
 
+    Pion pion;
+
     int etatInscription=Debut;
-    int memoire=-1;
+    int memoire=ERREUR;
 
     BlocNote blocnote;
-    int De;
 
     bool joueurJoue = false;
     bool enCourdeModif=false;
@@ -48,10 +41,11 @@ public:
     bool getAfficherIdentifiant()const;
 
 
-    void EcrireNom(RenderWindow& window,int t, string nomPerso,int x,int y);
+    void EcrireNom(RenderWindow& window,int t, string nomPerso,int x,int y,Color C);
     void AfficheID();
     void setEcritureMDP(bool A);
     int WinRate()const;
+    Pion getPion();
 
     void ChangementPerso(cartePossible* choixJoueurCarte);
     void EcrireID(RenderWindow &window, int t, string Nom,int x,int y,bool protection);
@@ -69,6 +63,8 @@ public:
     void AffichageAvatarMenu2(RenderWindow& window,int i);
     void AfficherCarteEnMain(RenderWindow& window);
     void AfficherCarteEnMainZoom(RenderWindow &window,int x,int y, int l, int h,int i);
-    };
+    void setPion(int x0,int y0);
+    void Afficherpion(RenderWindow &window);
+};
 
 #endif //CLUEDO_PERSO_H

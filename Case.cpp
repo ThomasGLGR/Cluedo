@@ -9,7 +9,18 @@ void Case::InitCase(int x0,int y0,int typedeCase0){
     typedeCase=typedeCase0;
 }
 
+int Case::getX() {
+    return x;
+}
 
+int Case::getY() {
+    return y;
+}
+
+
+int Case::getTypedeCase() {
+    return typedeCase;
+}
 void InitialisationPlateau(Case plateau[NB_CASE_HAUTEUR][NB_CASE_LARGEUR]){
     ifstream fichierTexte("../PointTXT/InitialisationMap.txt");
     for (int i = 0; i < NB_CASE_HAUTEUR; ++i) {
@@ -39,4 +50,19 @@ void InitialisationPlateau(Case plateau[NB_CASE_HAUTEUR][NB_CASE_LARGEUR]){
         }
     }
     fichierTexte.close();
+}
+void Case::setDeplacementPossible(bool b) {
+    if (typedeCase!=Vide){
+        deplacementPossible=b;
+    }
+}
+
+void Case::drawRectangle(RenderWindow &window) {
+    if (deplacementPossible) {
+        RectangleShape rectangle(Vector2f(LONGEUR_CASE, LONGEUR_CASE));
+        rectangle.setFillColor(Color(50, 250, 20, 120));
+        rectangle.setOutlineThickness(1.f);
+        rectangle.setPosition(x, y);
+        window.draw(rectangle);
+    }
 }

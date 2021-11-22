@@ -1,8 +1,8 @@
 #include "PointH/AutresFonctions.h"
 
-void PassageMenu5(int& menu, Joueur* joueur,int& nbJoueurs,Carte* carte){
+void PassageMenu5(int& menu, Joueur* joueur,int& nbJoueurs,Carte* carte,Case plateau[NB_CASE_HAUTEUR][NB_CASE_LARGEUR]){
     bool valide=true;
-    Bouton boutonMenuSuivant{1770, 920, 130, 130, Color(238, 29, 33)};
+    Bouton boutonMenuSuivant{1770, 920, 130, 130, ROUGE_MENU};
     for (int i = 0; i < 6; ++i) {
         if (joueur[i].getjoueurJoue()) {
             if (joueur[i].getEtatInscription() != Pret) {
@@ -12,6 +12,7 @@ void PassageMenu5(int& menu, Joueur* joueur,int& nbJoueurs,Carte* carte){
     }
     if (boutonMenuSuivant.Clic(5)!=-1 && valide) {
         nbJoueurs=NombreDeJoueurs(joueur);
+        InitialisationMapSuite(plateau,joueur,nbJoueurs);
         DistributionCarte(joueur,carte,nbJoueurs);
         menu = boutonMenuSuivant.Clic(5);
     }
@@ -28,7 +29,7 @@ int EnsembleBouton(int x, int y, int h, int l, bool b, int s, Joueur* joueur, bo
         }else {
             A=joueur[i].getAfficherIdentifiant();
         }
-        if (A==b && !stop) {
+        if (A==b && !stop){
             Bouton bouton{320 * i + x, y, h, l, ROUGE_MENU};
             temp=bouton.Clic(i);
             if (temp==i){
@@ -66,7 +67,7 @@ void BoutonIdentifiant(Joueur* joueur, int& I, int& J){
     for (int j = 0; j < 2; ++j) {
         for (int i = 0; i < 6; ++i) {
             if (joueur[i].getAfficherIdentifiant() && !stop6) {
-                Bouton boutonChoix{320 * i + 30, 415 + 160 * j, 45, 260, Color(238, 29, 33)};
+                Bouton boutonChoix{320 * i + 30, 415 + 160 * j, 45, 260, ROUGE_MENU};
                 I = boutonChoix.Clic(i);
                 J = boutonChoix.Clic(j);
                 if (I == i && J == j) {
@@ -77,7 +78,7 @@ void BoutonIdentifiant(Joueur* joueur, int& I, int& J){
     }
 }
 
-void ClicGauche(int& menu, Joueur* joueur, cartePossible choixJoueurCarte[],int& nbJoueurs,Carte* carte){
+void ClicGauche(int& menu, Joueur* joueur, cartePossible choixJoueurCarte[],int& nbJoueurs,Carte* carte,De* de,int& SommeDesDes, Case plateau[NB_CASE_HAUTEUR][NB_CASE_LARGEUR]){
 switch (menu){
     case 0:
         menu=1;
@@ -99,7 +100,7 @@ switch (menu){
     }
     case 2: {
 
-        PassageMenu5(menu,joueur,nbJoueurs,carte);
+        PassageMenu5(menu,joueur,nbJoueurs,carte,plateau);
 
         int boutonPlus = EnsembleBouton(140, 520, 40, 40, false, 2, joueur, true);
         if (boutonPlus!=ERREUR) {
@@ -147,6 +148,17 @@ switch (menu){
     }
         break;
     case 5:
+        SommeDesDes=0;
+        int stopDe=ERREUR;
+        Bouton boutonLancerDe{1500, 800, 150, 315, Color::Transparent};
+        stopDe=boutonLancerDe.Clic(1);
+        if (stopDe==1){
+            for (int i = 0; i < 2; ++i) {
+                SommeDesDes+=de[i].LancerDe();
+            }
+            stopDe=ERREUR;
+            joueur[0].getPion().DeplacementPion(plateau,SommeDesDes);
+        }
         break;
 }
 }
@@ -159,7 +171,7 @@ void SourisMouvement(int& menu,RenderWindow& window){
                 boutonMenu.DessinerRectangle(window);
             }
             break;
-        case 2:
-           break;
+        case 5:
+            break;
     }
 }

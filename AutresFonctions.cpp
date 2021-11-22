@@ -32,7 +32,33 @@ void MelangerCarte(Carte carte[NB_CARTE]){
 }
 
 void InitialisationEnveloppe(Carte* enveloppe,Carte carte[NB_CARTE]){
-     enveloppe[Perso].RemplirEnveloppe(carte,Perso);
+    enveloppe[Perso].RemplirEnveloppe(carte,Perso);
     enveloppe[Arme].RemplirEnveloppe(carte,Arme);
     enveloppe[Lieu].RemplirEnveloppe(carte,Lieu);
+}
+
+void InitialisationMapSuite(Case plateau[NB_CASE_HAUTEUR][NB_CASE_LARGEUR] ,Joueur* joueur,int nbJ) {
+    Case Spawn[6];
+    int a=0;
+    for (int i = 0; i < NB_CASE_HAUTEUR; ++i) {
+        for (int j = 0; j < NB_CASE_LARGEUR; ++j) {
+            if(plateau[i][j].getTypedeCase()==3){
+                Spawn[a]=plateau[i][j];
+                a++;
+            }
+        }
+    }
+    bool Verif[6];
+    for (int i = 0; i < 6; ++i) {
+        Verif[i]= true;
+    }
+    for (int i = 0; i < nbJ; ++i) {
+        a=rand()%6;
+        if (Verif[a]){
+            joueur[i].setPion(Spawn[a].getX(), Spawn[a].getY());
+            Verif[a]= false;
+        }else{
+            i--;
+        }
+    }
 }

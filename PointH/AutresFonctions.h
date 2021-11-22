@@ -6,10 +6,11 @@
 #include "Carte.h"
 #include "Joueur.h"
 #include "Case.h"
+#include "Composant.h"
 
 void InitialisationCarte(Carte carte[NB_CARTE], cartePossible choixJoueurCarte[]);
-void AffichageMenu(Sprite fondMenu[], int menu, RenderWindow& window, Joueur* joueur);
-void ClicGauche(int& menu, Joueur* joueur, cartePossible choixJoueurCarte[],int& nbJoueurs,Carte* carte);
+void AffichageMenu(Sprite fondMenu[], int menu, RenderWindow& window, Joueur* joueur,De* de,int nbJ,Case plateau[NB_CASE_HAUTEUR][NB_CASE_LARGEUR]);
+void ClicGauche(int& menu, Joueur* joueur, cartePossible choixJoueurCarte[],int& nbJoueurs,Carte* carte,De* de,int& SommeDesDes,Case plateau[NB_CASE_HAUTEUR][NB_CASE_LARGEUR]);
 void ClavierTexte(int menu, Joueur* joueur, Event event);
 void Clavier(int menu, Joueur* joueur, Event event, RenderWindow& window);
 void InitialisationSprite(Sprite fondMenu[],Texture* texture);
@@ -19,4 +20,5 @@ int NombreDeJoueurs(Joueur* joueur);
 void MelangerCarte(Carte carte[NB_CARTE]);
 void DistributionCarte(Joueur* joueur,Carte* carte,int nbJoueurs);
 void InitialisationEnveloppe(Carte* enveloppe,Carte carte[NB_CARTE]);
+void InitialisationMapSuite(Case plateau[NB_CASE_HAUTEUR][NB_CASE_LARGEUR],Joueur* joueur,int nbJ);
 #endif

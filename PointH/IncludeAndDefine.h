@@ -25,6 +25,7 @@
 #define DEBUT_PLATEAU_X 699
 #define DEBUT_PLATEAU_Y 129
 #define LONGEUR_CASE 29.9
+#define NB_FACES_DE 6
 
 using namespace std;
 using namespace sf;
