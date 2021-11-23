@@ -11,12 +11,10 @@ int NombreDeJoueurs(Joueur* joueur){
 }
 
 void DistributionCarte(Joueur* joueur,Carte* carte,int nbJoueurs){
-    int nbCarteRestante=NB_CARTE_JOUABLE;
     int a=0;
-    while (nbCarteRestante>0){
-        joueur[a%nbJoueurs].PiocherCarte(carte[nbCarteRestante-1]);
+    for (int i = 0; i < NB_CARTE_JOUABLE; ++i) {
+        joueur[a%nbJoueurs].PiocherCarte(carte[i]);
         a++;
-        nbCarteRestante--;
     }
 }
 

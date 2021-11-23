@@ -1,5 +1,5 @@
 #include "PointH/Composant.h"
-#include "PointH/IncludeAndDefine.h"
+
 
 void De::InitialisationDe() {
     for (int i = 0; i < NB_FACES_DE; ++i) {
@@ -37,16 +37,41 @@ void Pion::setCoordsPion(int x0, int y0) {
     y=y0;
 }
 
-void VerifAutour(Case plateau[NB_CASE_HAUTEUR][NB_CASE_LARGEUR],int I, int J){
-   if (I-1>0){ plateau[I-1][J].setDeplacementPossible(true);}
-   if (I+1<NB_CASE_HAUTEUR){ plateau[I+1][J].setDeplacementPossible(true);}
-   if (J-1>0){ plateau[I][J-1].setDeplacementPossible(true);}
-   if (J+1<NB_CASE_LARGEUR){ plateau[I][J+1].setDeplacementPossible(true);}
+void VerifAutour(Case plateau[NB_CASE_HAUTEUR][NB_CASE_LARGEUR],int I, int J,int nbValeurDe){
+    if(nbValeurDe<0){
+        return;
+    }
+    plateau[I][J].setDeplacementPossible(true);
+    if (I-1>ERREUR) {
+        if (plateau[I-1][J].getTypedeCase()!=Vide) {
+            plateau[I - 1][J].setDeplacementPossible(true);
+            VerifAutour(plateau, I - 1, J, nbValeurDe - 1);
+        }
+    }
+    if (I+1<NB_CASE_HAUTEUR) {
+        if (plateau[I+1][J].getTypedeCase() != Vide) {
+            plateau[I + 1][J].setDeplacementPossible(true);
+            VerifAutour(plateau, I + 1, J, nbValeurDe - 1);
+        }
+    }
+    if (J-1>ERREUR) {
+        if (plateau[I][J-1].getTypedeCase() != Vide) {
+            plateau[I][J - 1].setDeplacementPossible(true);
+            VerifAutour(plateau, I, J - 1, nbValeurDe - 1);
+        }
+    }
+    if (J+1<NB_CASE_LARGEUR) {
+        if (plateau[I][J+1].getTypedeCase() != Vide) {
+            plateau[I][J + 1].setDeplacementPossible(true);
+            VerifAutour(plateau, I, J + 1, nbValeurDe - 1);
+        }
+    }
 }
 
 void Pion::DeplacementPion(Case plateau[NB_CASE_HAUTEUR][NB_CASE_LARGEUR],int ValeurDe) {
     int Ideplacement;
     int Jdeplacement;
+    int CopieDe=ValeurDe;
     for (int i = 0; i < NB_CASE_HAUTEUR; ++i) {
         for (int j = 0; j < NB_CASE_LARGEUR; ++j) {
             plateau[i][j].setDeplacementPossible(false);
@@ -56,22 +81,7 @@ void Pion::DeplacementPion(Case plateau[NB_CASE_HAUTEUR][NB_CASE_LARGEUR],int Va
             }
         }
     }
-    plateau[Ideplacement][Jdeplacement].setDeplacementPossible(true);
-  for (int k = -ValeurDe; k < ValeurDe; ++k) {
-      for (int i = -k; i < k + 1; ++i) {
-          for (int j = -k; j < k + 1; ++j) {
-              if (abs(i) + abs(j) == k) {
-                  if (k != ValeurDe) {
-                      if (plateau[Ideplacement + i][Jdeplacement + j].getDeplacementPossible()) {
-                          VerifAutour(plateau, Ideplacement + i, Jdeplacement + j);
-                      }
-                  } else {
-                      plateau[Ideplacement + i][Jdeplacement + j].setDeplacementPossible(true);
-                  }
-              }
-          }
-      }
-  }
+    VerifAutour(plateau,Ideplacement,Jdeplacement,CopieDe-1);
 }
 
 
@@ -80,6 +90,7 @@ void BlocNote::InitialisationBlocNote() {
     for (int i = 0; i < NB_CARTE; ++i) {
         getline(fichierTexte,nomDeCartes[i]);
         barre[i]=false;
+        entoure[i]=false;
     }
     fichierTexte.close();
 }
@@ -95,44 +106,70 @@ void BlocNote::BarrePremierJoueur(vector <Carte> Deck) {
 }
 
 void BlocNote::AfficherBlocNote(RenderWindow &window) {
-    Texture textureredLine;
-    textureredLine.loadFromFile("../Image/redline.png");
-    Sprite spriteredLine;
-    Vector2f targetSize(300, 18);
-    spriteredLine.setTexture(textureredLine);
-    spriteredLine.setScale(targetSize.x / spriteredLine.getLocalBounds().width,targetSize.y / spriteredLine.getLocalBounds().height);
+    Texture textureLine;
+    textureLine.loadFromFile("../Image/redline.png");
+    Sprite spriteLine;
+    Vector2f targetSizeL(300, 18);
+    spriteLine.setTexture(textureLine);
+    spriteLine.setScale(targetSizeL.x / spriteLine.getLocalBounds().width, targetSizeL.y / spriteLine.getLocalBounds().height);
+
+    Texture textureCircle;
+    textureCircle.loadFromFile("../Image/Circle.png");
+    Sprite spriteCircle;
+    Vector2f targetSizeC(300, 23);
+    spriteCircle.setTexture(textureCircle);
+    spriteCircle.setScale(targetSizeC.x / spriteLine.getLocalBounds().width, targetSizeC.y / spriteLine.getLocalBounds().height);
+
     for (int i = 0; i < NB_CARTE; ++i) {
         if (barre[i]){
             if (i<8){
-                spriteredLine.setPosition(DEBUT_BLOCNOTE_X,DEBUT_BLOCNOTE_Y+18*i);
+                spriteLine.setPosition(DEBUT_BLOCNOTE_X,DEBUT_BLOCNOTE_Y+18*i);
             }else if (i<18){
-                spriteredLine.setPosition(DEBUT_BLOCNOTE_X,DEBUT_BLOCNOTE_Y+34+18*i);
+                spriteLine.setPosition(DEBUT_BLOCNOTE_X,DEBUT_BLOCNOTE_Y+34+18*i);
             }else{
-                spriteredLine.setPosition(DEBUT_BLOCNOTE_X,DEBUT_BLOCNOTE_Y+68+18*i);
-
+                spriteLine.setPosition(DEBUT_BLOCNOTE_X,DEBUT_BLOCNOTE_Y+68+18*i);
             }
-            window.draw(spriteredLine);
+            window.draw(spriteLine);
+        }
+    }
+
+    for (int i = 0; i < NB_CARTE; ++i) {
+        if (entoure[i]){
+            if (i<8){
+                spriteCircle.setPosition(DEBUT_BLOCNOTE_X,DEBUT_BLOCNOTE_Y+18*i);
+            }else if (i<18){
+                spriteCircle.setPosition(DEBUT_BLOCNOTE_X,DEBUT_BLOCNOTE_Y+34+18*i);
+            }else{
+                spriteCircle.setPosition(DEBUT_BLOCNOTE_X,DEBUT_BLOCNOTE_Y+68+18*i);
+            }
+            window.draw(spriteCircle);
         }
     }
 }
 
-void BlocNote::ChangementIndice() {
+void BlocNote::ChangementIndiceBarre() {
     int temp = ERREUR;
     bool stop=false;
     for (int i = 0; i < NB_CARTE; ++i) {
         if (!stop) {
-            if (i < 8) {
+            if (i < NB_PERSO) {
                 Bouton bouton(DEBUT_BLOCNOTE_X, DEBUT_BLOCNOTE_Y + 18 * i, 18, 300, Color::Transparent);
                 temp = bouton.Clic(i);
                 if (temp!=ERREUR) {
                     barre[temp] = !barre[temp];
+                    for (int j = 0; j < NB_PERSO; ++j) {
+                        entoure[j]=false;
+                    }
                     stop = true;
                 }
-            } else if (i < 18) {
+            } else if (i < NB_PERSO+NB_ARMES) {
                 Bouton bouton(DEBUT_BLOCNOTE_X, DEBUT_BLOCNOTE_Y + 34 + 18 * i, 18, 300, Color::Transparent);
                 temp = bouton.Clic(i);
                 if (temp!=ERREUR) {
                     barre[temp] = !barre[temp];
+                    for (int j = NB_PERSO; j < NB_PERSO+NB_ARMES; ++j) {
+                        entoure[j]=false;
+                    }
                     stop = true;
                 }
             } else {
@@ -140,9 +177,61 @@ void BlocNote::ChangementIndice() {
                 temp = bouton.Clic(i);
                 if (temp!=ERREUR) {
                     barre[temp] = !barre[temp];
+                    for (int j = NB_PERSO+NB_ARMES; j < NB_CARTE; ++j) {
+                        entoure[j]=false;
+                    }
                     stop = true;
                 }
             }
         }
     }
 }
+
+void BlocNote::ChangementIndiceEntoure() {
+    int temp = ERREUR;
+    bool stop=false;
+    for (int i = 0; i < NB_CARTE; ++i) {
+        if (!stop) {
+            if (i < NB_PERSO) {
+                Bouton bouton(DEBUT_BLOCNOTE_X, DEBUT_BLOCNOTE_Y + 18 * i, 18, 300, Color::Transparent);
+                temp = bouton.Clic(i);
+                if (temp!=ERREUR) {
+                    for (int j = 0; j < NB_PERSO; ++j) {
+                        entoure[j]=false;
+                        barre[j]=true;
+                    }
+                    barre[temp]=false;
+                    entoure[temp] = !entoure[temp];
+                    stop = true;
+                }
+            } else if (i < NB_PERSO+NB_ARMES) {
+                Bouton bouton(DEBUT_BLOCNOTE_X, DEBUT_BLOCNOTE_Y + 34 + 18 * i, 18, 300, Color::Transparent);
+                temp = bouton.Clic(i);
+                if (temp!=ERREUR) {
+                    for (int j = NB_PERSO; j < NB_PERSO+NB_ARMES; ++j) {
+                        entoure[j]=false;
+                        barre[j]=true;
+                    }
+                    barre[temp]=false;
+                    entoure[temp] = !entoure[temp];
+                    stop = true;
+                }
+            } else {
+                Bouton bouton(DEBUT_BLOCNOTE_X, DEBUT_BLOCNOTE_Y + 68 + 18 * i, 18, 300, Color::Transparent);
+                temp = bouton.Clic(i);
+                if (temp!=ERREUR) {
+                    for (int j = NB_PERSO+NB_ARMES; j < NB_CARTE; ++j) {
+                        entoure[j]=false;
+                        barre[j]=true;
+                    }
+                    barre[temp]=false;
+                    entoure[temp] = !entoure[temp];
+                    stop = true;
+                }
+            }
+        }
+    }
+}
+
+
+

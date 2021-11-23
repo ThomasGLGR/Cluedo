@@ -12,7 +12,6 @@ private:
     int x;
     int y;
     int typedeCase;
-    bool joueurDessus=false;
     bool deplacementPossible=false;
 public:
     void InitCase(int x0,int y0,int typedeCase0);

@@ -294,6 +294,7 @@ void Joueur::AfficherCarteEnMainZoom(RenderWindow &window,int x1,int y1, int x2,
     }
 }
 void Joueur::AfficherCarteEnMain(RenderWindow& window) {
+
     for (int i = 0; i < Deck.size(); ++i) {
         int x1 = 300 / Deck.size() + ((700 - (2 * 300 / Deck.size())) / Deck.size()) * i;
         Deck[i].dessinerCarte(window, x1, 800, 100, 160);
@@ -331,13 +332,16 @@ BlocNote Joueur::getBlocnote() {
     return blocnote;
 }
 
-void Joueur::changementBlocNote() {
-blocnote.ChangementIndice();
+void Joueur::changementBlocNoteBarre() {
+    blocnote.ChangementIndiceBarre();
+}
+void Joueur::changementBlocNoteEntoure() {
+    blocnote.ChangementIndiceEntoure();
 }
 
 void Joueur::AfficherJoueurEnCours(RenderWindow &window, int x, int y) {
 avatar.dessinerCarte(window,x,y,100,160);
-EcrireNom(window,23,avatar.getNom(),x+50,y+170,avatar.getRGB());
+EcrireNom(window,23,identifiant,x+50,y+170,avatar.getRGB());
 }
 
 void Joueur::AfficherFlecheJoueurEnCours(RenderWindow &window,int x,int y) {
@@ -350,4 +354,29 @@ void Joueur::AfficherFlecheJoueurEnCours(RenderWindow &window,int x,int y) {
     sprite.setColor(avatar.getRGB());
     sprite.setPosition(x,y);
     window.draw(sprite);
+}
+
+void Joueur::VerificationProposition(Carte *proposition,bool& stop) {
+    int a=rand()%Deck.size();
+    for (int i = 0; i < Deck.size(); ++i) {
+        for (int j = 0; j < 3; ++j) {
+            if (Deck[a].getNom()==proposition[j].getNom()){
+               propostionaAfficher=proposition[j];
+               AfficherProposition= true;
+               stop=true;
+            }
+        }
+        a=(a+1)%Deck.size();
+    }
+}
+
+void Joueur::AfficherCarteProposition(RenderWindow &window,int x, int y) {
+    if (AfficherProposition){
+        propostionaAfficher.dessinerCarte(window,x,y,100,160);
+        EcrireNom(window,23,propostionaAfficher.getNom(),x+50,y+170,Color::White);
+    }
+}
+
+void Joueur::SupprimerAfficherProposition() {
+    AfficherProposition=false;
 }

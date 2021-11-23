@@ -7,10 +7,12 @@
 #include "Joueur.h"
 #include "Case.h"
 #include "Composant.h"
+#include "Proposition.h"
 
 void InitialisationCarte(Carte carte[NB_CARTE], cartePossible choixJoueurCarte[]);
-void AffichageMenu(Sprite fondMenu[], int menu, RenderWindow& window, Joueur* joueur,De* de,int nbJ,Case plateau[NB_CASE_HAUTEUR][NB_CASE_LARGEUR],int tour);
-void ClicGauche(int& menu, Joueur* joueur, cartePossible choixJoueurCarte[],int& nbJoueurs,Carte* carte,De* de,int& SommeDesDes,Case plateau[NB_CASE_HAUTEUR][NB_CASE_LARGEUR],int& tour);
+void AffichageMenu(Sprite fondMenu[], int menu, RenderWindow& window, Joueur* joueur,De* de,int nbJ,Case plateau[NB_CASE_HAUTEUR][NB_CASE_LARGEUR],int tour,Proposition proposition,bool MontrerProposition);
+void ClicGauche(int& menu, Joueur* joueur, cartePossible choixJoueurCarte[],int& nbJoueurs,Carte* carte,De de[2],int& SommeDesDes,Case plateau[NB_CASE_HAUTEUR][NB_CASE_LARGEUR],int& tour,Proposition& proposition,bool& MontrerProposition);
+void ClicDroit(int menu,Joueur* joueur,int tour);
 void ClavierTexte(int menu, Joueur* joueur, Event event);
 void Clavier(int menu, Joueur* joueur, Event event, RenderWindow& window);
 void InitialisationSprite(Sprite fondMenu[],Texture* texture);

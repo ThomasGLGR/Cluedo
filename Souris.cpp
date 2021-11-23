@@ -2,7 +2,7 @@
 
 void PassageMenu5(int& menu, Joueur* joueur,int& nbJoueurs,Carte* carte,Case plateau[NB_CASE_HAUTEUR][NB_CASE_LARGEUR]){
     bool valide=true;
-    Bouton boutonMenuSuivant{1770, 920, 130, 130, ROUGE_MENU};
+    Bouton boutonMenuSuivant{1770, 920, 130, 130, Color::Transparent};
     for (int i = 0; i < 6; ++i) {
         if (joueur[i].getjoueurJoue()) {
             if (joueur[i].getEtatInscription() != Pret) {
@@ -33,7 +33,7 @@ int EnsembleBouton(int x, int y, int h, int l, bool b, int s, Joueur* joueur, bo
             A=joueur[i].getAfficherIdentifiant();
         }
         if (A==b && !stop){
-            Bouton bouton{320 * i + x, y, h, l, ROUGE_MENU};
+            Bouton bouton{320 * i + x, y, h, l, Color::Transparent};
             temp=bouton.Clic(i);
             if (temp==i){
                 stop=true;
@@ -55,7 +55,7 @@ void BoutonInscription(Joueur* joueur,int& I,int& J){
     for (int j = 0; j < 2; ++j) {
         for (int i = 0; i < 6; ++i) {
             if (joueur[i].getjoueurJoue() && !stop) {
-                Bouton bouton{320 * i + 176 * j + 20, 225, 75, 90, ROUGE_MENU};
+                Bouton bouton{320 * i + 176 * j + 20, 225, 75, 90, Color::Transparent};
                 I= bouton.Clic(i);
                 J= bouton.Clic(j);
                 if (I==i){
@@ -70,7 +70,7 @@ void BoutonIdentifiant(Joueur* joueur, int& I, int& J){
     for (int j = 0; j < 2; ++j) {
         for (int i = 0; i < 6; ++i) {
             if (joueur[i].getAfficherIdentifiant() && !stop6) {
-                Bouton boutonChoix{320 * i + 30, 415 + 160 * j, 45, 260, ROUGE_MENU};
+                Bouton boutonChoix{320 * i + 30, 415 + 160 * j, 45, 260,  Color::Transparent};
                 I = boutonChoix.Clic(i);
                 J = boutonChoix.Clic(j);
                 if (I == i && J == j) {
@@ -81,7 +81,7 @@ void BoutonIdentifiant(Joueur* joueur, int& I, int& J){
     }
 }
 
-void ClicGauche(int& menu, Joueur* joueur, cartePossible choixJoueurCarte[],int& nbJoueurs,Carte* carte,De* de,int& SommeDesDes, Case plateau[NB_CASE_HAUTEUR][NB_CASE_LARGEUR],int& tour){
+void ClicGauche(int& menu, Joueur* joueur, cartePossible choixJoueurCarte[],int& nbJoueurs,Carte* carte,De de[2],int& SommeDesDes, Case plateau[NB_CASE_HAUTEUR][NB_CASE_LARGEUR],int& tour,Proposition& proposition,bool& MontrerProposition){
 switch (menu){
     case 0:
         menu=1;
@@ -150,46 +150,72 @@ switch (menu){
         }
     }
         break;
-    case 5:
-        joueur[tour].changementBlocNote();
-        SommeDesDes=0;
-        int stopDe=ERREUR;
+    case 5: {
+        joueur[tour].changementBlocNoteBarre();
+
+        SommeDesDes = 0;
+        int stopDe = ERREUR;
         Bouton boutonLancerDe{1500, 800, 150, 315, Color::Transparent};
-        stopDe=boutonLancerDe.Clic(1);
-        if (stopDe==1){
+        stopDe = boutonLancerDe.Clic(1);
+        if (stopDe != ERREUR) {
             for (int i = 0; i < 2; ++i) {
-                SommeDesDes+=de[i].LancerDe();
+                SommeDesDes += de[i].LancerDe();
             }
-            stopDe=ERREUR;
-            joueur[tour].getPion().DeplacementPion(plateau,SommeDesDes);
+            stopDe = ERREUR;
+            joueur[tour].getPion().DeplacementPion(plateau, SommeDesDes);
         }
-/*
-        bool actualise=false;
+
+        bool actualise = false;
         for (int i = 0; i < NB_CASE_HAUTEUR; ++i) {
             for (int j = 0; j < NB_CASE_LARGEUR; ++j) {
-                if (Mouse::getPosition().x>DEBUT_PLATEAU_X + j * LONGEUR_CASE && Mouse::getPosition().x< DEBUT_PLATEAU_X + j * LONGEUR_CASE + LONGEUR_CASE && Mouse::getPosition().y > DEBUT_PLATEAU_Y + i * LONGEUR_CASE && Mouse::getPosition().y <DEBUT_PLATEAU_Y + i * LONGEUR_CASE+LONGEUR_CASE) {
-                   if  (plateau[i][j].getDeplacementPossible() && !actualise) {
-                       joueur[tour].setPion(DEBUT_PLATEAU_X + j * LONGEUR_CASE, DEBUT_PLATEAU_Y + i * LONGEUR_CASE);
-                       if (plateau[i][j].getTypedeCase()==Salle){
-
-                       }else{
-                           int a=(tour+1)%nbJoueurs;
-                           tour=a;
-                           cout<<tour<<endl;
-                       }
-                       actualise = true;
-                   }
+                if ((Mouse::getPosition().x > DEBUT_PLATEAU_X + j * LONGEUR_CASE) &&
+                    (Mouse::getPosition().x < DEBUT_PLATEAU_X + j * LONGEUR_CASE + LONGEUR_CASE) &&
+                    (Mouse::getPosition().y > DEBUT_PLATEAU_Y + i * LONGEUR_CASE) &&
+                    (Mouse::getPosition().y < DEBUT_PLATEAU_Y + i * LONGEUR_CASE + LONGEUR_CASE)) {
+                    if (plateau[i][j].getDeplacementPossible()) {
+                        joueur[tour].setPion(DEBUT_PLATEAU_X + j * LONGEUR_CASE, DEBUT_PLATEAU_Y + i * LONGEUR_CASE);
+                        actualise = true;
+                        if (plateau[i][j].getTypedeCase() == Salle) {
+                            proposition.InitialisationSalle(i, j);
+                            menu = 6;
+                        } else {
+                            tour = (tour + 1) % nbJoueurs;
+                        }
+                    }
                 }
             }
         }
-        if  (actualise){
-        for (int i = 0; i < NB_CASE_HAUTEUR; ++i) {
-            for (int j = 0; j < NB_CASE_LARGEUR; ++j) {
-                plateau[i][j].setDeplacementPossible(false);
+        if (actualise) {
+            for (int i = 0; i < NB_CASE_HAUTEUR; ++i) {
+                for (int j = 0; j < NB_CASE_LARGEUR; ++j) {
+                    plateau[i][j].setDeplacementPossible(false);
+                }
             }
         }
+        if (MontrerProposition){
+            tour=(tour+1)%nbJoueurs;
+            for (int i = 0; i < nbJoueurs; ++i) {
+                joueur[i].SupprimerAfficherProposition();
+            }
+
         }
-        */
+        Bouton boutonSuivant(1900,900,200,100,Color::Transparent);
+        MontrerProposition=false;
+
+    }
+
+    break;
+    case 6:
+        proposition.ChoisiLaPropositon(MontrerProposition);
+        if (MontrerProposition){
+            bool stop=false;
+            for (int i = 1; i < nbJoueurs; ++i) {
+                if (!stop) {
+                    joueur[(tour + i) % nbJoueurs].VerificationProposition(proposition.getAccusation(),stop);
+                }
+            }
+            menu=5;
+        }
         break;
 }
 }
@@ -198,11 +224,17 @@ void SourisMouvement(int& menu,RenderWindow& window){
     switch (menu){
         case 1:
             for (int i = 0; i < 3; ++i) {
-                Bouton boutonMenu{LARGEUR_ECRAN / 3, 240 + 210 * i, 100, LARGEUR_ECRAN / 3, Color(238, 29, 33)};
-                boutonMenu.DessinerRectangle(window);
+            Bouton boutonMenu{LARGEUR_ECRAN / 3, 240 + 210 * i, 100, LARGEUR_ECRAN / 3, ROUGE_MENU};
+            boutonMenu.DessinerRectangle(window);
             }
             break;
-        case 5:
+        case 6:
             break;
+    }
+}
+
+void ClicDroit(int menu,Joueur* joueur,int tour) {
+    if (menu == 5) {
+        joueur[tour].changementBlocNoteEntoure();
     }
 }

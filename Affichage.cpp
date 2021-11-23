@@ -1,19 +1,30 @@
 #include "PointH/AutresFonctions.h"
 
 void InitialisationSprite(Sprite fondMenu[],Texture* texture){
-    texture[0].loadFromFile("../Image/Menu0.jpg");
-    fondMenu[0].setTexture(texture[0]);
-    texture[1].loadFromFile("../Image/Menu1.jpg");
-    fondMenu[1].setTexture(texture[1]);
-    texture[2].loadFromFile("../Image/Menu2.jpg");
-    fondMenu[2].setTexture(texture[2]);
-    texture[5].loadFromFile("../Image/Menu5.jpg");
-    fondMenu[5].setTexture(texture[5]);
+    for (int i = 0; i < 7; ++i) {
+        string filename="../Image/Menu0.jpg";
+        filename[13]=i+48;
+        texture[i].loadFromFile(filename);
+        fondMenu[i].setTexture(texture[i]);
+    }
 }
 
-void AffichageMenu(Sprite fondMenu[], int menu, RenderWindow& window, Joueur* joueur,De* de,int nbJ,Case plateau[NB_CASE_HAUTEUR][NB_CASE_LARGEUR],int tour){
+void AffichageMenu(Sprite fondMenu[], int menu, RenderWindow& window, Joueur* joueur,De* de,int nbJ,Case plateau[NB_CASE_HAUTEUR][NB_CASE_LARGEUR],int tour,Proposition proposition,bool MontrerProposition){
     if  (menu!=ERREUR){window.draw(fondMenu[menu]);}
     switch (menu) {
+        case 0: {
+            Sprite spriteLogo;
+            Texture textureLogo;
+            textureLogo.loadFromFile("../Image/Logo.png");
+            textureLogo.setSmooth(true);
+            spriteLogo.setPosition(1080 - (960 - Mouse::getPosition().x) / 15, 600 - (540 - Mouse::getPosition().y) / 15);
+            Vector2f targetSize(1000, 500);
+            spriteLogo.setTexture(textureLogo);
+           spriteLogo.setScale(targetSize.x / spriteLogo.getLocalBounds().width,
+                                                 targetSize.y / spriteLogo.getLocalBounds().height);
+            window.draw(spriteLogo);
+        }
+            break;
         case 2:
             for (int i = 0; i < NB_JOUEURS; ++i) {
                 joueur[i].AffichageCroix(window, i);
@@ -41,10 +52,21 @@ void AffichageMenu(Sprite fondMenu[], int menu, RenderWindow& window, Joueur* jo
                 joueur[i].Afficherpion(window);
                 if (i<3){
                     joueur[i].AfficherJoueurEnCours(window,50,200*i+50);
-                }else{
+                 }else{
                     joueur[i].AfficherJoueurEnCours(window,400,200*(i-3)+50);
+               }
+                if (MontrerProposition){
+                    if (i<3){
+                        joueur[i].AfficherCarteProposition(window,180,200*i+50);
+                    }else{
+                         joueur[i].AfficherCarteProposition(window,430,200*(i-3)+50);
+                    }
                 }
            }
+            break;
+        case 6:
+            proposition.AfficherProposition(window);
+            proposition.AfficherCarteAChoisir(window);
             break;
     }
 }

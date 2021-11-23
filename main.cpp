@@ -8,18 +8,19 @@ int main()
     window.setFramerateLimit(30);
 
 
-    Sprite fondMenu[6];
-    Texture texture[6];
+    Sprite fondMenu[7];
+    Texture texture[7];
     InitialisationSprite(fondMenu,texture);
 
     Carte carte[NB_CARTE];
     Carte enveloppe[3];
     cartePossible choixJoueurCarte[NB_PERSO];
+    Proposition proposition;
     Joueur joueur[NB_JOUEURS];
     Case plateau[NB_CASE_HAUTEUR][NB_CASE_LARGEUR];
     De de[2];
-
     InitialisationCarte(carte, choixJoueurCarte);
+    proposition.InitialisationProposition(carte);
     MelangerCarte(carte);
     InitialisationEnveloppe(enveloppe,carte);
     InitialisationPlateau(plateau);
@@ -32,11 +33,13 @@ int main()
     int nbJoueurs=0;
     int SommeDesDes;
     int tour=0;
+    bool MontrerProposition=false;
 
     while (window.isOpen()) {
         Event event;
+
         while (window.waitEvent(event)) {
-            AffichageMenu(fondMenu, menu, window, joueur,de,nbJoueurs,plateau,tour);
+            AffichageMenu(fondMenu, menu, window, joueur,de,nbJoueurs,plateau,tour,proposition,MontrerProposition);
             switch (event.type) {
                 case Event::Closed:
                     window.close();
@@ -50,9 +53,10 @@ int main()
                 case Event::MouseButtonReleased:
                     switch (event.mouseButton.button) {
                         case Mouse::Right:
+                            ClicDroit(menu,joueur,tour);
                             break;
                         case Mouse::Left:
-                            ClicGauche(menu, joueur, choixJoueurCarte, nbJoueurs, carte, de, SommeDesDes,plateau,tour);
+                            ClicGauche(menu, joueur, choixJoueurCarte, nbJoueurs, carte, de, SommeDesDes,plateau,tour,proposition,MontrerProposition);
                             break;
                     }
                     break;

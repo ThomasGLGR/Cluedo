@@ -9,10 +9,12 @@ class BlocNote{
 private:
     string nomDeCartes[NB_CARTE];
     bool barre[NB_CARTE];
+    bool entoure[NB_CARTE];
 public:
     void InitialisationBlocNote();
     void BarrePremierJoueur(vector <Carte> Deck);
-    void ChangementIndice();
+    void ChangementIndiceBarre();
+    void ChangementIndiceEntoure();
     void AfficherBlocNote(RenderWindow &window);
 };
 

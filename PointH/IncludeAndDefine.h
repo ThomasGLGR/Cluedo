@@ -17,6 +17,8 @@
 #define NB_CARTE 27
 #define NB_CARTE_JOUABLE 24
 #define NB_PERSO 8
+#define NB_ARMES 10
+#define NB_SALLE 9
 #define NB_JOUEURS 6
 #define ROUGE_MENU Color(238, 29, 33)
 #define ERREUR -1
@@ -28,6 +30,8 @@
 #define DEBUT_BLOCNOTE_Y 95
 #define LONGEUR_CASE 29.9
 #define NB_FACES_DE 6
+#define DEBUT_PROPOSION_X 416
+#define DEBUT_PROPOSION_Y 500
 
 using namespace std;
 using namespace sf;

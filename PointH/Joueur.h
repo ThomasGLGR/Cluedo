@@ -28,6 +28,9 @@ private:
     bool AfficherIdentifiant = false;
     bool ecritureMDP = false;
 
+    bool AfficherProposition=false;
+    Carte propostionaAfficher;
+
 public:
 
     void InitialisationJoueur(cartePossible* choixJoueurCarte);
@@ -67,9 +70,13 @@ public:
     void Afficherpion(RenderWindow &window);
     void BarrePremierCarte();
     BlocNote getBlocnote();
-    void changementBlocNote();
+    void changementBlocNoteBarre();
+    void changementBlocNoteEntoure();
     void AfficherJoueurEnCours(RenderWindow &window,int x,int y);
     void AfficherFlecheJoueurEnCours(RenderWindow &window,int x,int y);
+    void VerificationProposition(Carte* proposition,bool& stop);
+    void AfficherCarteProposition(RenderWindow &window,int x,int y);
+    void SupprimerAfficherProposition();
 };
 
 #endif //CLUEDO_PERSO_H
