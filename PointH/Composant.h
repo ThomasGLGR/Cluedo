@@ -23,10 +23,12 @@ private:
     int valeur=rand()%NB_FACES_DE+1;
     Sprite spriteFace[6];
     Texture textureFace[6];
+    bool PeutLancerDe=true;
 public:
     void InitialisationDe();
     void AfficherDe(RenderWindow &window,int x,int y,int l,int h);
-    int LancerDe();
+    void LancerDe(int& Somme);
+    void setLancerDe(bool A);
 };
 
 class Pion{
@@ -40,6 +42,5 @@ void InitPion(Color C,int x0,int y0);
 void AfficherPion(RenderWindow& window);
 void setCoordsPion(int x0, int y0);
 void DeplacementPion(Case plateau[NB_CASE_HAUTEUR][NB_CASE_LARGEUR],int ValeurDe);
-
 };
 #endif //CLUEDO_COMPOSANT_H

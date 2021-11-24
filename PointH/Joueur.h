@@ -77,6 +77,8 @@ public:
     void VerificationProposition(Carte* proposition,bool& stop);
     void AfficherCarteProposition(RenderWindow &window,int x,int y);
     void SupprimerAfficherProposition();
+    void AfficherCroixProposition(RenderWindow &window,int x,int y);
+    bool getAfficherProposition();
 };
 
 #endif //CLUEDO_PERSO_H

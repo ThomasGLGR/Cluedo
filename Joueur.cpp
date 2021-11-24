@@ -341,7 +341,7 @@ void Joueur::changementBlocNoteEntoure() {
 
 void Joueur::AfficherJoueurEnCours(RenderWindow &window, int x, int y) {
 avatar.dessinerCarte(window,x,y,100,160);
-EcrireNom(window,23,identifiant,x+50,y+170,avatar.getRGB());
+EcrireNom(window,23,identifiant,x+50,y-30,avatar.getRGB());
 }
 
 void Joueur::AfficherFlecheJoueurEnCours(RenderWindow &window,int x,int y) {
@@ -380,3 +380,19 @@ void Joueur::AfficherCarteProposition(RenderWindow &window,int x, int y) {
 void Joueur::SupprimerAfficherProposition() {
     AfficherProposition=false;
 }
+
+void Joueur::AfficherCroixProposition(RenderWindow &window,int x,int y) {
+    if (!AfficherProposition) {
+        Texture texture;
+        texture.loadFromFile("../Image/RedCross.png");
+        Sprite sprite;
+        Vector2f targetSize(65, 65);
+        sprite.setTexture(texture);
+        sprite.setScale(targetSize.x / sprite.getLocalBounds().width, targetSize.y / sprite.getLocalBounds().height);
+        sprite.setPosition(x, y);
+        window.draw(sprite);
+    }
+}
+bool Joueur::getAfficherProposition(){
+    return AfficherProposition;
+};

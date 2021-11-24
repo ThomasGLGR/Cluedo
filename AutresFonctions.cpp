@@ -60,3 +60,14 @@ void InitialisationMapSuite(Case plateau[NB_CASE_HAUTEUR][NB_CASE_LARGEUR] ,Joue
         }
     }
 }
+
+void InitialisationRegle(  vector<string> RegleDuJeu){
+    ifstream fichierTexte("../PointTXT/Regle.txt");
+    string temp="Compteur";
+    while (getline(fichierTexte, temp)) {
+        RegleDuJeu.push_back(temp);
+    }
+    for (int i = 0; i < RegleDuJeu.size(); ++i) {
+        cout<<RegleDuJeu[i]<<endl;
+    }
+}

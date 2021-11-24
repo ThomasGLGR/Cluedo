@@ -8,7 +8,18 @@ void InitialisationSprite(Sprite fondMenu[],Texture* texture){
         fondMenu[i].setTexture(texture[i]);
     }
 }
-
+void AfficherFleche(RenderWindow &window,int x,int y){
+    Sprite Sfleche;
+    Texture Tfleche;
+    Tfleche.loadFromFile("../Image/next.png");
+    Tfleche.setSmooth(true);
+    Vector2f targetSize(150, 150);
+   Sfleche.setTexture(Tfleche);
+   Sfleche.setColor(ROUGE_MENU);
+    Sfleche.setScale(targetSize.x / Sfleche.getLocalBounds().width,targetSize.y / Sfleche.getLocalBounds().height);
+    Sfleche.setPosition(x,y);
+    window.draw(Sfleche);
+}
 void AffichageMenu(Sprite fondMenu[], int menu, RenderWindow& window, Joueur* joueur,De* de,int nbJ,Case plateau[NB_CASE_HAUTEUR][NB_CASE_LARGEUR],int tour,Proposition proposition,bool MontrerProposition){
     if  (menu!=ERREUR){window.draw(fondMenu[menu]);}
     switch (menu) {
@@ -56,11 +67,25 @@ void AffichageMenu(Sprite fondMenu[], int menu, RenderWindow& window, Joueur* jo
                     joueur[i].AfficherJoueurEnCours(window,400,200*(i-3)+50);
                }
                 if (MontrerProposition){
+                    bool stop=false;
+                    for (int j = 1; j < nbJ; ++j) {
+                        if  (joueur[(tour+j)%nbJ].getAfficherProposition() ){
+                            stop= true;
+                        }
+                        if (!stop){
+                            if ((tour+j)%nbJ<3){
+                                joueur[(tour+j)%nbJ].AfficherCroixProposition(window,180,200*((tour+j)%nbJ)+70);
+                            }else{
+                                joueur[(tour+j)%nbJ].AfficherCroixProposition(window,530,200*((tour+j)%nbJ-3)+70);
+                            }
+                        }
+                    }
                     if (i<3){
                         joueur[i].AfficherCarteProposition(window,180,200*i+50);
                     }else{
-                         joueur[i].AfficherCarteProposition(window,430,200*(i-3)+50);
+                         joueur[i].AfficherCarteProposition(window,530,200*(i-3)+50);
                     }
+                    AfficherFleche(window,1750,900);
                 }
            }
             break;

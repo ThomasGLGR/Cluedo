@@ -46,6 +46,7 @@ int EnsembleBouton(int x, int y, int h, int l, bool b, int s, Joueur* joueur, bo
 void ChangementDeJoueurQuiJoue(Joueur* joueur,int a){
 for (int i = 0; i < NB_JOUEURS; ++i) {
 joueur[i].setenCourdeModif(false);
+joueur[i].setenCourdeModif(false);
 }
 joueur[a].setenCourdeModif(true);
 }
@@ -152,14 +153,14 @@ switch (menu){
         break;
     case 5: {
         joueur[tour].changementBlocNoteBarre();
-
         SommeDesDes = 0;
         int stopDe = ERREUR;
         Bouton boutonLancerDe{1500, 800, 150, 315, Color::Transparent};
         stopDe = boutonLancerDe.Clic(1);
         if (stopDe != ERREUR) {
             for (int i = 0; i < 2; ++i) {
-                SommeDesDes += de[i].LancerDe();
+                de[i].LancerDe(SommeDesDes);
+                de[i].setLancerDe(false);
             }
             stopDe = ERREUR;
             joueur[tour].getPion().DeplacementPion(plateau, SommeDesDes);
@@ -180,6 +181,9 @@ switch (menu){
                             menu = 6;
                         } else {
                             tour = (tour + 1) % nbJoueurs;
+                            for (int k = 0; k < 2; ++k) {
+                                de[k].setLancerDe(true);
+                            }
                         }
                     }
                 }
@@ -193,15 +197,18 @@ switch (menu){
             }
         }
         if (MontrerProposition){
-            tour=(tour+1)%nbJoueurs;
+            Bouton boutonSuivant(1750,900,150,150,Color::Transparent);
+        if(boutonSuivant.Clic(0)!=ERREUR){
             for (int i = 0; i < nbJoueurs; ++i) {
                 joueur[i].SupprimerAfficherProposition();
             }
-
+            for (int k = 0; k < 2; ++k) {
+                de[k].setLancerDe(true);
+            }
+            MontrerProposition=false;
+            tour=(tour+1)%nbJoueurs;
         }
-        Bouton boutonSuivant(1900,900,200,100,Color::Transparent);
-        MontrerProposition=false;
-
+        }
     }
 
     break;
@@ -238,3 +245,17 @@ void ClicDroit(int menu,Joueur* joueur,int tour) {
         joueur[tour].changementBlocNoteEntoure();
     }
 }
+/*
+void SourisMolette(int& menu,vector<string> RegleDuJeu,RenderWindow& window) {
+    if (menu == 4) {
+        Font font;
+        font.loadFromFile("../font/Lato-Regular.ttf");
+        Text text;
+        text.setFont(font);
+
+        text.setCharacterSize(t);
+        text.setFillColor(Color(238, 29, 33));
+        text.setPosition(x,y);
+        window.draw(text);
+    }
+}*/

@@ -78,7 +78,7 @@ bool cartePossible::getUtilise() {
 void Carte::dessinerCarte(RenderWindow &window, int x, int y, int l, int h) {
     Vector2f targetSize(l, h);
     spriteCarte.setTexture(textureCarte);
-    /*stackOverflaw*/spriteCarte.setScale(targetSize.x / spriteCarte.getLocalBounds().width,targetSize.y / spriteCarte.getLocalBounds().height);
+    /*stackOverflow*/spriteCarte.setScale(targetSize.x / spriteCarte.getLocalBounds().width,targetSize.y / spriteCarte.getLocalBounds().height);
     spriteCarte.setPosition(x,y);
     window.draw(spriteCarte);
 }

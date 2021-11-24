@@ -146,7 +146,6 @@ void Proposition::ChoisiLaPropositon(bool& MontrerProposition) {
             Bouton boutonValide(1060, 290, 110, 400, Color::Transparent);
             if (boutonValide.Clic(0)!=ERREUR) {
                MontrerProposition=true;
-               cout<<MontrerProposition<<"entre"<<endl;
             }
         }
             break;

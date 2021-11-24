@@ -10,14 +10,17 @@ void De::InitialisationDe() {
 void De::AfficherDe(RenderWindow &window,int x,int y,int l,int h){
     Vector2f targetSize(l, h);
     spriteFace[valeur-1].setTexture(textureFace[valeur-1]);
-    /*stackOverflow*/spriteFace[valeur-1].setScale(targetSize.x / spriteFace[valeur-1].getLocalBounds().width,targetSize.y / spriteFace[valeur-1].getLocalBounds().height);
+    spriteFace[valeur-1].setScale(targetSize.x / spriteFace[valeur-1].getLocalBounds().width,targetSize.y / spriteFace[valeur-1].getLocalBounds().height);
     spriteFace[valeur-1].setPosition(x,y);
     window.draw(spriteFace[valeur-1]);
 }
 
-int De::LancerDe() {
-    valeur=rand()%NB_FACES_DE+1;
-    return valeur;
+void De::LancerDe(int& Somme) {
+    if (PeutLancerDe) {
+        valeur = rand() % NB_FACES_DE + 1;
+        PeutLancerDe = false;
+        Somme += valeur;
+    }
 }
 
 void Pion::InitPion(Color C,int x0,int y0){
@@ -36,6 +39,53 @@ void Pion::setCoordsPion(int x0, int y0) {
     x=x0;
     y=y0;
 }
+/*
+void ReturnPorte(int i1,int j1,int i2,int j2,int i3,int j3,vector<int[2]> TabPorte){
+    if (i1==i2 && j1==j2){
+        TabPorte->push_back({i3,j3});
+        TabPorte->push_back({i2,j2});
+    }
+}
+
+void VerifPorte(int i, int j,vector<int[2]>& TabPorte){
+    ReturnPorte(i,j,3,7,22,15,TabPorte);
+    ReturnPorte(i,j,3,7,23,13,TabPorte);
+    ReturnPorte(i,j,22,15,23,13,TabPorte);
+    ReturnPorte(i,j,4,15,24,6,TabPorte);
+    ReturnPorte(i,j,7,1,13,4,TabPorte);
+    ReturnPorte(i,j,8,8,8,11,TabPorte);
+    ReturnPorte(i,j,8,8,17,8,TabPorte);
+    ReturnPorte(i,j,8,8,17,11,TabPorte);
+    ReturnPorte(i,j,8,11,17,8,TabPorte);
+    ReturnPorte(i,j,8,11,17,11,TabPorte);
+    ReturnPorte(i,j,17,8,17,11,TabPorte);
+}*/
+
+void ReturnPorte(int i1,int j1,int i2,int j2,int i3,int j3,vector<int>* TabPorteI,vector<int>* TabPorteJ){
+    if (i1==i2 && j1==j2){
+        TabPorteI->push_back({i3});
+        TabPorteJ->push_back({j3});
+    }
+    if (i1==i3 && j1==j3){
+        TabPorteI->push_back({i2});
+        TabPorteJ->push_back({j2});
+    }
+}
+
+void VerifPorte(int i, int j,vector<int>* TabPorteI,vector<int>* TabPorteJ){
+    ReturnPorte(i,j,3,7,22,15,TabPorteI,TabPorteJ);
+    ReturnPorte(i,j,3,7,23,13,TabPorteI,TabPorteJ);
+    ReturnPorte(i,j,22,15,23,13,TabPorteI,TabPorteJ);
+    ReturnPorte(i,j,4,15,24,6,TabPorteI,TabPorteJ);
+    ReturnPorte(i,j,7,1,13,4,TabPorteI,TabPorteJ);
+    ReturnPorte(i,j,8,8,8,11,TabPorteI,TabPorteJ);
+    ReturnPorte(i,j,8,8,17,8,TabPorteI,TabPorteJ);
+    ReturnPorte(i,j,8,8,17,11,TabPorteI,TabPorteJ);
+    ReturnPorte(i,j,8,11,17,8,TabPorteI,TabPorteJ);
+    ReturnPorte(i,j,8,11,17,11,TabPorteI,TabPorteJ);
+    ReturnPorte(i,j,17,8,17,11,TabPorteI,TabPorteJ);
+}
+
 
 void VerifAutour(Case plateau[NB_CASE_HAUTEUR][NB_CASE_LARGEUR],int I, int J,int nbValeurDe){
     if(nbValeurDe<0){
@@ -72,16 +122,26 @@ void Pion::DeplacementPion(Case plateau[NB_CASE_HAUTEUR][NB_CASE_LARGEUR],int Va
     int Ideplacement;
     int Jdeplacement;
     int CopieDe=ValeurDe;
+    vector<int> TabPorteI,TabPorteJ;
     for (int i = 0; i < NB_CASE_HAUTEUR; ++i) {
         for (int j = 0; j < NB_CASE_LARGEUR; ++j) {
-            plateau[i][j].setDeplacementPossible(false);
             if (plateau[i][j].getX() == x && plateau[i][j].getY() == y) {
                 Ideplacement = i;
                 Jdeplacement = j;
+                VerifAutour(plateau,Ideplacement,Jdeplacement,CopieDe-1);
+                if  (plateau[i][j].getTypedeCase()==1){
+                   VerifPorte(i,j,&TabPorteI,&TabPorteJ);
+                    for (int k = 0; k < TabPorteI.size(); ++k) {
+                        VerifAutour(plateau,TabPorteI[k],TabPorteJ[k],CopieDe-1);
+                    }
+                }
             }
         }
     }
-    VerifAutour(plateau,Ideplacement,Jdeplacement,CopieDe-1);
+}
+
+void De::setLancerDe(bool A) {
+PeutLancerDe=A;
 }
 
 

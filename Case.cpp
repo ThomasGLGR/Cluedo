@@ -30,7 +30,6 @@ void InitialisationPlateau(Case plateau[NB_CASE_HAUTEUR][NB_CASE_LARGEUR]){
             if (c=='\n') {
                 j--;
             }else{
-                cout<<c;
                 int type=c-48;
                 plateau[i][j].InitCase(DEBUT_PLATEAU_X + j * LONGEUR_CASE,DEBUT_PLATEAU_Y + i * LONGEUR_CASE, type);
             }

@@ -23,4 +23,6 @@ void MelangerCarte(Carte carte[NB_CARTE]);
 void DistributionCarte(Joueur* joueur,Carte* carte,int nbJoueurs);
 void InitialisationEnveloppe(Carte* enveloppe,Carte carte[NB_CARTE]);
 void InitialisationMapSuite(Case plateau[NB_CASE_HAUTEUR][NB_CASE_LARGEUR],Joueur* joueur,int nbJ);
+void SourisMolette(int& menu,vector<string> RegleDuJeu,RenderWindow& window);
+void InitialisationRegle(  vector<string> RegleDuJeu);
 #endif
