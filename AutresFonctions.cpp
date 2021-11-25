@@ -11,9 +11,6 @@ int NombreDeJoueurs(Joueur* joueur){
 }
 
 void DistributionCarte(Joueur* joueur,Carte* carte,int nbJoueurs){
-    for (int i = 0; i <NB_JOUEURS; ++i) {
-        joueur[i].clearJoueur();
-    }
     int a=0;
     for (int i = 0; i < NB_CARTE_JOUABLE; ++i) {
         joueur[a%nbJoueurs].PiocherCarte(carte[i]);

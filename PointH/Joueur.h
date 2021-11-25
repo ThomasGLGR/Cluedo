@@ -78,6 +78,8 @@ public:
     void setHorsJeu(bool A);
     bool getHorsJeu();
     void AjouterUnePartie(bool A);
+    void sauvegarde(ofstream& fichierTexte);
+    void chargerPartie(basic_string<char> Id,basic_string<char>StringCarte,vector<basic_string<char>> ListeCarte,bool Hors_Jeu,int Xpion,int Ypion,vector<basic_string<char>> ListeBlocNote);
 };
 
 #endif //CLUEDO_PERSO_H

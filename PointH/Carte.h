@@ -27,6 +27,7 @@ public:
     Texture getTexture();
     void RemplirEnveloppe(Carte* carte,int type);
     virtual void setCarte(Carte C);
+    void setCarteDepuisString(string S);
 };
 
 

@@ -21,7 +21,6 @@ void ClavierTexte(int menu, Joueur* joueur, Event event);
 void Clavier(int& menu, Joueur* joueur, Event event, RenderWindow& window,bool &End,Parametre& parametre);
 void InitialisationSprite(Sprite fondMenu[],Texture* texture);
 void InitialisationPlateau(Case plateau[NB_CASE_HAUTEUR][NB_CASE_LARGEUR]);
-void SourisMouvement(int& menu,RenderWindow& window);
 int NombreDeJoueurs(Joueur* joueur);
 void MelangerCarte(Carte carte[NB_CARTE]);
 void DistributionCarte(Joueur* joueur,Carte* carte,int nbJoueurs);

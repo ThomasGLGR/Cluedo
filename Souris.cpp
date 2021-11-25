@@ -1,5 +1,7 @@
 #include "PointH/AutresFonctions.h"
 
+
+
 void PassageMenu5(int& menu, Joueur* joueur,int& nbJoueurs,Carte* carte,Case plateau[NB_CASE_HAUTEUR][NB_CASE_LARGEUR]){
     bool valide=true;
     Bouton boutonMenuSuivant{1770, 920, 130, 130, Color::Transparent};
@@ -94,9 +96,17 @@ switch (menu){
         for (int i = 0; i < 3; ++i) {
             if (!stop) {
                 Bouton boutonMenuClic{LARGEUR_ECRAN / 3, 240 + 210 * i, 100, LARGEUR_ECRAN / 3, ROUGE_MENU};
-                if (boutonMenuClic.Clic(2 + i) != ERREUR) {
-                    menu =boutonMenuClic.Clic(2 + i);
-                    stop = true;
+                switch (boutonMenuClic.Clic(i)) {
+                    case 0:
+                        End=true;
+                        menu=2;
+                        break;
+                    case 1:
+                        parametre.ChargerPartie(joueur,tour,nbJoueurs,enveloppe);
+                        break;
+                    case 2:
+                        menu=4;
+                        break;
                 }
             }
         }
@@ -270,7 +280,7 @@ switch (menu){
         }
     }
         break;
-    case 8: {
+    case 3: {
         bool stop = false;
         for (int i = 0; i < 3; ++i) {
             if (!stop) {
@@ -284,8 +294,8 @@ switch (menu){
                         stop = true;
                     }
                     if (boutonOption.Clic(i)==2){
+                        parametre.sauvegarder(joueur,tour,nbJoueurs,enveloppe);
                         window.close();
-                        stop = true;
                     }
 
             }
@@ -295,28 +305,6 @@ switch (menu){
 }
 }
 
-void SourisMouvement(int& menu,RenderWindow& window){
-    switch (menu){
-        case 1:
-            for (int i = 0; i < 3; ++i) {
-            Bouton boutonMenu{LARGEUR_ECRAN / 3, 240 + 210 * i, 100, LARGEUR_ECRAN / 3, ROUGE_MENU};
-            boutonMenu.DessinerRectangle(window,10.f);
-            }
-            break;
-        case 5: {
-            Bouton boutonAccusation{792, 928, 70, 400, ROUGE_MENU};
-            boutonAccusation.DessinerRectangle(window, 5.f);
-        }
-            break;
-        case 8:{
-            for (int i = 0; i < 3; ++i) {
-                Bouton boutonOption{550, 260 + 210 * i, 100, 820, ROUGE_MENU};
-                boutonOption.DessinerRectangle(window, 10.f);
-            }
-        }
-            break;
-    }
-}
 
 void ClicDroit(int menu,Joueur* joueur,int tour) {
     if (menu == 5) {

@@ -17,6 +17,7 @@ public:
     void ChangementIndiceEntoure();
     void AfficherBlocNote(RenderWindow &window);
     void clear();
+    void sauvegardeBlocNote(ofstream& fichierTexte);
 };
 
 class De{
@@ -38,10 +39,12 @@ private:
     Texture texturePion;
     Color colorPion;
     int x,y;
+
 public:
 void InitPion(Color C,int x0,int y0);
 void AfficherPion(RenderWindow& window);
 void setCoordsPion(int x0, int y0);
 void DeplacementPion(Case plateau[NB_CASE_HAUTEUR][NB_CASE_LARGEUR],int ValeurDe,bool verif);
+void sauvegardePion(ofstream& fichierTexte);
 };
 #endif //CLUEDO_COMPOSANT_H

@@ -8,8 +8,10 @@ int main()
     window.setPosition(Vector2i(0,0));
     window.setFramerateLimit(30);
 
-    Sprite fondMenu[9];
-    Texture texture[9];
+    Event event;
+
+    Sprite fondMenu[8];
+    Texture texture[8];
     InitialisationSprite(fondMenu,texture);
 
     Carte carte[NB_CARTE];
@@ -27,7 +29,7 @@ int main()
     int SommeDesDes = 0;
     int tour = 0;
     bool MontrerProposition = false;
-    bool End = true;
+    bool End = false;
 
     de[0].InitialisationDe();
     de[1].InitialisationDe();
@@ -38,8 +40,9 @@ int main()
     }
 
     while (window.isOpen()) {
-            Event event;
-            while (window.pollEvent(event)) {
+        AffichageMenu(fondMenu, menu, window, joueur, de, nbJoueurs, plateau, tour, proposition,  MontrerProposition, regleDuJeu);
+
+        while (window.pollEvent(event)) {
                 if (End) {
                     for (int i = 0; i < NB_CARTE; ++i) {
                         carte[i]=carteCopy[i];
@@ -71,9 +74,7 @@ int main()
                     MontrerProposition = false;
                     End = false;
                     }
-                    AffichageMenu(fondMenu, menu, window, joueur, de, nbJoueurs, plateau, tour, proposition,
-                                  MontrerProposition, regleDuJeu);
-                    switch (event.type) {
+            switch (event.type) {
                         case Event::Closed:
                             window.close();
                             break;
@@ -95,16 +96,12 @@ int main()
                                     break;
                             }
                             break;
-                        case Event::MouseMoved:
-                            SourisMouvement(menu, window);
-                            break;
                         case Event::MouseWheelMoved:
                             SourisMolette(menu, event, regleDuJeu);
                             break;
                     }
-                    window.display();
-                    window.clear();
-                }
+        }
+        window.display();
         }
     return 0;
 }

@@ -1,5 +1,7 @@
 #include "PointH/Joueur.h"
 
+#include <utility>
+
 void Joueur::choixPerso(cartePossible* choixJoueurCarte, int start){
     bool stop=false;
     for (int i = start; i <NB_PERSO ; ++i) {
@@ -512,3 +514,29 @@ void Joueur::AjouterUnePartie(bool A) {
         fichierTexteW << listeID[i][0]<< "," << listeID[i][1] << "," << listeID[i][2]<<","<<listeID[i][3]<<","<<endl;
     }
 }
+
+void Joueur::sauvegarde(ofstream& fichierTexte) {
+fichierTexte<<identifiant<<"," <<avatar.getNom()<<"," <<Deck.size()<<",";
+    for (int i = 0; i < Deck.size(); ++i) {
+        fichierTexte << Deck[i].getNom()<<",";
+    }
+    fichierTexte<<HorsJeu<<",";
+    pion.sauvegardePion(fichierTexte);
+    blocnote.sauvegardeBlocNote(fichierTexte);
+    fichierTexte<<endl;
+}
+
+void Joueur::chargerPartie(basic_string<char> Id, basic_string<char> StringCarte, vector<basic_string<char>> ListeCarte,
+                           bool Hors_Jeu, int Xpion, int Ypion, vector<basic_string<char>> ListeBlocNote) {
+
+    identifiant=move(Id);
+    avatar.setCarteDepuisString(move(StringCarte));
+    for (int i = 0; i < ListeCarte.size(); ++i) {
+        Deck.emplace_back();
+        Deck[i].setCarteDepuisString(ListeCarte[i]);
+    }
+    HorsJeu=Hors_Jeu;
+    setPion(Xpion,Ypion);
+}
+
+

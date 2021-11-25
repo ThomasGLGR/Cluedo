@@ -1,5 +1,7 @@
 #include "PointH/Carte.h"
 
+#include <utility>
+
 void Carte::InitCarte(ifstream& fichierTexte, int Type, int x, int y, int l, int L){
     getline(fichierTexte,nomCarte);
     typeCarte=Type;
@@ -96,6 +98,10 @@ void Carte::RemplirEnveloppe(Carte* carte,int type){
               stop=true;
         }
     }
+}
+
+void Carte::setCarteDepuisString(string S) {
+nomCarte=move(S);
 }
 
 void InitialisationCartePossible(Carte carte[NB_CARTE], cartePossible choixJoueurCarte[]){

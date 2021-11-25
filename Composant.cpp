@@ -135,6 +135,10 @@ void Pion::DeplacementPion(Case plateau[NB_CASE_HAUTEUR][NB_CASE_LARGEUR],int Va
     }
 }
 
+void Pion::sauvegardePion(ofstream& fichierTexte){
+    fichierTexte<<x<<","<<y<<",";
+}
+
 void De::setLancerDe(bool A) {
 PeutLancerDe=A;
 }
@@ -293,6 +297,14 @@ void BlocNote::clear() {
     for (int i = 0; i < NB_CARTE; ++i) {
         barre[i]=false;
         entoure[i]= false;
+    }
+}
+
+void BlocNote::sauvegardeBlocNote(ofstream &fichierTexte) {
+    for (int i = 0; i < NB_CARTE; ++i) {
+        if  (barre[i]){
+            fichierTexte<<nomDeCartes[i]<<",";
+        }
     }
 }
 
