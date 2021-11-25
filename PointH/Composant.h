@@ -16,12 +16,12 @@ public:
     void ChangementIndiceBarre();
     void ChangementIndiceEntoure();
     void AfficherBlocNote(RenderWindow &window);
+    void clear();
 };
 
 class De{
 private:
     int valeur=rand()%NB_FACES_DE+1;
-    Sprite spriteFace[6];
     Texture textureFace[6];
     bool PeutLancerDe=true;
 public:

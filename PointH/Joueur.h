@@ -37,20 +37,15 @@ public:
     void InitialisationJoueur(cartePossible* choixJoueurCarte);
     void SupprimerJoueur(cartePossible* choixJoueurCarte);
     void choixPerso(cartePossible* choixJoueurCarte,int start);
-
-
     bool getjoueurJoue()const;
     int getEtatInscription()const;
     int getMemoire()const;
     bool getAfficherIdentifiant()const;
-
-
     void EcrireNom(RenderWindow& window,int t, string nomPerso,int x,int y,Color C);
     void AfficheID();
     void setEcritureMDP(bool A);
     int WinRate()const;
     Pion getPion();
-
     void ChangementPerso(cartePossible* choixJoueurCarte);
     void EcrireID(RenderWindow &window, int t, string Nom,int x,int y,bool protection);
     void ModifierTexteID(Event event);
@@ -60,7 +55,6 @@ public:
     void AjouterUnJoueur();
     void VerifierJoueurExistant();
     void PiocherCarte(Carte carte);
-
     //Affichage Menu 2
     void AffichagePictogramme(RenderWindow& window, int i);
     void AffichageCroix(RenderWindow& window,int i);
@@ -68,7 +62,6 @@ public:
     void AfficherCarteEnMain(RenderWindow& window);
     void AfficherCarteEnMainZoom(RenderWindow &window,int x,int y, int l, int h,int i);
     void setPion(int x0,int y0);
-    void Afficherpion(RenderWindow &window);
     void BarrePremierCarte();
     BlocNote getBlocnote();
     void changementBlocNoteBarre();

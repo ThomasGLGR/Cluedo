@@ -26,6 +26,7 @@ public:
     int getMenuEncours();
     void VerificationAccusation(Carte* enveloppe);
     bool getVictoire();
+    void clearProposition();
 };
 
 

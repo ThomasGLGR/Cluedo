@@ -224,3 +224,7 @@ void Proposition::VerificationAccusation(Carte* enveloppe) {
     }
 }
 
+void Proposition::clearProposition(){
+     etape=0;
+     victoire=false;
+}

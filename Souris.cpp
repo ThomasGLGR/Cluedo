@@ -262,11 +262,11 @@ switch (menu){
         }
         break;
     case 7: {
-        Bouton boutonSuivant(1750, 900, 150, 150, Color::Transparent);
+        Bouton boutonSuivant(1700, 900, 250, 250, Color::Transparent);
         if (boutonSuivant.Clic(0) != ERREUR) {
             joueur[tour].AjouterUnePartie(true);
-            menu = 1;
             End = true;
+            menu = 1;
         }
     }
         break;

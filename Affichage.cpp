@@ -69,7 +69,7 @@ void AffichageMenu(Sprite fondMenu[], int menu, RenderWindow& window, Joueur* jo
                     }
             }
             for (int i = 0; i < nbJ; ++i) {
-                joueur[i].Afficherpion(window);
+                joueur[i].getPion().AfficherPion(window);
                 if (i<3){
                     joueur[i].AfficherJoueurEnCours(window,50,200*i+50);
                  }else{

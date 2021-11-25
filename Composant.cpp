@@ -8,11 +8,12 @@ void De::InitialisationDe() {
     }
 }
 void De::AfficherDe(RenderWindow &window,int x,int y,int l,int h){
+    Sprite spriteFace;
     Vector2f targetSize(l, h);
-    spriteFace[valeur-1].setTexture(textureFace[valeur-1]);
-    spriteFace[valeur-1].setScale(targetSize.x / spriteFace[valeur-1].getLocalBounds().width,targetSize.y / spriteFace[valeur-1].getLocalBounds().height);
-    spriteFace[valeur-1].setPosition(x,y);
-    window.draw(spriteFace[valeur-1]);
+    spriteFace.setTexture(textureFace[valeur-1]);
+    spriteFace.setScale(targetSize.x / spriteFace.getLocalBounds().width,targetSize.y / spriteFace.getLocalBounds().height);
+    spriteFace.setPosition(x,y);
+    window.draw(spriteFace);
 }
 
 void De::LancerDe(int& Somme) {
@@ -284,6 +285,14 @@ void BlocNote::ChangementIndiceEntoure() {
                 }
             }
         }
+    }
+}
+
+
+void BlocNote::clear() {
+    for (int i = 0; i < NB_CARTE; ++i) {
+        barre[i]=false;
+        entoure[i]= false;
     }
 }
 

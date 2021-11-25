@@ -13,6 +13,7 @@ int main()
     InitialisationSprite(fondMenu,texture);
 
     Carte carte[NB_CARTE];
+    Carte carteCopy[NB_CARTE];
     Carte enveloppe[3];
     cartePossible choixJoueurCarte[NB_PERSO];
     Proposition proposition;
@@ -28,29 +29,42 @@ int main()
     bool MontrerProposition = false;
     bool End = true;
 
-    InitialisationCarte(carte, choixJoueurCarte);
-    proposition.InitialisationProposition(carte);
-    InitialisationPlateau(plateau);
     de[0].InitialisationDe();
     de[1].InitialisationDe();
-    regleDuJeu.InitialisationRegle();
+    InitialisationPlateau(plateau);
+    InitialisationCarte(carte);
+    for (int i = 0; i < NB_CARTE; ++i) {
+        carteCopy[i]=carte[i];
+    }
 
-        while (window.isOpen()) {
+    while (window.isOpen()) {
             Event event;
-            while (window.waitEvent(event)) {
+            while (window.pollEvent(event)) {
                 if (End) {
-                    MelangerCarte(carte);
-                    InitialisationEnveloppe(enveloppe, carte);
-
-                    cout<<"-------------Solution----------------"<<endl;
-                    for (int i = 0; i < 3; ++i) {
-                        cout<<enveloppe[i].getNom()<<endl;
+                    for (int i = 0; i < NB_CARTE; ++i) {
+                        carte[i]=carteCopy[i];
                     }
-                    cout<<"-------------------------------------"<<endl;
+                    InitialisationCartePossible(carte,choixJoueurCarte);
+                    for (auto & i : joueur) {
+                        i.clearJoueur();
+                    }
 
                     joueur[0].InitialisationJoueur(choixJoueurCarte);
                     joueur[1].InitialisationJoueur(choixJoueurCarte);
 
+                    proposition.InitialisationProposition(carte);
+                    regleDuJeu.InitialisationRegle();
+
+                    MelangerCarte(carte);
+                    InitialisationEnveloppe(enveloppe, carte);
+
+
+                    proposition.clearProposition();
+                    cout<<"-------------Solution----------------"<<endl;
+                    for (auto & i : enveloppe) {
+                        cout<<i.getNom()<<endl;
+                    }
+                    cout<<"-------------------------------------"<<endl;
                     nbJoueurs = 0;
                     SommeDesDes = 0;
                     tour = 0;

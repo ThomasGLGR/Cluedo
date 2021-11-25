@@ -41,10 +41,11 @@ void cartePossible::setCarte(Carte C){
     textureCarte=C.getTexture();
     nomCarte=C.getNom();
     RGBText=C.getRGB();
+    utilise=false;
 }
 
 
-void InitialisationCarte(Carte carte[NB_CARTE], cartePossible choixJoueurCarte[]){
+void InitialisationCarte(Carte carte[NB_CARTE]){
     ifstream fichierTexte("../PointTXT/InitialisationNomCarte.txt");
     for (int i = 0; i < NB_CARTE; ++i) {
         if (i<NB_PERSO) {
@@ -58,7 +59,6 @@ void InitialisationCarte(Carte carte[NB_CARTE], cartePossible choixJoueurCarte[]
 
     for (int i = 0; i < NB_PERSO; ++i) {
         carte[i].Couleur(fichierTexte);
-        choixJoueurCarte[i].setCarte(carte[i]);
     }
     fichierTexte.close();
 }
@@ -95,5 +95,11 @@ void Carte::RemplirEnveloppe(Carte* carte,int type){
               carte[i].setCarte(carte[NB_CARTE-type-1]);
               stop=true;
         }
+    }
+}
+
+void InitialisationCartePossible(Carte carte[NB_CARTE], cartePossible choixJoueurCarte[]){
+    for (int i = 0; i < NB_PERSO; ++i) {
+        choixJoueurCarte[i].setCarte(carte[i]);
     }
 }

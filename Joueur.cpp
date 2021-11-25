@@ -315,9 +315,6 @@ void Joueur::AfficherCarteEnMain(RenderWindow& window) {
 void Joueur::setPion(int x0,int y0) {
     pion.InitPion(avatar.getRGB(),x0,y0);
 }
-void Joueur::Afficherpion(RenderWindow &window) {
-    pion.AfficherPion(window);
-}
 
 Pion Joueur::getPion() {
     return pion;
@@ -458,6 +455,18 @@ bool Joueur::getHorsJeu() {
 
 void Joueur::clearJoueur() {
     Deck.clear();
+    etatInscription=Debut;
+    blocnote.clear();
+    identifiant="\0";
+    mdp="\0";
+    memoire=ERREUR;
+    joueurJoue = false;
+    enCourdeModif=false;
+    messageErreur=false;
+    AfficherIdentifiant = false;
+    ecritureMDP = false;
+    AfficherProposition=false;
+    HorsJeu=false;
 }
 
 void Joueur::AjouterUnePartie(bool A) {
