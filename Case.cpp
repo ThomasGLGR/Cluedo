@@ -22,7 +22,7 @@ int Case::getTypedeCase() {
     return typedeCase;
 }
 void InitialisationPlateau(Case plateau[NB_CASE_HAUTEUR][NB_CASE_LARGEUR]){
-    ifstream fichierTexte("../PointTXT/InitialisationMap.txt");
+    std::ifstream fichierTexte("../PointTXT/InitialisationMap.txt");
     for (int i = 0; i < NB_CASE_HAUTEUR; ++i) {
         for (int j = 0; j < NB_CASE_LARGEUR; ++j) {
             char c;
@@ -43,10 +43,10 @@ void Case::setDeplacementPossible(bool b) {
     }
 }
 
-void Case::drawRectangle(RenderWindow &window) {
+void Case::drawRectangle(sf::RenderWindow &window) {
     if (deplacementPossible) {
-        RectangleShape rectangle(Vector2f(LONGEUR_CASE, LONGEUR_CASE));
-        rectangle.setFillColor(Color(80, 250, 50, 90));
+        sf::RectangleShape rectangle(sf::Vector2f(LONGEUR_CASE, LONGEUR_CASE));
+        rectangle.setFillColor(sf::Color(80, 250, 50, 90));
         rectangle.setOutlineThickness(1.f);
         rectangle.setPosition(x, y);
         window.draw(rectangle);

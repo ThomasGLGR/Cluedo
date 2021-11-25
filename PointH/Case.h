@@ -19,7 +19,7 @@ public:
     int getTypedeCase();
     int getX();
     int getY();
-    void drawRectangle(RenderWindow &window);
+    void drawRectangle(sf::RenderWindow &window);
     void setDeplacementPossible(bool b);
     bool getDeplacementPossible();
 };

@@ -1,17 +1,17 @@
 #include "PointH/RegleDuJeu.h"
 
 void RegleDuJeu::InitialisationRegle() {
-    ifstream fichierTexte("../PointTXT/Regle.txt");
-    string temp=" ";
+    std::ifstream fichierTexte("../PointTXT/Regle.txt");
+    std::string temp=" ";
     while (getline(fichierTexte, temp)) {
         textRegle.push_back(temp);
     }
 }
 
-void RegleDuJeu::AfficherTexte(RenderWindow &window) {
-    Font font;
+void RegleDuJeu::AfficherTexte(sf::RenderWindow &window) {
+    sf::Font font;
     font.loadFromFile("../font/Lato-Regular.ttf");
-    Text text[textRegle.size()];
+    sf::Text text[textRegle.size()];
 
     for (int i = 0; i < textRegle.size(); ++i) {
         text[i].setFont(font);

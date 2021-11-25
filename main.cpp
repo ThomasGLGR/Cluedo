@@ -3,15 +3,15 @@
 int main()
 {
 
-    RenderWindow window;
-    window.create(VideoMode(LARGEUR_ECRAN, HAUTEUR_ECRAN), "Cluedo",Style::Fullscreen);
-    window.setPosition(Vector2i(0,0));
+    sf::RenderWindow window;
+    window.create(sf::VideoMode(LARGEUR_ECRAN, HAUTEUR_ECRAN), "Cluedo",sf::Style::Fullscreen);
+    window.setPosition(sf::Vector2i(0,0));
     window.setFramerateLimit(30);
 
-    Event event;
+    sf::Event event;
 
-    Sprite fondMenu[8];
-    Texture texture[8];
+    sf::Sprite fondMenu[8];
+    sf::Texture texture[8];
     InitialisationSprite(fondMenu,texture);
 
     Carte carte[NB_CARTE];
@@ -63,11 +63,11 @@ int main()
 
 
                 proposition.clearProposition();
-                cout<<"-------------Solution----------------"<<endl;
+                std::cout<<"-------------Solution----------------"<<std::endl;
                 for (auto & i : enveloppe) {
-                    cout<<i.getNom()<<endl;
+                    std::cout<<i.getNom()<<std::endl;
                 }
-                cout<<"-------------------------------------"<<endl;
+                std::cout<<"-------------------------------------"<<std::endl;
                 nbJoueurs = 0;
                 SommeDesDes = 0;
                 tour = 0;
@@ -75,28 +75,28 @@ int main()
                 End = false;
             }
             switch (event.type) {
-                        case Event::Closed:
+                        case sf::Event::Closed:
                             window.close();
                             break;
-                        case Event::TextEntered:
+                        case sf::Event::TextEntered:
                             ClavierTexte(menu, joueur, event);
                             break;
-                        case Event::KeyPressed:
+                        case sf::Event::KeyPressed:
                             Clavier(menu, joueur, event, window, End,parametre);
                             break;
-                        case Event::MouseButtonReleased:
+                        case sf::Event::MouseButtonReleased:
                             switch (event.mouseButton.button) {
-                                case Mouse::Right:
+                                case sf::Mouse::Right:
                                     ClicDroit(menu, joueur, tour);
                                     break;
-                                case Mouse::Left:
+                                case sf::Mouse::Left:
                                     ClicGauche(menu, joueur, choixJoueurCarte, nbJoueurs, carte, de, SommeDesDes,
                                                plateau,
                                                tour, proposition, MontrerProposition, enveloppe,End,parametre,window,carteCopy);
                                     break;
                             }
                             break;
-                        case Event::MouseWheelMoved:
+                        case sf::Event::MouseWheelMoved:
                             SourisMolette(menu, event, regleDuJeu);
                             break;
                     }

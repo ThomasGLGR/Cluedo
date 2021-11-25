@@ -2,24 +2,24 @@
 
 #include <utility>
 
-void Carte::InitCarte(ifstream& fichierTexte, int Type, int x, int y, int l, int L){
+void Carte::InitCarte(std::ifstream& fichierTexte, int Type, int x, int y, int l, int L){
     getline(fichierTexte,nomCarte);
     typeCarte=Type;
-    textureCarte.loadFromFile("../Image/ListeCarte.jpg", IntRect(x, y, l, L));
+    textureCarte.loadFromFile("../Image/ListeCarte.jpg", sf::IntRect(x, y, l, L));
 }
-void Carte::Couleur(ifstream& fichierTexte){
+void Carte::Couleur(std::ifstream& fichierTexte){
     int R,G,B;
     fichierTexte >> R >> G >> B;
-    RGBText=Color(R,G,B);
+    RGBText=sf::Color(R,G,B);
 }
 
-string Carte::getNom(){
+std::string Carte::getNom(){
     return nomCarte;
 }
 
 Carte::Carte() {}
 
-Carte::Carte(const Texture& textureCarte0,string nomCarte0,int typeCarte0,Color RGBText0) {
+Carte::Carte(const sf::Texture& textureCarte0,std::string nomCarte0,int typeCarte0,sf::Color RGBText0) {
     textureCarte=textureCarte0;
     nomCarte=move(nomCarte0);
     typeCarte=typeCarte0;
@@ -27,7 +27,7 @@ Carte::Carte(const Texture& textureCarte0,string nomCarte0,int typeCarte0,Color 
 }
 
 
-Texture Carte::getTexture(){
+sf::Texture Carte::getTexture(){
     return textureCarte;
 }
 Carte cartePossible::getCarte(){
@@ -35,7 +35,7 @@ Carte cartePossible::getCarte(){
     Carte C(textureCarte,nomCarte,typeCarte,RGBText);
     return C;
 }
-Color Carte::getRGB() {
+sf::Color Carte::getRGB() {
     return RGBText;
 }
 
@@ -48,7 +48,7 @@ void cartePossible::setCarte(Carte C){
 
 
 void InitialisationCarte(Carte carte[NB_CARTE]){
-    ifstream fichierTexte("../PointTXT/InitialisationNomCarte.txt");
+    std::ifstream fichierTexte("../PointTXT/InitialisationNomCarte.txt");
     for (int i = 0; i < NB_CARTE; ++i) {
         if (i<NB_PERSO) {
             carte[i].InitCarte(fichierTexte,Perso,i*LARGEUR_CARTE,0,LARGEUR_CARTE,HAUTEUR_CARTE);
@@ -73,9 +73,9 @@ bool cartePossible::getUtilise() {
 }
 
 
-void Carte::dessinerCarte(RenderWindow &window, int x, int y, int l, int h) {
-    Sprite spriteCarte;
-    Vector2f targetSize(l, h);
+void Carte::dessinerCarte(sf::RenderWindow &window, int x, int y, int l, int h) {
+    sf::Sprite spriteCarte;
+    sf::Vector2f targetSize(l, h);
     spriteCarte.setTexture(textureCarte);
     spriteCarte.setScale(targetSize.x / spriteCarte.getLocalBounds().width,targetSize.y / spriteCarte.getLocalBounds().height);
     spriteCarte.setPosition(x,y);
@@ -100,7 +100,7 @@ void Carte::RemplirEnveloppe(Carte* carte,int type){
     }
 }
 
-void Carte::setCarteDepuisString(string S,Carte carte[NB_CARTE]) {
+void Carte::setCarteDepuisString(std::string S,Carte carte[NB_CARTE]) {
 nomCarte=move(S);
     for (int i = 0; i < NB_CARTE; ++i) {
         if (nomCarte==carte[i].getNom()){

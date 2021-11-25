@@ -4,11 +4,11 @@
 
 class RegleDuJeu {
 private:
-    vector<string> textRegle;
+    std::vector<std::string> textRegle;
     int scroll=0;
 public:
     void InitialisationRegle();
-    void AfficherTexte(RenderWindow& window);
+    void AfficherTexte(sf::RenderWindow& window);
     void setScroll(int a);
 };
 

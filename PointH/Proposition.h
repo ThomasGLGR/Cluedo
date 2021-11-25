@@ -18,9 +18,9 @@ public:
     void InitialisationProposition(Carte* carte);
     void InitialisationSalle(int i, int j);
     void InitialisationMenu(int m);
-    void AfficherProposition(RenderWindow& window);
-    void AfficherCarteAChoisir(RenderWindow& window);
-    void EcrireNom(RenderWindow &window, int t, string nom, int x, int y,Color C);
+    void AfficherProposition(sf::RenderWindow& window);
+    void AfficherCarteAChoisir(sf::RenderWindow& window);
+    void EcrireNom(sf::RenderWindow &window, int t, std::string nom, int x, int y,sf::Color C);
     void ChoisiLaPropositon(bool& MontrerProposition,Carte* enveloppe);
     Carte* getAccusation();
     int getMenuEncours();

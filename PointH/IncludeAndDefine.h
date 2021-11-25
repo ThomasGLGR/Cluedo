@@ -3,9 +3,9 @@
 
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
-#include <SFML/Network.hpp>
 #include <SFML/Audio.hpp>
 #include <SFML/Window.hpp>
+#include <SFML/Network.hpp>
 #include <iostream>
 #include <fstream>
 #include <ctime>
@@ -21,7 +21,7 @@
 #define NB_ARMES 10
 #define NB_SALLE 9
 #define NB_JOUEURS 6
-#define ROUGE_MENU Color(238, 29, 33)
+#define ROUGE_MENU sf::Color(238, 29, 33)
 #define ERREUR -1
 #define NB_CASE_LARGEUR 20
 #define NB_CASE_HAUTEUR 28
@@ -33,8 +33,5 @@
 #define NB_FACES_DE 6
 #define DEBUT_PROPOSION_X 416
 #define DEBUT_PROPOSION_Y 500
-using namespace std;
-using namespace sf;
-
 
 #endif

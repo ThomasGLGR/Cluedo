@@ -3,13 +3,13 @@
 
 void De::InitialisationDe() {
     for (int i = 0; i < NB_FACES_DE; ++i) {
-        textureFace[i].loadFromFile("../Image/Dice.png",IntRect(320*i,320,320,312));
+        textureFace[i].loadFromFile("../Image/Dice.png",sf::IntRect(320*i,320,320,312));
         textureFace[i].setSmooth(true);
     }
 }
-void De::AfficherDe(RenderWindow &window,int x,int y,int l,int h){
-    Sprite spriteFace;
-    Vector2f targetSize(l, h);
+void De::AfficherDe(sf::RenderWindow &window,int x,int y,int l,int h){
+    sf::Sprite spriteFace;
+    sf::Vector2f targetSize(l, h);
     spriteFace.setTexture(textureFace[valeur-1]);
     spriteFace.setScale(targetSize.x / spriteFace.getLocalBounds().width,targetSize.y / spriteFace.getLocalBounds().height);
     spriteFace.setPosition(x,y);
@@ -28,13 +28,13 @@ bool De::getPeutLancerDe() {
     return PeutLancerDe;
 }
 
-void Pion::InitPion(Color C,int x0,int y0){
+void Pion::InitPion(sf::Color C,int x0,int y0){
     colorPion=C;
     texturePion.loadFromFile("../Image/pawn.png");
     setCoordsPion(x0,y0);
 }
 
-void Pion::AfficherPion(RenderWindow& window) {
+void Pion::AfficherPion(sf::RenderWindow& window) {
     spritePion.setTexture(texturePion);
     spritePion.setColor(colorPion);
     spritePion.setPosition(x,y);
@@ -45,7 +45,7 @@ void Pion::setCoordsPion(int x0, int y0) {
     y=y0;
 }
 
-void ReturnPorte(int i1,int j1,int i2,int j2,int i3,int j3,vector<int>* TabPorteI,vector<int>* TabPorteJ){
+void ReturnPorte(int i1,int j1,int i2,int j2,int i3,int j3,std::vector<int>* TabPorteI,std::vector<int>* TabPorteJ){
     if (i1==i2 && j1==j2){
         TabPorteI->push_back({i3});
         TabPorteJ->push_back({j3});
@@ -56,7 +56,7 @@ void ReturnPorte(int i1,int j1,int i2,int j2,int i3,int j3,vector<int>* TabPorte
     }
 }
 
-void VerifPorte(int i, int j,vector<int>* TabPorteI,vector<int>* TabPorteJ){
+void VerifPorte(int i, int j,std::vector<int>* TabPorteI,std::vector<int>* TabPorteJ){
     ReturnPorte(i,j,22,15,23,13,TabPorteI,TabPorteJ);
     ReturnPorte(i,j,7,1,13,4,TabPorteI,TabPorteJ);
     ReturnPorte(i,j,8,8,8,11,TabPorteI,TabPorteJ);
@@ -118,7 +118,7 @@ void VerifAutour(Case plateau[NB_CASE_HAUTEUR][NB_CASE_LARGEUR],int I, int J,int
 void Pion::DeplacementPion(Case plateau[NB_CASE_HAUTEUR][NB_CASE_LARGEUR],int ValeurDe,bool verif) {
 
     int CopieDe=ValeurDe;
-    vector<int> TabPorteI,TabPorteJ;
+    std::vector<int> TabPorteI,TabPorteJ;
     for (int i = 0; i < NB_CASE_HAUTEUR; ++i) {
         for (int j = 0; j < NB_CASE_LARGEUR; ++j) {
             if (plateau[i][j].getX() == x && plateau[i][j].getY() == y) {
@@ -135,7 +135,7 @@ void Pion::DeplacementPion(Case plateau[NB_CASE_HAUTEUR][NB_CASE_LARGEUR],int Va
     }
 }
 
-void Pion::sauvegardePion(ofstream& fichierTexte){
+void Pion::sauvegardePion(std::ofstream& fichierTexte){
     fichierTexte<<x<<","<<y<<",";
 }
 
@@ -149,7 +149,7 @@ PeutLancerDe=A;
 
 
 void BlocNote::InitialisationBlocNote() {
-    ifstream fichierTexte("../PointTXT/InitialisationNomCarte.txt");
+    std::ifstream fichierTexte("../PointTXT/InitialisationNomCarte.txt");
     for (int i = 0; i < NB_CARTE; ++i) {
         barre[i]=false;
         entoure[i]=false;
@@ -158,7 +158,7 @@ void BlocNote::InitialisationBlocNote() {
     fichierTexte.close();
 }
 
-void BlocNote::BarrePremierJoueur(vector <Carte> Deck) {
+void BlocNote::BarrePremierJoueur(std::vector <Carte> Deck) {
     for (int j = 0; j < NB_CARTE; ++j) {
         for (int i = 0; i < Deck.size(); ++i) {
             if (Deck[i].getNom()==nomDeCartes[j]){
@@ -168,18 +168,18 @@ void BlocNote::BarrePremierJoueur(vector <Carte> Deck) {
     }
 }
 
-void BlocNote::AfficherBlocNote(RenderWindow &window) {
-    Texture textureLine;
+void BlocNote::AfficherBlocNote(sf::RenderWindow &window) {
+    sf::Texture textureLine;
     textureLine.loadFromFile("../Image/redline.png");
-    Sprite spriteLine;
-    Vector2f targetSizeL(300, 18);
+    sf::Sprite spriteLine;
+    sf::Vector2f targetSizeL(300, 18);
     spriteLine.setTexture(textureLine);
     spriteLine.setScale(targetSizeL.x / spriteLine.getLocalBounds().width, targetSizeL.y / spriteLine.getLocalBounds().height);
 
-    Texture textureCircle;
+    sf::Texture textureCircle;
     textureCircle.loadFromFile("../Image/Circle.png");
-    Sprite spriteCircle;
-    Vector2f targetSizeC(300, 23);
+    sf::Sprite spriteCircle;
+    sf::Vector2f targetSizeC(300, 23);
     spriteCircle.setTexture(textureCircle);
     spriteCircle.setScale(targetSizeC.x / spriteLine.getLocalBounds().width, targetSizeC.y / spriteLine.getLocalBounds().height);
 
@@ -216,7 +216,7 @@ void BlocNote::ChangementIndiceBarre() {
     for (int i = 0; i < NB_CARTE; ++i) {
         if (!stop) {
             if (i < NB_PERSO) {
-                Bouton bouton(DEBUT_BLOCNOTE_X, DEBUT_BLOCNOTE_Y + 18 * i, 18, 300, Color::Transparent);
+                Bouton bouton(DEBUT_BLOCNOTE_X, DEBUT_BLOCNOTE_Y + 18 * i, 18, 300,sf::Color::Transparent);
                 temp = bouton.Clic(i);
                 if (temp!=ERREUR) {
                     barre[temp] = !barre[temp];
@@ -226,7 +226,7 @@ void BlocNote::ChangementIndiceBarre() {
                     stop = true;
                 }
             } else if (i < NB_PERSO+NB_ARMES) {
-                Bouton bouton(DEBUT_BLOCNOTE_X, DEBUT_BLOCNOTE_Y + 34 + 18 * i, 18, 300, Color::Transparent);
+                Bouton bouton(DEBUT_BLOCNOTE_X, DEBUT_BLOCNOTE_Y + 34 + 18 * i, 18, 300,sf::Color::Transparent);
                 temp = bouton.Clic(i);
                 if (temp!=ERREUR) {
                     barre[temp] = !barre[temp];
@@ -236,7 +236,7 @@ void BlocNote::ChangementIndiceBarre() {
                     stop = true;
                 }
             } else {
-                Bouton bouton(DEBUT_BLOCNOTE_X, DEBUT_BLOCNOTE_Y + 68 + 18 * i, 18, 300, Color::Transparent);
+                Bouton bouton(DEBUT_BLOCNOTE_X, DEBUT_BLOCNOTE_Y + 68 + 18 * i, 18, 300,sf::Color::Transparent);
                 temp = bouton.Clic(i);
                 if (temp!=ERREUR) {
                     barre[temp] = !barre[temp];
@@ -256,7 +256,7 @@ void BlocNote::ChangementIndiceEntoure() {
     for (int i = 0; i < NB_CARTE; ++i) {
         if (!stop) {
             if (i < NB_PERSO) {
-                Bouton bouton(DEBUT_BLOCNOTE_X, DEBUT_BLOCNOTE_Y + 18 * i, 18, 300, Color::Transparent);
+                Bouton bouton(DEBUT_BLOCNOTE_X, DEBUT_BLOCNOTE_Y + 18 * i, 18, 300,sf::Color::Transparent);
                 temp = bouton.Clic(i);
                 if (temp!=ERREUR) {
                     for (int j = 0; j < NB_PERSO; ++j) {
@@ -268,7 +268,7 @@ void BlocNote::ChangementIndiceEntoure() {
                     stop = true;
                 }
             } else if (i < NB_PERSO+NB_ARMES) {
-                Bouton bouton(DEBUT_BLOCNOTE_X, DEBUT_BLOCNOTE_Y + 34 + 18 * i, 18, 300, Color::Transparent);
+                Bouton bouton(DEBUT_BLOCNOTE_X, DEBUT_BLOCNOTE_Y + 34 + 18 * i, 18, 300,sf::Color::Transparent);
                 temp = bouton.Clic(i);
                 if (temp!=ERREUR) {
                     for (int j = NB_PERSO; j < NB_PERSO+NB_ARMES; ++j) {
@@ -280,7 +280,7 @@ void BlocNote::ChangementIndiceEntoure() {
                     stop = true;
                 }
             } else {
-                Bouton bouton(DEBUT_BLOCNOTE_X, DEBUT_BLOCNOTE_Y + 68 + 18 * i, 18, 300, Color::Transparent);
+                Bouton bouton(DEBUT_BLOCNOTE_X, DEBUT_BLOCNOTE_Y + 68 + 18 * i, 18, 300,sf::Color::Transparent);
                 temp = bouton.Clic(i);
                 if (temp!=ERREUR) {
                     for (int j = NB_PERSO+NB_ARMES; j < NB_CARTE; ++j) {
@@ -304,7 +304,7 @@ void BlocNote::clear() {
     }
 }
 
-void BlocNote::sauvegardeBlocNote(ofstream &fichierTexte) {
+void BlocNote::sauvegardeBlocNote(std::ofstream &fichierTexte) {
     int compte=0;
     for (int i = 0; i < NB_CARTE; ++i) {
         if  (barre[i]){

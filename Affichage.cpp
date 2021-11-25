@@ -1,20 +1,20 @@
 #include "PointH/AutresFonctions.h"
 
-void InitialisationSprite(Sprite fondMenu[],Texture* texture){
+void InitialisationSprite(sf::Sprite fondMenu[],sf::Texture* texture){
     for (int i = 0; i < 8; ++i) {
-        string filename="../Image/Menu2.jpg";
+        std::string filename="../Image/Menu2.jpg";
         filename[13]=i+48;
         if (i==4 || i==7){filename[13]='X';}
         texture[i].loadFromFile(filename);
         fondMenu[i].setTexture(texture[i]);
     }
 }
-void AfficherFleche(RenderWindow &window,int x,int y){
-    Sprite Sfleche;
-    Texture Tfleche;
+void AfficherFleche(sf::RenderWindow &window,int x,int y){
+    sf::Sprite Sfleche;
+    sf::Texture Tfleche;
     Tfleche.loadFromFile("../Image/next.png");
     Tfleche.setSmooth(true);
-    Vector2f targetSize(150, 150);
+    sf::Vector2f targetSize(150, 150);
    Sfleche.setTexture(Tfleche);
    Sfleche.setColor(ROUGE_MENU);
     Sfleche.setScale(targetSize.x / Sfleche.getLocalBounds().width,targetSize.y / Sfleche.getLocalBounds().height);
@@ -23,17 +23,17 @@ void AfficherFleche(RenderWindow &window,int x,int y){
 }
 
 
-void AffichageMenu(Sprite fondMenu[], int menu, RenderWindow& window, Joueur* joueur,De* de,int nbJ,Case plateau[NB_CASE_HAUTEUR][NB_CASE_LARGEUR],int tour,Proposition proposition,bool MontrerProposition,RegleDuJeu regleDuJeu){
+void AffichageMenu(sf::Sprite fondMenu[], int menu, sf::RenderWindow& window, Joueur* joueur,De* de,int nbJ,Case plateau[NB_CASE_HAUTEUR][NB_CASE_LARGEUR],int tour,Proposition proposition,bool MontrerProposition,RegleDuJeu regleDuJeu){
     if  (menu!=ERREUR){window.draw(fondMenu[menu]);}
     switch (menu) {
         case 0: {
-            Sprite spriteLogo;
-            Texture textureLogo;
+            sf::Sprite spriteLogo;
+            sf::Texture textureLogo;
             textureLogo.loadFromFile("../Image/Logo.png");
             textureLogo.setSmooth(true);
-            spriteLogo.setPosition(1080 - (960 - Mouse::getPosition().x) / 15,
-                                   600 - (540 - Mouse::getPosition().y) / 15);
-            Vector2f targetSize(1000, 500);
+            spriteLogo.setPosition(1080 - (960 - sf::Mouse::getPosition().x) / 15,
+                                   600 - (540 - sf::Mouse::getPosition().y) / 15);
+            sf::Vector2f targetSize(1000, 500);
             spriteLogo.setTexture(textureLogo);
             spriteLogo.setScale(targetSize.x / spriteLogo.getLocalBounds().width,
                                 targetSize.y / spriteLogo.getLocalBounds().height);

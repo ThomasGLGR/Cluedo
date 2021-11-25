@@ -10,24 +10,25 @@ class Carte{
 private:
 protected:
 
-    Texture textureCarte;
-    string nomCarte;
+    sf::Texture textureCarte;
+    std::string nomCarte;
     int typeCarte;
-    Color RGBText=Color::White;
-
+    sf::Color RGBText=sf::Color::White;
 public:
-    void InitCarte(ifstream& fichierTexte,int Type,int x,int y,int l, int L);
-    void dessinerCarte(RenderWindow& window,int x,int y,int l,int h);
-    void Couleur(ifstream& fichierTexte);
-
     Carte();
-    Carte(const Texture& textureCarte0,string nomCarte0,int typeCarte0,Color RGBText0);
-    Color getRGB();
-    string getNom();
-    Texture getTexture();
+    Carte(const sf::Texture& textureCarte0,std::string nomCarte0,int typeCarte0,sf::Color RGBText0);
+
+    void InitCarte(std::ifstream& fichierTexte,int Type,int x,int y,int l, int L);
+    void dessinerCarte(sf::RenderWindow& window,int x,int y,int l,int h);
+    void Couleur(std::ifstream& fichierTexte);
+
+    sf::Color getRGB();
+    std:: string getNom();
+    sf::Texture getTexture();
+
     void RemplirEnveloppe(Carte* carte,int type);
+    void setCarteDepuisString(std::string S,Carte carte[NB_CARTE]);
     virtual void setCarte(Carte C);
-    void setCarteDepuisString(string S,Carte carte[NB_CARTE]);
 };
 
 
@@ -38,7 +39,7 @@ public:
     void changement();
     bool getUtilise();
     Carte getCarte();
-    void setCarte(Carte C);
+    void setCarte(Carte C) override;
 };
 
 #endif

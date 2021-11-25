@@ -4,7 +4,7 @@
 
 void PassageMenu5(int& menu, Joueur* joueur,int& nbJoueurs,Carte* carte,Case plateau[NB_CASE_HAUTEUR][NB_CASE_LARGEUR]){
     bool valide=true;
-    Bouton boutonMenuSuivant{1770, 920, 130, 130, Color::Transparent};
+    Bouton boutonMenuSuivant{1770, 920, 130, 130, sf::Color::Transparent};
     for (int i = 0; i < 6; ++i) {
         if (joueur[i].getjoueurJoue()) {
             if (joueur[i].getEtatInscription() != Pret) {
@@ -36,7 +36,7 @@ int EnsembleBouton(int x, int y, int h, int l, bool b, int s, Joueur* joueur, bo
             A=joueur[i].getAfficherIdentifiant();
         }
         if (A==b && !stop){
-            Bouton bouton{320 * i + x, y, h, l, Color::Transparent};
+            Bouton bouton{320 * i + x, y, h, l, sf::Color::Transparent};
             temp=bouton.Clic(i);
             if (temp==i){
                 stop=true;
@@ -59,7 +59,7 @@ void BoutonInscription(Joueur* joueur,int& I,int& J){
     for (int j = 0; j < 2; ++j) {
         for (int i = 0; i < 6; ++i) {
             if (joueur[i].getjoueurJoue() && !stop) {
-                Bouton bouton{320 * i + 176 * j + 20, 225, 75, 90, Color::Transparent};
+                Bouton bouton{320 * i + 176 * j + 20, 225, 75, 90, sf::Color::Transparent};
                 I= bouton.Clic(i);
                 J= bouton.Clic(j);
                 if (I==i){
@@ -75,7 +75,7 @@ void BoutonIdentifiant(Joueur* joueur, int& I, int& J){
     for (int j = 0; j < 2; ++j) {
         for (int i = 0; i < 6; ++i) {
             if (joueur[i].getAfficherIdentifiant() && !stop6) {
-                Bouton boutonChoix{320 * i + 30, 415 + 160 * j, 45, 260,  Color::Transparent};
+                Bouton boutonChoix{320 * i + 30, 415 + 160 * j, 45, 260,  sf::Color::Transparent};
                 I = boutonChoix.Clic(i);
                 J = boutonChoix.Clic(j);
                 if (I == i && J == j) {
@@ -86,7 +86,7 @@ void BoutonIdentifiant(Joueur* joueur, int& I, int& J){
     }
 }
 
-void ClicGauche(int& menu, Joueur* joueur, cartePossible choixJoueurCarte[],int& nbJoueurs,Carte* carte,De de[2],int& SommeDesDes, Case plateau[NB_CASE_HAUTEUR][NB_CASE_LARGEUR],int& tour,Proposition& proposition,bool& MontrerProposition,Carte* enveloppe,bool& End,Parametre& parametre,RenderWindow& window,Carte copyCarte[NB_CARTE]){
+void ClicGauche(int& menu, Joueur* joueur, cartePossible choixJoueurCarte[],int& nbJoueurs,Carte* carte,De de[2],int& SommeDesDes, Case plateau[NB_CASE_HAUTEUR][NB_CASE_LARGEUR],int& tour,Proposition& proposition,bool& MontrerProposition,Carte* enveloppe,bool& End,Parametre& parametre,sf::RenderWindow& window,Carte copyCarte[NB_CARTE]){
 switch (menu){
     case 0:
         menu=1;
@@ -103,7 +103,6 @@ switch (menu){
                         break;
                     case 1:
                         Parametre::ChargerPartie(joueur,tour,nbJoueurs,enveloppe,copyCarte);
-                        cout<<tour<<endl<<nbJoueurs<<endl<<enveloppe[0].getNom()<<endl;
                         menu=5;
                         stop= true;
                         break;
@@ -166,8 +165,30 @@ switch (menu){
         }
     }
         break;
+    case 3: {
+        bool stop = false;
+        for (int i = 0; i < 3; ++i) {
+            if (!stop) {
+                Bouton boutonOption{550, 260 + 210 * i, 100, 820, ROUGE_MENU};
+                if (boutonOption.Clic(i)==0){
+                    menu=parametre.getmenuMemoire();
+                    stop = true;
+                }
+                if (boutonOption.Clic(i)==1){
+                    menu=4;
+                    stop = true;
+                }
+                if (boutonOption.Clic(i)==2){
+                    parametre.sauvegarder(joueur,tour,nbJoueurs,enveloppe);
+                    window.close();
+                }
+
+            }
+        }
+    }
+        break;
     case 4:{
-        Bouton boutonSuivant(1750,900,150,150,Color::Transparent);
+        Bouton boutonSuivant(1750,900,150,150,sf::Color::Transparent);
         if(boutonSuivant.Clic(0)!=ERREUR){
             menu=parametre.getmenuMemoire();
         }
@@ -177,8 +198,9 @@ switch (menu){
         joueur[tour].changementBlocNoteBarre();
         SommeDesDes = 0;
         int stopDe = ERREUR;
+
         if  (!MontrerProposition){
-        Bouton boutonLancerDe{1500, 800, 150, 315, Color::Transparent};
+        Bouton boutonLancerDe{1500, 800, 150, 315,sf::Color::Transparent};
         stopDe = boutonLancerDe.Clic(1);
         if (stopDe != ERREUR) {
            for (int i = 0; i < 2; ++i) {de[i].LancerDe(SommeDesDes);}
@@ -187,7 +209,7 @@ switch (menu){
             stopDe = ERREUR;
         }
         }else{
-            Bouton boutonSuivant(1750,900,150,150,Color::Transparent);
+            Bouton boutonSuivant(1750,900,150,150,sf::Color::Transparent);
             if(boutonSuivant.Clic(0)!=ERREUR){
                 for (int i = 0; i < nbJoueurs; ++i) {
                     joueur[i].SupprimerAfficherProposition();
@@ -204,17 +226,17 @@ switch (menu){
         bool actualise = false;
         for (int i = 0; i < NB_CASE_HAUTEUR; ++i) {
             for (int j = 0; j < NB_CASE_LARGEUR; ++j) {
-                if ((Mouse::getPosition().x > DEBUT_PLATEAU_X + j * LONGEUR_CASE) &&
-                    (Mouse::getPosition().x < DEBUT_PLATEAU_X + j * LONGEUR_CASE + LONGEUR_CASE) &&
-                    (Mouse::getPosition().y > DEBUT_PLATEAU_Y + i * LONGEUR_CASE) &&
-                    (Mouse::getPosition().y < DEBUT_PLATEAU_Y + i * LONGEUR_CASE + LONGEUR_CASE)) {
+                if ((sf::Mouse::getPosition().x > DEBUT_PLATEAU_X + j * LONGEUR_CASE) &&
+                    (sf::Mouse::getPosition().x < DEBUT_PLATEAU_X + j * LONGEUR_CASE + LONGEUR_CASE) &&
+                    (sf::Mouse::getPosition().y > DEBUT_PLATEAU_Y + i * LONGEUR_CASE) &&
+                    (sf::Mouse::getPosition().y < DEBUT_PLATEAU_Y + i * LONGEUR_CASE + LONGEUR_CASE)) {
                     if (plateau[i][j].getDeplacementPossible()) {
                         joueur[tour].setPion(DEBUT_PLATEAU_X + j * LONGEUR_CASE, DEBUT_PLATEAU_Y + i * LONGEUR_CASE);
                         if (plateau[i][j].getTypedeCase() == Salle) {
                             proposition.InitialisationSalle(i, j);
                             proposition.InitialisationMenu(menu);
-                            menu = 6;
                             actualise = true;
+                            menu = 6;
                         } else {
                             tour = (tour + 1) % nbJoueurs;
                             for (int k = 0; k < 2; ++k) {
@@ -248,8 +270,8 @@ switch (menu){
             stopJeu--;
         }
         if (stopJeu==ERREUR){
-            menu=1;
             End=true;
+            menu=1;
         }
     }
     break;
@@ -276,33 +298,11 @@ switch (menu){
         }
         break;
     case 7: {
-        Bouton boutonSuivant(1700, 900, 250, 250, Color::Transparent);
+        Bouton boutonSuivant(1700, 900, 250, 250,sf::Color::Transparent);
         if (boutonSuivant.Clic(0) != ERREUR) {
             joueur[tour].AjouterUnePartie(true);
             End = true;
             menu = 1;
-        }
-    }
-        break;
-    case 3: {
-        bool stop = false;
-        for (int i = 0; i < 3; ++i) {
-            if (!stop) {
-                Bouton boutonOption{550, 260 + 210 * i, 100, 820, ROUGE_MENU};
-                    if (boutonOption.Clic(i)==0){
-                        menu=parametre.getmenuMemoire();
-                        stop = true;
-                    }
-                    if (boutonOption.Clic(i)==1){
-                        menu=4;
-                        stop = true;
-                    }
-                    if (boutonOption.Clic(i)==2){
-                        parametre.sauvegarder(joueur,tour,nbJoueurs,enveloppe);
-                        window.close();
-                    }
-
-            }
         }
     }
         break;
@@ -316,7 +316,7 @@ void ClicDroit(int menu,Joueur* joueur,int tour) {
     }
 }
 
-void SourisMolette(int menu,Event& event,RegleDuJeu& regleDuJeu) {
+void SourisMolette(int menu,sf::Event& event,RegleDuJeu& regleDuJeu) {
     if (menu == 4) {
         regleDuJeu.setScroll(20*event.mouseWheel.delta);
     }

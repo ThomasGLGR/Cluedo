@@ -2,16 +2,16 @@
 #include "PointH/Bouton.h"
 
 int Bouton::Clic(int variable) {
-    if (Mouse::getPosition().x> x && Mouse::getPosition().x< x + l && Mouse::getPosition().y > y && Mouse::getPosition().y < y + h) {
+    if (sf::Mouse::getPosition().x> x && sf::Mouse::getPosition().x< x + l && sf::Mouse::getPosition().y > y && sf::Mouse::getPosition().y < y + h) {
         return variable;
     }
     return ERREUR;
 }
 
-void Bouton::DessinerRectangle(RenderWindow& window,float line) {
-    if (Mouse::getPosition().x> x && Mouse::getPosition().x< x + l && Mouse::getPosition().y > y && Mouse::getPosition().y < y + h) {
-        RectangleShape rectangle(Vector2f(l, h));
-        rectangle.setFillColor(Color::Transparent);
+void Bouton::DessinerRectangle(sf::RenderWindow& window,float line) {
+    if (sf::Mouse::getPosition().x> x && sf::Mouse::getPosition().x< x + l && sf::Mouse::getPosition().y > y && sf::Mouse::getPosition().y < y + h) {
+        sf::RectangleShape rectangle(sf::Vector2f(l, h));
+        rectangle.setFillColor(sf::Color::Transparent);
         rectangle.setOutlineThickness(line);
         rectangle.setOutlineColor(couleur);
         rectangle.setPosition(x, y);
@@ -19,7 +19,7 @@ void Bouton::DessinerRectangle(RenderWindow& window,float line) {
     }
 }
 
-Bouton::Bouton(int x0, int y0, int h0, int l0, Color couleur0){
+Bouton::Bouton(int x0, int y0, int h0, int l0, sf::Color couleur0){
     x=x0;
     y=y0;
     h=h0;
