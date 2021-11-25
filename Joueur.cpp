@@ -175,7 +175,6 @@ void Joueur::VerifierJoueurExistant() {
                 c = ';';
             }
         }
-
         fichierTexte.close();
         int idValide = 0;
         for (int j = 0; j < compteur; ++j) {
@@ -340,8 +339,14 @@ void Joueur::changementBlocNoteEntoure() {
 }
 
 void Joueur::AfficherJoueurEnCours(RenderWindow &window, int x, int y) {
-avatar.dessinerCarte(window,x,y,100,160);
-EcrireNom(window,23,identifiant,x+50,y-30,avatar.getRGB());
+    avatar.dessinerCarte(window, x, y, 100, 160);
+    EcrireNom(window, 23, identifiant, x + 50, y - 30, avatar.getRGB());
+    if  (HorsJeu){
+        RectangleShape rectangle(Vector2f(100, 160));
+        rectangle.setFillColor(Color(255,0,0,130));
+        rectangle.setPosition(x, y);
+        window.draw(rectangle);
+    }
 }
 
 void Joueur::AfficherFlecheJoueurEnCours(RenderWindow &window,int x,int y) {
@@ -399,6 +404,8 @@ bool Joueur::getAfficherProposition(){
 
 void Joueur::AfficheEcranVictoire(RenderWindow &window) {
     avatar.dessinerCarte(window,815,300,227,367);
+
+
     Sprite spriteEcrandeVictoire;
     Texture textureEcrandeVictoire;
     Image I;
@@ -440,6 +447,59 @@ void Joueur::AfficheEcranVictoire(RenderWindow &window) {
     window.draw(spriteEcrandeVictoire);
 }
 
-void Joueur::clearDeck() {
-Deck.clear();
+
+void Joueur::setHorsJeu(bool A){
+    HorsJeu=A;
+}
+
+bool Joueur::getHorsJeu() {
+    return HorsJeu;
+}
+
+void Joueur::clearJoueur() {
+    Deck.clear();
+}
+
+void Joueur::AjouterUnePartie(bool A) {
+    ifstream fichierTexteR("../PointTXT/Identifiant.txt");
+    int compteur = 0;
+    string temp = "Temp";
+    while (getline(fichierTexteR, temp)) {
+        compteur++;
+    }
+    fichierTexteR.clear();
+    fichierTexteR.seekg(0, ios::beg);
+    string listeID[compteur][4];
+    char c = ';';
+    for (int j = 0; j < compteur; ++j) {
+        for (int i = 0; i < 4; ++i) {
+            while (c != ',') {
+                fichierTexteR.get(c);
+                if (c != ',' && c != '\n') {
+                    listeID[j][i] += c;
+                }
+            }
+            c = ';';
+        }
+    }
+    fichierTexteR.close();
+
+    for (int i = 0; i < compteur; ++i) {
+        if (identifiant == listeID[i][0]) {
+            stringstream ss;
+            if (A) {
+                NbVictoires++;
+                ss << NbVictoires;
+                ss >> listeID[i][2];
+            } else {
+                NbJoues++;
+                ss << NbJoues;
+                ss >> listeID[i][3];
+            }
+        }
+    }
+    ofstream fichierTexteW("../PointTXT/Identifiant.txt");
+    for (int i = 0; i < compteur; ++i) {
+        fichierTexteW << listeID[i][0]<< "," << listeID[i][1] << "," << listeID[i][2]<<","<<listeID[i][3]<<","<<endl;
+    }
 }

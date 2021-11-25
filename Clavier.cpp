@@ -7,10 +7,10 @@ void ClavierTexte(int menu, Joueur* joueur, Event event) {
         }
     }
 }
-void Clavier(int menu, Joueur* joueur, Event event, RenderWindow& window,bool& End) {
+void Clavier(int& menu, Joueur* joueur, Event event, RenderWindow& window,bool& End,Parametre& parametre) {
     if (event.key.code == Keyboard::Escape) {
-        End=true;
-        window.close();
+        parametre.setmenuMemoire(menu);
+        menu=8;
     }
     if (event.key.code == 59 && menu==2) {
         for (int i = 0; i < 6; ++i) {

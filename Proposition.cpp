@@ -81,7 +81,7 @@ void Proposition::AfficherCarteAChoisir(RenderWindow& window) {
             break;
         case 2:
             for (int i = 0; i < NB_SALLE; ++i) {
-                if (Mouse::getPosition().x > 163 + 175 * i && Mouse::getPosition().x < 255 + 175 * i &&
+                if (Mouse::getPosition().x > 192 + 175 * i && Mouse::getPosition().x < 342 + 175 * i &&
                     Mouse::getPosition().y > 200 && Mouse::getPosition().y < 440) {
                     ListepropositionSalle[i].dessinerCarte(window, 145 + 175 * i, 151, 225, 338);
                     EcrireNom(window, 25, ListepropositionSalle[i].getNom(), 257 + 175 * i, 129,Color::White);

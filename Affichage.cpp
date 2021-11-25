@@ -1,9 +1,10 @@
 #include "PointH/AutresFonctions.h"
 
 void InitialisationSprite(Sprite fondMenu[],Texture* texture){
-    for (int i = 0; i < 8; ++i) {
-        string filename="../Image/Menu0.jpg";
+    for (int i = 0; i < 9; ++i) {
+        string filename="../Image/Menu2.jpg";
         filename[13]=i+48;
+        if (i==3 || i==4 || i==7){filename[13]='X';}
         texture[i].loadFromFile(filename);
         fondMenu[i].setTexture(texture[i]);
     }

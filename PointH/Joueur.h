@@ -30,6 +30,7 @@ private:
 
     bool AfficherProposition=false;
     Carte propostionaAfficher;
+    bool HorsJeu=false;
 
 public:
 
@@ -80,7 +81,10 @@ public:
     void AfficherCroixProposition(RenderWindow &window,int x,int y);
     bool getAfficherProposition();
     void AfficheEcranVictoire(RenderWindow& window);
-    void clearDeck();
+    void clearJoueur();
+    void setHorsJeu(bool A);
+    bool getHorsJeu();
+    void AjouterUnePartie(bool A);
 };
 
 #endif //CLUEDO_PERSO_H

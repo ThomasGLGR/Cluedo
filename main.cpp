@@ -8,8 +8,8 @@ int main()
     window.setPosition(Vector2i(0,0));
     window.setFramerateLimit(30);
 
-    Sprite fondMenu[8];
-    Texture texture[8];
+    Sprite fondMenu[9];
+    Texture texture[9];
     InitialisationSprite(fondMenu,texture);
 
     Carte carte[NB_CARTE];
@@ -20,6 +20,7 @@ int main()
     Case plateau[NB_CASE_HAUTEUR][NB_CASE_LARGEUR];
     De de[2];
     RegleDuJeu regleDuJeu;
+    Parametre parametre;
     int menu = 0;
     int nbJoueurs = 0;
     int SommeDesDes = 0;
@@ -40,9 +41,13 @@ int main()
                 if (End) {
                     MelangerCarte(carte);
                     InitialisationEnveloppe(enveloppe, carte);
+
+                    cout<<"-------------Solution----------------"<<endl;
                     for (int i = 0; i < 3; ++i) {
-                        cout<<enveloppe[i].getNom();
+                        cout<<enveloppe[i].getNom()<<endl;
                     }
+                    cout<<"-------------------------------------"<<endl;
+
                     joueur[0].InitialisationJoueur(choixJoueurCarte);
                     joueur[1].InitialisationJoueur(choixJoueurCarte);
 
@@ -62,7 +67,7 @@ int main()
                             ClavierTexte(menu, joueur, event);
                             break;
                         case Event::KeyPressed:
-                            Clavier(menu, joueur, event, window, End);
+                            Clavier(menu, joueur, event, window, End,parametre);
                             break;
                         case Event::MouseButtonReleased:
                             switch (event.mouseButton.button) {
@@ -72,7 +77,7 @@ int main()
                                 case Mouse::Left:
                                     ClicGauche(menu, joueur, choixJoueurCarte, nbJoueurs, carte, de, SommeDesDes,
                                                plateau,
-                                               tour, proposition, MontrerProposition, enveloppe,End);
+                                               tour, proposition, MontrerProposition, enveloppe,End,parametre,window);
                                     break;
                             }
                             break;
@@ -86,7 +91,6 @@ int main()
                     window.display();
                     window.clear();
                 }
-            window.close();
         }
     return 0;
 }

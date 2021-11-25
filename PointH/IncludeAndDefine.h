@@ -9,6 +9,7 @@
 #include <iostream>
 #include <fstream>
 #include <ctime>
+#include <sstream>
 
 #define LARGEUR_ECRAN 1920
 #define HAUTEUR_ECRAN 1080
@@ -32,8 +33,6 @@
 #define NB_FACES_DE 6
 #define DEBUT_PROPOSION_X 416
 #define DEBUT_PROPOSION_Y 500
-#define NB_LIGNE_REGLE 41
-
 using namespace std;
 using namespace sf;
 

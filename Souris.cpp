@@ -10,12 +10,13 @@ void PassageMenu5(int& menu, Joueur* joueur,int& nbJoueurs,Carte* carte,Case pla
             }
         }
     }
-    if (boutonMenuSuivant.Clic(5)!=-1 && valide) {
+    if (boutonMenuSuivant.Clic(5)!=ERREUR && valide) {
         nbJoueurs=NombreDeJoueurs(joueur);
         InitialisationMapSuite(plateau,joueur,nbJoueurs);
         DistributionCarte(joueur,carte,nbJoueurs);
         for (int i = 0; i < nbJoueurs; ++i) {
             joueur[i].BarrePremierCarte();
+            joueur[i].AjouterUnePartie(false);
         }
         menu = boutonMenuSuivant.Clic(5);
     }
@@ -83,7 +84,7 @@ void BoutonIdentifiant(Joueur* joueur, int& I, int& J){
     }
 }
 
-void ClicGauche(int& menu, Joueur* joueur, cartePossible choixJoueurCarte[],int& nbJoueurs,Carte* carte,De de[2],int& SommeDesDes, Case plateau[NB_CASE_HAUTEUR][NB_CASE_LARGEUR],int& tour,Proposition& proposition,bool& MontrerProposition,Carte* enveloppe,bool& End){
+void ClicGauche(int& menu, Joueur* joueur, cartePossible choixJoueurCarte[],int& nbJoueurs,Carte* carte,De de[2],int& SommeDesDes, Case plateau[NB_CASE_HAUTEUR][NB_CASE_LARGEUR],int& tour,Proposition& proposition,bool& MontrerProposition,Carte* enveloppe,bool& End,Parametre& parametre,RenderWindow& window){
 switch (menu){
     case 0:
         menu=1;
@@ -154,9 +155,9 @@ switch (menu){
     case 4:{
         Bouton boutonSuivant(1750,900,150,150,Color::Transparent);
         if(boutonSuivant.Clic(0)!=ERREUR){
-            menu=1;
+            menu=parametre.getmenuMemoire();
         }
-        }
+    }
         break;
     case 5: {
         joueur[tour].changementBlocNoteBarre();
@@ -227,6 +228,15 @@ switch (menu){
             }
         }
 
+        int stopJeu=nbJoueurs;
+        while (joueur[tour].getHorsJeu() && stopJeu>ERREUR){
+            tour=(tour+1)%nbJoueurs;
+            stopJeu--;
+        }
+        if (stopJeu==ERREUR){
+            menu=1;
+            End=true;
+        }
     }
     break;
     case 6:
@@ -236,6 +246,8 @@ switch (menu){
             if (proposition.getVictoire()){
                 menu=7;
             }else{
+                joueur[tour].setHorsJeu(true);
+                tour=(tour+1)%nbJoueurs;
                 menu=5;
             }
         }
@@ -249,12 +261,36 @@ switch (menu){
             menu=5;
         }
         break;
-    case 7:
-        Bouton boutonSuivant(1750,900,150,150,Color::Transparent);
-        if(boutonSuivant.Clic(0)!=ERREUR){
-            menu=1;
-            End=true;
+    case 7: {
+        Bouton boutonSuivant(1750, 900, 150, 150, Color::Transparent);
+        if (boutonSuivant.Clic(0) != ERREUR) {
+            joueur[tour].AjouterUnePartie(true);
+            menu = 1;
+            End = true;
         }
+    }
+        break;
+    case 8: {
+        bool stop = false;
+        for (int i = 0; i < 3; ++i) {
+            if (!stop) {
+                Bouton boutonOption{550, 260 + 210 * i, 100, 820, ROUGE_MENU};
+                    if (boutonOption.Clic(i)==0){
+                        menu=parametre.getmenuMemoire();
+                        stop = true;
+                    }
+                    if (boutonOption.Clic(i)==1){
+                        menu=4;
+                        stop = true;
+                    }
+                    if (boutonOption.Clic(i)==2){
+                        window.close();
+                        stop = true;
+                    }
+
+            }
+        }
+    }
         break;
 }
 }
@@ -267,9 +303,17 @@ void SourisMouvement(int& menu,RenderWindow& window){
             boutonMenu.DessinerRectangle(window,10.f);
             }
             break;
-        case 5:
+        case 5: {
             Bouton boutonAccusation{792, 928, 70, 400, ROUGE_MENU};
-            boutonAccusation.DessinerRectangle(window,5.f);
+            boutonAccusation.DessinerRectangle(window, 5.f);
+        }
+            break;
+        case 8:{
+            for (int i = 0; i < 3; ++i) {
+                Bouton boutonOption{550, 260 + 210 * i, 100, 820, ROUGE_MENU};
+                boutonOption.DessinerRectangle(window, 10.f);
+            }
+        }
             break;
     }
 }
