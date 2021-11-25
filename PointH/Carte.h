@@ -27,7 +27,7 @@ public:
     Texture getTexture();
     void RemplirEnveloppe(Carte* carte,int type);
     virtual void setCarte(Carte C);
-    void setCarteDepuisString(string S);
+    void setCarteDepuisString(string S,Carte carte[NB_CARTE]);
 };
 
 
@@ -39,7 +39,6 @@ public:
     bool getUtilise();
     Carte getCarte();
     void setCarte(Carte C);
-
 };
 
 #endif

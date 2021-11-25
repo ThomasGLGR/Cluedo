@@ -13,17 +13,8 @@ int Parametre::getmenuMemoire() {
 void Parametre::sauvegarder(Joueur *joueur, int tour, int NbJoueur, Carte *enveloppe) {
     if (menuMemoire == 5 || menuMemoire == 6) {
         ofstream fichierTexte("../PointTXT/sauvegarde.txt");
-        fichierTexte << NbJoueur << "," << tour << ",";
-        for (int i = 0; i < 3; ++i) {
-            fichierTexte << enveloppe[i].getNom() << ",";
-        }
-
-        fichierTexte << endl;
-
-        for (int i = 0; i < NbJoueur; ++i) {
-            joueur[i].sauvegarde(fichierTexte);
-        }
-
+        fichierTexte << NbJoueur << "," << tour << ","<< enveloppe[0].getNom() << ","<< enveloppe[1].getNom() << ","<<enveloppe[2].getNom()<<endl;
+        for (int i = 0; i < NbJoueur; ++i) {joueur[i].sauvegarde(fichierTexte);}
         fichierTexte.close();
     }
 }
@@ -51,12 +42,12 @@ string ChargerString(ifstream& fichierTexte){
     return S;
 }
 
-void Parametre::ChargerPartie(Joueur* joueur, int &tour, int &NbJoueur, Carte enveloppe[3]) {
+void Parametre::ChargerPartie(Joueur* joueur, int &tour, int &NbJoueur, Carte enveloppe[3],Carte carte[NB_CARTE]) {
     ifstream fichierTexte("../PointTXT/sauvegarde.txt");
-    tour = ChargerInt(fichierTexte);
     NbJoueur = ChargerInt(fichierTexte);
+    tour = ChargerInt(fichierTexte);
     for (int i = 0; i < 3; ++i) {
-        enveloppe[i].setCarteDepuisString(ChargerString(fichierTexte));
+        enveloppe[i].setCarteDepuisString(ChargerString(fichierTexte),carte);
     }
 for (int i = 0; i < NbJoueur; ++i) {
     basic_string<char> Id = ChargerString(fichierTexte);
@@ -70,17 +61,17 @@ for (int i = 0; i < NbJoueur; ++i) {
     int Hors_Jeu = ChargerInt(fichierTexte);
     int Xpion = ChargerInt(fichierTexte);
     int Ypion = ChargerInt(fichierTexte);
-    vector<basic_string<char>> ListeBlocNote;
-    char tempC;
-    fichierTexte.get(tempC);
-    while (tempC != '\n') {
-        ListeBlocNote.push_back(tempC + ChargerString(fichierTexte));
-        fichierTexte.get(tempC);
+    int compteBlocNote=ChargerInt(fichierTexte);
+    vector<int> ListeBlocNote;
+    ListeBlocNote.reserve(compteBlocNote);
+for (int i = 0; i < compteBlocNote; ++i) {
+        ListeBlocNote.push_back(ChargerInt(fichierTexte));
     }
-    joueur[i].chargerPartie(Id,StringCarte,ListeCarte,Hors_Jeu,Xpion,Ypion,ListeBlocNote);
+joueur[i].chargerPartie(Id,StringCarte,ListeCarte,Hors_Jeu,Xpion,Ypion,ListeBlocNote,carte);
+char Bin;
+fichierTexte.get(Bin);
 }
-
-    fichierTexte.close();
+fichierTexte.close();
 }
 
 

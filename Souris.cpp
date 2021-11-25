@@ -8,7 +8,7 @@ void PassageMenu5(int& menu, Joueur* joueur,int& nbJoueurs,Carte* carte,Case pla
     for (int i = 0; i < 6; ++i) {
         if (joueur[i].getjoueurJoue()) {
             if (joueur[i].getEtatInscription() != Pret) {
-                valide =true;
+                valide = false;
             }
         }
     }
@@ -86,7 +86,7 @@ void BoutonIdentifiant(Joueur* joueur, int& I, int& J){
     }
 }
 
-void ClicGauche(int& menu, Joueur* joueur, cartePossible choixJoueurCarte[],int& nbJoueurs,Carte* carte,De de[2],int& SommeDesDes, Case plateau[NB_CASE_HAUTEUR][NB_CASE_LARGEUR],int& tour,Proposition& proposition,bool& MontrerProposition,Carte* enveloppe,bool& End,Parametre& parametre,RenderWindow& window){
+void ClicGauche(int& menu, Joueur* joueur, cartePossible choixJoueurCarte[],int& nbJoueurs,Carte* carte,De de[2],int& SommeDesDes, Case plateau[NB_CASE_HAUTEUR][NB_CASE_LARGEUR],int& tour,Proposition& proposition,bool& MontrerProposition,Carte* enveloppe,bool& End,Parametre& parametre,RenderWindow& window,Carte copyCarte[NB_CARTE]){
 switch (menu){
     case 0:
         menu=1;
@@ -98,14 +98,18 @@ switch (menu){
                 Bouton boutonMenuClic{LARGEUR_ECRAN / 3, 240 + 210 * i, 100, LARGEUR_ECRAN / 3, ROUGE_MENU};
                 switch (boutonMenuClic.Clic(i)) {
                     case 0:
-                        End=true;
                         menu=2;
+                        stop= true;
                         break;
                     case 1:
-                        parametre.ChargerPartie(joueur,tour,nbJoueurs,enveloppe);
+                        Parametre::ChargerPartie(joueur,tour,nbJoueurs,enveloppe,copyCarte);
+                        cout<<tour<<endl<<nbJoueurs<<endl<<enveloppe[0].getNom()<<endl;
+                        menu=5;
+                        stop= true;
                         break;
                     case 2:
                         menu=4;
+                        stop= true;
                         break;
                 }
             }

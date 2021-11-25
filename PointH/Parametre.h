@@ -10,7 +10,7 @@ public:
     void setmenuMemoire(int m);
     int getmenuMemoire();
     void sauvegarder(Joueur* joueur, int tour,int NbJoueur,Carte* enveloppe);
-    static void ChargerPartie(Joueur* joueur, int& tour,int& NbJoueur,Carte enveloppe[3]);
+    static void ChargerPartie(Joueur* joueur, int& tour,int& NbJoueur,Carte enveloppe[3],Carte carte[NB_CARTE]);
 };
 
 #endif //CLUEDO_PARAMETRE_H

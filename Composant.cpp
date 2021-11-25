@@ -139,6 +139,10 @@ void Pion::sauvegardePion(ofstream& fichierTexte){
     fichierTexte<<x<<","<<y<<",";
 }
 
+void BlocNote::setBarre(bool A,int i) {
+    barre[i]=A;
+}
+
 void De::setLancerDe(bool A) {
 PeutLancerDe=A;
 }
@@ -301,9 +305,16 @@ void BlocNote::clear() {
 }
 
 void BlocNote::sauvegardeBlocNote(ofstream &fichierTexte) {
+    int compte=0;
     for (int i = 0; i < NB_CARTE; ++i) {
         if  (barre[i]){
-            fichierTexte<<nomDeCartes[i]<<",";
+            compte++;
+        }
+    }
+    fichierTexte<<compte<<",";
+    for (int i = 0; i < NB_CARTE; ++i) {
+        if  (barre[i]){
+            fichierTexte<<i<<",";
         }
     }
 }

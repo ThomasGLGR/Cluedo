@@ -18,17 +18,18 @@ public:
     void AfficherBlocNote(RenderWindow &window);
     void clear();
     void sauvegardeBlocNote(ofstream& fichierTexte);
+    void setBarre(bool A,int i);
 };
 
-class De{
+class De {
 private:
-    int valeur=rand()%NB_FACES_DE+1;
+    int valeur = rand() % NB_FACES_DE + 1;
     Texture textureFace[6];
-    bool PeutLancerDe=true;
+    bool PeutLancerDe = true;
 public:
     void InitialisationDe();
-    void AfficherDe(RenderWindow &window,int x,int y,int l,int h);
-    void LancerDe(int& Somme);
+    void AfficherDe(RenderWindow &window, int x, int y, int l, int h);
+    void LancerDe(int &Somme);
     void setLancerDe(bool A);
     bool getPeutLancerDe();
 };

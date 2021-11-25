@@ -146,10 +146,10 @@ void Joueur::setetatInscription(int A) {
     etatInscription=A;
 }
 void Joueur::AjouterUnJoueur() {
-    if  (joueurJoue && etatInscription==Nouveau) {
+    if  (joueurJoue && etatInscription==Nouveau && !identifiant.empty()) {
         ofstream fichierTexte("../PointTXT/Identifiant.txt", ios::app);
         fichierTexte << identifiant << "," << mdp << ",0,0," << endl;
-        etatInscription = 3;
+        etatInscription = Pret;
         AfficherIdentifiant = false;
         fichierTexte.close();
     }
@@ -527,16 +527,19 @@ fichierTexte<<identifiant<<"," <<avatar.getNom()<<"," <<Deck.size()<<",";
 }
 
 void Joueur::chargerPartie(basic_string<char> Id, basic_string<char> StringCarte, vector<basic_string<char>> ListeCarte,
-                           bool Hors_Jeu, int Xpion, int Ypion, vector<basic_string<char>> ListeBlocNote) {
-
+                           bool Hors_Jeu, int Xpion, int Ypion, vector<int> ListeBlocNote,Carte carte[NB_CARTE]) {
     identifiant=move(Id);
-    avatar.setCarteDepuisString(move(StringCarte));
+    avatar.setCarteDepuisString(move(StringCarte),carte);
     for (int i = 0; i < ListeCarte.size(); ++i) {
         Deck.emplace_back();
-        Deck[i].setCarteDepuisString(ListeCarte[i]);
+        Deck[i].setCarteDepuisString(ListeCarte[i],carte);
     }
     HorsJeu=Hors_Jeu;
     setPion(Xpion,Ypion);
+    for (int i = 0; i < ListeBlocNote.size(); ++i) {
+        blocnote.setBarre(true,ListeBlocNote[i]);
+    }
+
 }
 
 

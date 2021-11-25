@@ -29,7 +29,7 @@ int main()
     int SommeDesDes = 0;
     int tour = 0;
     bool MontrerProposition = false;
-    bool End = false;
+    bool End = true;
 
     de[0].InitialisationDe();
     de[1].InitialisationDe();
@@ -43,37 +43,37 @@ int main()
         AffichageMenu(fondMenu, menu, window, joueur, de, nbJoueurs, plateau, tour, proposition,  MontrerProposition, regleDuJeu);
 
         while (window.pollEvent(event)) {
-                if (End) {
-                    for (int i = 0; i < NB_CARTE; ++i) {
-                        carte[i]=carteCopy[i];
-                    }
-                    InitialisationCartePossible(carte,choixJoueurCarte);
-                    for (auto & i : joueur) {
-                        i.clearJoueur();
-                    }
+            if (End) {
+                for (int i = 0; i < NB_CARTE; ++i) {
+                    carte[i]=carteCopy[i];
+                }
+                InitialisationCartePossible(carte,choixJoueurCarte);
+                for (auto & i : joueur) {
+                    i.clearJoueur();
+                }
 
-                    joueur[0].InitialisationJoueur(choixJoueurCarte);
-                    joueur[1].InitialisationJoueur(choixJoueurCarte);
+                joueur[0].InitialisationJoueur(choixJoueurCarte);
+                joueur[1].InitialisationJoueur(choixJoueurCarte);
 
-                    proposition.InitialisationProposition(carte);
-                    regleDuJeu.InitialisationRegle();
+                proposition.InitialisationProposition(carte);
+                regleDuJeu.InitialisationRegle();
 
-                    MelangerCarte(carte);
-                    InitialisationEnveloppe(enveloppe, carte);
+                MelangerCarte(carte);
+                InitialisationEnveloppe(enveloppe, carte);
 
 
-                    proposition.clearProposition();
-                    cout<<"-------------Solution----------------"<<endl;
-                    for (auto & i : enveloppe) {
-                        cout<<i.getNom()<<endl;
-                    }
-                    cout<<"-------------------------------------"<<endl;
-                    nbJoueurs = 0;
-                    SommeDesDes = 0;
-                    tour = 0;
-                    MontrerProposition = false;
-                    End = false;
-                    }
+                proposition.clearProposition();
+                cout<<"-------------Solution----------------"<<endl;
+                for (auto & i : enveloppe) {
+                    cout<<i.getNom()<<endl;
+                }
+                cout<<"-------------------------------------"<<endl;
+                nbJoueurs = 0;
+                SommeDesDes = 0;
+                tour = 0;
+                MontrerProposition = false;
+                End = false;
+            }
             switch (event.type) {
                         case Event::Closed:
                             window.close();
@@ -92,7 +92,7 @@ int main()
                                 case Mouse::Left:
                                     ClicGauche(menu, joueur, choixJoueurCarte, nbJoueurs, carte, de, SommeDesDes,
                                                plateau,
-                                               tour, proposition, MontrerProposition, enveloppe,End,parametre,window);
+                                               tour, proposition, MontrerProposition, enveloppe,End,parametre,window,carteCopy);
                                     break;
                             }
                             break;

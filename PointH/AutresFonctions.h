@@ -15,7 +15,7 @@ void InitialisationCarte(Carte carte[NB_CARTE]);
 void InitialisationCartePossible(Carte carte[NB_CARTE], cartePossible choixJoueurCarte[]);
 
 void AffichageMenu(Sprite fondMenu[], int menu, RenderWindow& window, Joueur* joueur,De* de,int nbJ,Case plateau[NB_CASE_HAUTEUR][NB_CASE_LARGEUR],int tour,Proposition proposition,bool MontrerProposition,RegleDuJeu regleDuJeu);
-void ClicGauche(int& menu, Joueur* joueur, cartePossible choixJoueurCarte[],int& nbJoueurs,Carte* carte,De de[2],int& SommeDesDes,Case plateau[NB_CASE_HAUTEUR][NB_CASE_LARGEUR],int& tour,Proposition& proposition,bool& MontrerProposition,Carte* enveloppe,bool& End,Parametre& parametre,RenderWindow& window);
+void ClicGauche(int& menu, Joueur* joueur, cartePossible choixJoueurCarte[],int& nbJoueurs,Carte* carte,De de[2],int& SommeDesDes,Case plateau[NB_CASE_HAUTEUR][NB_CASE_LARGEUR],int& tour,Proposition& proposition,bool& MontrerProposition,Carte* enveloppe,bool& End,Parametre& parametre,RenderWindow& window,Carte copyCarte[NB_CARTE]);
 void ClicDroit(int menu,Joueur* joueur,int tour);
 void ClavierTexte(int menu, Joueur* joueur, Event event);
 void Clavier(int& menu, Joueur* joueur, Event event, RenderWindow& window,bool &End,Parametre& parametre);

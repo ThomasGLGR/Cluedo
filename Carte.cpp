@@ -100,8 +100,13 @@ void Carte::RemplirEnveloppe(Carte* carte,int type){
     }
 }
 
-void Carte::setCarteDepuisString(string S) {
+void Carte::setCarteDepuisString(string S,Carte carte[NB_CARTE]) {
 nomCarte=move(S);
+    for (int i = 0; i < NB_CARTE; ++i) {
+        if (nomCarte==carte[i].getNom()){
+            setCarte(carte[i]);
+        }
+    }
 }
 
 void InitialisationCartePossible(Carte carte[NB_CARTE], cartePossible choixJoueurCarte[]){
