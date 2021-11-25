@@ -66,6 +66,7 @@ void BoutonInscription(Joueur* joueur,int& I,int& J){
         }
     }
 }
+
 void BoutonIdentifiant(Joueur* joueur, int& I, int& J){
     bool stop6 = false;
     for (int j = 0; j < 2; ++j) {
@@ -82,13 +83,12 @@ void BoutonIdentifiant(Joueur* joueur, int& I, int& J){
     }
 }
 
-void ClicGauche(int& menu, Joueur* joueur, cartePossible choixJoueurCarte[],int& nbJoueurs,Carte* carte,De de[2],int& SommeDesDes, Case plateau[NB_CASE_HAUTEUR][NB_CASE_LARGEUR],int& tour,Proposition& proposition,bool& MontrerProposition){
+void ClicGauche(int& menu, Joueur* joueur, cartePossible choixJoueurCarte[],int& nbJoueurs,Carte* carte,De de[2],int& SommeDesDes, Case plateau[NB_CASE_HAUTEUR][NB_CASE_LARGEUR],int& tour,Proposition& proposition,bool& MontrerProposition,Carte* enveloppe,bool& End){
 switch (menu){
     case 0:
         menu=1;
         break;
     case 1: {
-
         bool stop = false;
         for (int i = 0; i < 3; ++i) {
             if (!stop) {
@@ -151,20 +151,40 @@ switch (menu){
         }
     }
         break;
+    case 4:{
+        Bouton boutonSuivant(1750,900,150,150,Color::Transparent);
+        if(boutonSuivant.Clic(0)!=ERREUR){
+            menu=1;
+        }
+        }
+        break;
     case 5: {
         joueur[tour].changementBlocNoteBarre();
         SommeDesDes = 0;
         int stopDe = ERREUR;
+        if  (!MontrerProposition){
         Bouton boutonLancerDe{1500, 800, 150, 315, Color::Transparent};
         stopDe = boutonLancerDe.Clic(1);
         if (stopDe != ERREUR) {
-            for (int i = 0; i < 2; ++i) {
-                de[i].LancerDe(SommeDesDes);
-                de[i].setLancerDe(false);
-            }
+           for (int i = 0; i < 2; ++i) {de[i].LancerDe(SommeDesDes);}
+            joueur[tour].getPion().DeplacementPion(plateau, SommeDesDes,de[0].getPeutLancerDe());
+            for (int i = 0; i < 2; ++i) {de[i].setLancerDe(false);}
             stopDe = ERREUR;
-            joueur[tour].getPion().DeplacementPion(plateau, SommeDesDes);
         }
+        }else{
+            Bouton boutonSuivant(1750,900,150,150,Color::Transparent);
+            if(boutonSuivant.Clic(0)!=ERREUR){
+                for (int i = 0; i < nbJoueurs; ++i) {
+                    joueur[i].SupprimerAfficherProposition();
+                }
+                MontrerProposition=false;
+                tour=(tour+1)%nbJoueurs;
+                for (int k = 0; k < 2; ++k) {
+                    de[k].setLancerDe(true);
+                }
+            }
+        }
+
 
         bool actualise = false;
         for (int i = 0; i < NB_CASE_HAUTEUR; ++i) {
@@ -175,20 +195,23 @@ switch (menu){
                     (Mouse::getPosition().y < DEBUT_PLATEAU_Y + i * LONGEUR_CASE + LONGEUR_CASE)) {
                     if (plateau[i][j].getDeplacementPossible()) {
                         joueur[tour].setPion(DEBUT_PLATEAU_X + j * LONGEUR_CASE, DEBUT_PLATEAU_Y + i * LONGEUR_CASE);
-                        actualise = true;
                         if (plateau[i][j].getTypedeCase() == Salle) {
                             proposition.InitialisationSalle(i, j);
+                            proposition.InitialisationMenu(menu);
                             menu = 6;
+                            actualise = true;
                         } else {
                             tour = (tour + 1) % nbJoueurs;
                             for (int k = 0; k < 2; ++k) {
                                 de[k].setLancerDe(true);
                             }
+                            actualise = true;
                         }
                     }
                 }
             }
         }
+
         if (actualise) {
             for (int i = 0; i < NB_CASE_HAUTEUR; ++i) {
                 for (int j = 0; j < NB_CASE_LARGEUR; ++j) {
@@ -196,24 +219,26 @@ switch (menu){
                 }
             }
         }
-        if (MontrerProposition){
-            Bouton boutonSuivant(1750,900,150,150,Color::Transparent);
-        if(boutonSuivant.Clic(0)!=ERREUR){
-            for (int i = 0; i < nbJoueurs; ++i) {
-                joueur[i].SupprimerAfficherProposition();
+        if (de[0].getPeutLancerDe()) {
+            Bouton boutonAccusation{792, 928, 70, 400, ROUGE_MENU};
+            if (boutonAccusation.Clic(0) != ERREUR) {
+                proposition.InitialisationMenu(6);
+                menu = 6;
             }
-            for (int k = 0; k < 2; ++k) {
-                de[k].setLancerDe(true);
-            }
-            MontrerProposition=false;
-            tour=(tour+1)%nbJoueurs;
         }
-        }
-    }
 
+    }
     break;
     case 6:
-        proposition.ChoisiLaPropositon(MontrerProposition);
+        proposition.ChoisiLaPropositon(MontrerProposition,enveloppe);
+
+        if (proposition.getMenuEncours()==7){
+            if (proposition.getVictoire()){
+                menu=7;
+            }else{
+                menu=5;
+            }
+        }
         if (MontrerProposition){
             bool stop=false;
             for (int i = 1; i < nbJoueurs; ++i) {
@@ -224,6 +249,13 @@ switch (menu){
             menu=5;
         }
         break;
+    case 7:
+        Bouton boutonSuivant(1750,900,150,150,Color::Transparent);
+        if(boutonSuivant.Clic(0)!=ERREUR){
+            menu=1;
+            End=true;
+        }
+        break;
 }
 }
 
@@ -232,10 +264,12 @@ void SourisMouvement(int& menu,RenderWindow& window){
         case 1:
             for (int i = 0; i < 3; ++i) {
             Bouton boutonMenu{LARGEUR_ECRAN / 3, 240 + 210 * i, 100, LARGEUR_ECRAN / 3, ROUGE_MENU};
-            boutonMenu.DessinerRectangle(window);
+            boutonMenu.DessinerRectangle(window,10.f);
             }
             break;
-        case 6:
+        case 5:
+            Bouton boutonAccusation{792, 928, 70, 400, ROUGE_MENU};
+            boutonAccusation.DessinerRectangle(window,5.f);
             break;
     }
 }
@@ -245,17 +279,9 @@ void ClicDroit(int menu,Joueur* joueur,int tour) {
         joueur[tour].changementBlocNoteEntoure();
     }
 }
-/*
-void SourisMolette(int& menu,vector<string> RegleDuJeu,RenderWindow& window) {
-    if (menu == 4) {
-        Font font;
-        font.loadFromFile("../font/Lato-Regular.ttf");
-        Text text;
-        text.setFont(font);
 
-        text.setCharacterSize(t);
-        text.setFillColor(Color(238, 29, 33));
-        text.setPosition(x,y);
-        window.draw(text);
+void SourisMolette(int menu,Event& event,RegleDuJeu& regleDuJeu) {
+    if (menu == 4) {
+        regleDuJeu.setScroll(20*event.mouseWheel.delta);
     }
-}*/
+}

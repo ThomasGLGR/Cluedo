@@ -11,6 +11,9 @@ int NombreDeJoueurs(Joueur* joueur){
 }
 
 void DistributionCarte(Joueur* joueur,Carte* carte,int nbJoueurs){
+    for (int i = 0; i <NB_JOUEURS; ++i) {
+        joueur[i].clearDeck();
+    }
     int a=0;
     for (int i = 0; i < NB_CARTE_JOUABLE; ++i) {
         joueur[a%nbJoueurs].PiocherCarte(carte[i]);
@@ -20,7 +23,7 @@ void DistributionCarte(Joueur* joueur,Carte* carte,int nbJoueurs){
 
 void MelangerCarte(Carte carte[NB_CARTE]){
     srand(time(NULL));
-    for (int i = 0; i < 500; ++i) {
+    for (int i = 0; i < 314; ++i) {
         int a=rand()%NB_CARTE;
         int b=rand()%NB_CARTE;
         Carte C=carte[a];
@@ -61,13 +64,3 @@ void InitialisationMapSuite(Case plateau[NB_CASE_HAUTEUR][NB_CASE_LARGEUR] ,Joue
     }
 }
 
-void InitialisationRegle(  vector<string> RegleDuJeu){
-    ifstream fichierTexte("../PointTXT/Regle.txt");
-    string temp="Compteur";
-    while (getline(fichierTexte, temp)) {
-        RegleDuJeu.push_back(temp);
-    }
-    for (int i = 0; i < RegleDuJeu.size(); ++i) {
-        cout<<RegleDuJeu[i]<<endl;
-    }
-}

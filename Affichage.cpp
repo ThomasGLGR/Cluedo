@@ -1,7 +1,7 @@
 #include "PointH/AutresFonctions.h"
 
 void InitialisationSprite(Sprite fondMenu[],Texture* texture){
-    for (int i = 0; i < 7; ++i) {
+    for (int i = 0; i < 8; ++i) {
         string filename="../Image/Menu0.jpg";
         filename[13]=i+48;
         texture[i].loadFromFile(filename);
@@ -20,7 +20,9 @@ void AfficherFleche(RenderWindow &window,int x,int y){
     Sfleche.setPosition(x,y);
     window.draw(Sfleche);
 }
-void AffichageMenu(Sprite fondMenu[], int menu, RenderWindow& window, Joueur* joueur,De* de,int nbJ,Case plateau[NB_CASE_HAUTEUR][NB_CASE_LARGEUR],int tour,Proposition proposition,bool MontrerProposition){
+
+
+void AffichageMenu(Sprite fondMenu[], int menu, RenderWindow& window, Joueur* joueur,De* de,int nbJ,Case plateau[NB_CASE_HAUTEUR][NB_CASE_LARGEUR],int tour,Proposition proposition,bool MontrerProposition,RegleDuJeu regleDuJeu){
     if  (menu!=ERREUR){window.draw(fondMenu[menu]);}
     switch (menu) {
         case 0: {
@@ -42,6 +44,12 @@ void AffichageMenu(Sprite fondMenu[], int menu, RenderWindow& window, Joueur* jo
                 joueur[i].AffichageAvatarMenu2(window, i);
                 joueur[i].AffichagePictogramme(window, i);
             }
+            break;
+        case 3:
+            break;
+        case 4:
+           regleDuJeu.AfficherTexte(window);
+           AfficherFleche(window,1750,900);
             break;
         case 5:
             joueur[tour].AfficherCarteEnMain(window);
@@ -93,5 +101,10 @@ void AffichageMenu(Sprite fondMenu[], int menu, RenderWindow& window, Joueur* jo
             proposition.AfficherProposition(window);
             proposition.AfficherCarteAChoisir(window);
             break;
+        case 7:
+            joueur[tour].AfficheEcranVictoire(window);
+            AfficherFleche(window,1750,900);
+            break;
     }
 }
+

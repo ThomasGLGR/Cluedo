@@ -29,6 +29,7 @@ public:
     void AfficherDe(RenderWindow &window,int x,int y,int l,int h);
     void LancerDe(int& Somme);
     void setLancerDe(bool A);
+    bool getPeutLancerDe();
 };
 
 class Pion{
@@ -41,6 +42,6 @@ public:
 void InitPion(Color C,int x0,int y0);
 void AfficherPion(RenderWindow& window);
 void setCoordsPion(int x0, int y0);
-void DeplacementPion(Case plateau[NB_CASE_HAUTEUR][NB_CASE_LARGEUR],int ValeurDe);
+void DeplacementPion(Case plateau[NB_CASE_HAUTEUR][NB_CASE_LARGEUR],int ValeurDe,bool verif);
 };
 #endif //CLUEDO_COMPOSANT_H

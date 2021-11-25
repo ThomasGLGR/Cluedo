@@ -133,7 +133,7 @@ void Joueur::EcrireID(RenderWindow &window, int t, string Nom, int x, int y, boo
         text.setString(Nom);
     }
     text.setCharacterSize(t);
-    text.setFillColor(Color(238, 29, 33));
+    text.setFillColor(ROUGE_MENU);
     text.setPosition(x,y);
     window.draw(text);
 }
@@ -396,3 +396,50 @@ void Joueur::AfficherCroixProposition(RenderWindow &window,int x,int y) {
 bool Joueur::getAfficherProposition(){
     return AfficherProposition;
 };
+
+void Joueur::AfficheEcranVictoire(RenderWindow &window) {
+    avatar.dessinerCarte(window,815,300,227,367);
+    Sprite spriteEcrandeVictoire;
+    Texture textureEcrandeVictoire;
+    Image I;
+    Image I2;
+    textureEcrandeVictoire.loadFromFile("../Image/Victoire.jpg");
+    I=textureEcrandeVictoire.copyToImage();
+    I2=textureEcrandeVictoire.copyToImage();
+    for (int i = 0; i < textureEcrandeVictoire.getSize().x / 3.2; ++i) {
+        for (int j = 0; j < textureEcrandeVictoire.getSize().y; ++j) {
+            if (I.getPixel(i, j).b >  100 && I.getPixel(i, j).r<181) {
+                I.setPixel(i, j, Color(Color(I.getPixel(i,j).r+74, I.getPixel(i,j).g/4,I.getPixel(i,j).b/3)));
+                if (I.getPixel(i,j).r>190 && I.getPixel(i,j).b< 60 ){
+                    I.setPixel(i,j,Color(I2.getPixel(i,j).r,I2.getPixel(i,j).g,I2.getPixel(i,j).b));
+                }
+            }
+        }
+    }
+    for (int i = 2 * textureEcrandeVictoire.getSize().x / 3; i < textureEcrandeVictoire.getSize().x; ++i) {
+        for (int j = 0; j < textureEcrandeVictoire.getSize().y; ++j){
+            if (I.getPixel(i, j).b >  100 && I.getPixel(i, j).r<181) {
+                I.setPixel(i, j, Color(Color(I.getPixel(i,j).r+74, I.getPixel(i,j).g/4,I.getPixel(i,j).b/3)));
+                if (I.getPixel(i,j).r>190 && I.getPixel(i,j).b< 55 ){
+                    I.setPixel(i,j,Color(I2.getPixel(i,j).r,I2.getPixel(i,j).g,I2.getPixel(i,j).b));
+                }
+            }
+        }
+    }
+    for (int i = 0; i < textureEcrandeVictoire.getSize().x; ++i) {
+        for (int j = 0; j < textureEcrandeVictoire.getSize().y; ++j){
+            if (I.getPixel(i,j).b>235 && I.getPixel(i,j).g>235 && I.getPixel(i,j).r>235){
+                I.setPixel(i,j,Color(I2.getPixel(i,j).r,I2.getPixel(i,j).g,I2.getPixel(i,j).b,0));
+            }
+        }
+    }
+    textureEcrandeVictoire.update(I);
+    textureEcrandeVictoire.setSmooth(true);
+    spriteEcrandeVictoire.setTexture(textureEcrandeVictoire);
+    spriteEcrandeVictoire.setPosition(610, 125);
+    window.draw(spriteEcrandeVictoire);
+}
+
+void Joueur::clearDeck() {
+Deck.clear();
+}

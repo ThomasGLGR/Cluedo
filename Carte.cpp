@@ -1,5 +1,4 @@
 #include "PointH/Carte.h"
-#include <utility>
 
 void Carte::InitCarte(ifstream& fichierTexte, int Type, int x, int y, int l, int L){
     getline(fichierTexte,nomCarte);
@@ -18,22 +17,20 @@ string Carte::getNom(){
 
 Carte::Carte() {}
 
-Carte::Carte(Sprite spriteCarte0,const Texture& textureCarte0,string nomCarte0,int typeCarte0,Color RGBText0) {
-    spriteCarte=move(spriteCarte0);
+Carte::Carte(const Texture& textureCarte0,string nomCarte0,int typeCarte0,Color RGBText0) {
     textureCarte=textureCarte0;
     nomCarte=move(nomCarte0);
     typeCarte=typeCarte0;
     RGBText=RGBText0;
 }
 
-Sprite Carte::getSprite(){
-    return spriteCarte;
-}
+
 Texture Carte::getTexture(){
     return textureCarte;
 }
 Carte cartePossible::getCarte(){
-    Carte C(spriteCarte,textureCarte,nomCarte,typeCarte,RGBText);
+
+    Carte C(textureCarte,nomCarte,typeCarte,RGBText);
     return C;
 }
 Color Carte::getRGB() {
@@ -41,7 +38,6 @@ Color Carte::getRGB() {
 }
 
 void cartePossible::setCarte(Carte C){
-    spriteCarte=C.getSprite();
     textureCarte=C.getTexture();
     nomCarte=C.getNom();
     RGBText=C.getRGB();
@@ -76,15 +72,15 @@ bool cartePossible::getUtilise() {
 
 
 void Carte::dessinerCarte(RenderWindow &window, int x, int y, int l, int h) {
+    Sprite spriteCarte;
     Vector2f targetSize(l, h);
     spriteCarte.setTexture(textureCarte);
-    /*stackOverflow*/spriteCarte.setScale(targetSize.x / spriteCarte.getLocalBounds().width,targetSize.y / spriteCarte.getLocalBounds().height);
+    spriteCarte.setScale(targetSize.x / spriteCarte.getLocalBounds().width,targetSize.y / spriteCarte.getLocalBounds().height);
     spriteCarte.setPosition(x,y);
     window.draw(spriteCarte);
 }
 
 void Carte::setCarte(Carte C){
-    spriteCarte=C.spriteCarte;
     textureCarte=C.textureCarte;
     nomCarte=C.nomCarte;
     RGBText=C.RGBText;

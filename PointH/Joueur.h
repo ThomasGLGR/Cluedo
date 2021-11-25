@@ -79,6 +79,8 @@ public:
     void SupprimerAfficherProposition();
     void AfficherCroixProposition(RenderWindow &window,int x,int y);
     bool getAfficherProposition();
+    void AfficheEcranVictoire(RenderWindow& window);
+    void clearDeck();
 };
 
 #endif //CLUEDO_PERSO_H

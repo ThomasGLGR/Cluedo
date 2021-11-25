@@ -10,7 +10,6 @@ class Carte{
 private:
 protected:
 
-    Sprite spriteCarte;
     Texture textureCarte;
     string nomCarte;
     int typeCarte;
@@ -22,10 +21,9 @@ public:
     void Couleur(ifstream& fichierTexte);
 
     Carte();
-    Carte(Sprite spriteCarte0,const Texture& textureCarte0,string nomCarte0,int typeCarte0,Color RGBText0);
+    Carte(const Texture& textureCarte0,string nomCarte0,int typeCarte0,Color RGBText0);
     Color getRGB();
     string getNom();
-    Sprite getSprite();
     Texture getTexture();
     void RemplirEnveloppe(Carte* carte,int type);
     virtual void setCarte(Carte C);

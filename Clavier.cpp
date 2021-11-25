@@ -7,8 +7,9 @@ void ClavierTexte(int menu, Joueur* joueur, Event event) {
         }
     }
 }
-void Clavier(int menu, Joueur* joueur, Event event, RenderWindow& window) {
+void Clavier(int menu, Joueur* joueur, Event event, RenderWindow& window,bool& End) {
     if (event.key.code == Keyboard::Escape) {
+        End=true;
         window.close();
     }
     if (event.key.code == 59 && menu==2) {

@@ -13,7 +13,7 @@ private:
 public:
     Bouton(int x0, int y0, int h0, int l0, Color couleur0);
     int Clic(int variable);
-    void DessinerRectangle(RenderWindow& window);
+    void DessinerRectangle(RenderWindow& window, float line);
 
 };
 

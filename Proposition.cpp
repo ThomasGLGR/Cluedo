@@ -35,13 +35,24 @@ AffiliationSalle(i,j,23,13,6,ListepropositionSalle,accusation);
 AffiliationSalle(i,j,24,6,8,ListepropositionSalle,accusation);
 }
 
+void Proposition::InitialisationMenu(int m) {
+    etape=0;
+    menuEncours=m;
+}
+
 void Proposition::AfficherProposition(RenderWindow& window) {
     for (int i = 0; i < etape; ++i) {
-        accusation[i].dessinerCarte(window,DEBUT_PROPOSION_X+400*i,DEBUT_PROPOSION_Y,288,460);
-        EcrireNom(window,32,accusation[i].getNom(),DEBUT_PROPOSION_X+400*i+144,DEBUT_PROPOSION_Y+480,Color::White);
+        if (i < 3) {
+            accusation[i].dessinerCarte(window, DEBUT_PROPOSION_X + 400 * i, DEBUT_PROPOSION_Y, 288, 460);
+            EcrireNom(window, 32, accusation[i].getNom(), DEBUT_PROPOSION_X + 400 * i + 144, DEBUT_PROPOSION_Y + 480,
+                      Color::White);
+        }
     }
-    accusation[Lieu].dessinerCarte(window,DEBUT_PROPOSION_X+400*2,DEBUT_PROPOSION_Y,288,460);
-    EcrireNom(window,32,accusation[Lieu].getNom(),DEBUT_PROPOSION_X+400*2+144,DEBUT_PROPOSION_Y+480,Color::White);
+    if (menuEncours == 5) {
+        accusation[Lieu].dessinerCarte(window, DEBUT_PROPOSION_X + 400 * 2, DEBUT_PROPOSION_Y, 288, 460);
+        EcrireNom(window, 32, accusation[Lieu].getNom(), DEBUT_PROPOSION_X + 400 * 2 + 144, DEBUT_PROPOSION_Y + 480,
+                  Color::White);
+    }
 }
 
 void Proposition::AfficherCarteAChoisir(RenderWindow& window) {
@@ -69,6 +80,17 @@ void Proposition::AfficherCarteAChoisir(RenderWindow& window) {
         }
             break;
         case 2:
+            for (int i = 0; i < NB_SALLE; ++i) {
+                if (Mouse::getPosition().x > 163 + 175 * i && Mouse::getPosition().x < 255 + 175 * i &&
+                    Mouse::getPosition().y > 200 && Mouse::getPosition().y < 440) {
+                    ListepropositionSalle[i].dessinerCarte(window, 145 + 175 * i, 151, 225, 338);
+                    EcrireNom(window, 25, ListepropositionSalle[i].getNom(), 257 + 175 * i, 129,Color::White);
+                } else {
+                    ListepropositionSalle[i].dessinerCarte(window, 192 + 175 * i, 200, 150, 240);
+                }
+            }
+            break;
+        case 3:
             if (Mouse::getPosition().x > 420 && Mouse::getPosition().x < 820 &&
                 Mouse::getPosition().y > 290 && Mouse::getPosition().y < 400) {
                 EcrireNom(window, 120, "Changer", 630, 310, ROUGE_MENU);
@@ -101,7 +123,7 @@ void Proposition::EcrireNom(RenderWindow &window, int t, string nom, int x, int 
     window.draw(text);
 }
 
-void Proposition::ChoisiLaPropositon(bool& MontrerProposition) {
+void Proposition::ChoisiLaPropositon(bool& MontrerProposition,Carte* enveloppe) {
     int choixCarte=0;
     switch (etape) {
         case 0:{
@@ -134,18 +156,44 @@ void Proposition::ChoisiLaPropositon(bool& MontrerProposition) {
             }
             if (choixCarte != ERREUR) {
                 accusation[Arme] = ListepropositionArme[choixCarte];
-                etape++;
+                if (menuEncours==5) {
+                    etape=3;
+                }else{
+                    etape++;
+                }
             }
         }
             break;
         case 2:{
+            bool stop=false;
+            for (int i = 0; i < NB_SALLE; ++i) {
+                if (!stop) {
+                    Bouton bouton(168 + 175 * i, 200, 240, 150, Color::Transparent);
+                    choixCarte = bouton.Clic(i);
+                    if (choixCarte!=ERREUR) {
+                        stop = true;
+                    }
+                }
+            }
+            if (choixCarte != ERREUR) {
+                accusation[Lieu] = ListepropositionSalle[choixCarte];
+                etape++;
+            }
+        }
+            break;
+        case 3: {
             Bouton boutonChangement(420, 290, 110, 400, Color::Transparent);
-            if (boutonChangement.Clic(0)!=ERREUR) {
+            if (boutonChangement.Clic(0) != ERREUR) {
                 etape = boutonChangement.Clic(0);
             }
             Bouton boutonValide(1060, 290, 110, 400, Color::Transparent);
-            if (boutonValide.Clic(0)!=ERREUR) {
-               MontrerProposition=true;
+            if (boutonValide.Clic(0) != ERREUR) {
+                if (menuEncours == 5) {
+                    MontrerProposition = true;
+                }else{
+                    menuEncours=7;
+                    VerificationAccusation(enveloppe);
+                }
             }
         }
             break;
@@ -155,3 +203,24 @@ void Proposition::ChoisiLaPropositon(bool& MontrerProposition) {
 Carte *Proposition::getAccusation() {
     return accusation;
 }
+
+int Proposition::getMenuEncours() {
+    return menuEncours;
+}
+
+bool Proposition::getVictoire() {
+    return victoire;
+}
+
+void Proposition::VerificationAccusation(Carte* enveloppe) {
+    bool erreur=false;
+    for (int i = 0; i < 3; ++i) {
+        if (accusation[i].getNom()!=enveloppe[i].getNom()){
+            erreur= true;
+        }
+    }
+    if (!erreur){
+        victoire= true;
+    }
+}
+

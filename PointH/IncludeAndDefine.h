@@ -24,14 +24,15 @@
 #define ERREUR -1
 #define NB_CASE_LARGEUR 20
 #define NB_CASE_HAUTEUR 28
-#define DEBUT_PLATEAU_X 699
-#define DEBUT_PLATEAU_Y 129
+#define DEBUT_PLATEAU_X 695
+#define DEBUT_PLATEAU_Y 44
 #define DEBUT_BLOCNOTE_X 1447
 #define DEBUT_BLOCNOTE_Y 95
 #define LONGEUR_CASE 29.9
 #define NB_FACES_DE 6
 #define DEBUT_PROPOSION_X 416
 #define DEBUT_PROPOSION_Y 500
+#define NB_LIGNE_REGLE 41
 
 using namespace std;
 using namespace sf;

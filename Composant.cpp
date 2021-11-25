@@ -23,6 +23,10 @@ void De::LancerDe(int& Somme) {
     }
 }
 
+bool De::getPeutLancerDe() {
+    return PeutLancerDe;
+}
+
 void Pion::InitPion(Color C,int x0,int y0){
     colorPion=C;
     texturePion.loadFromFile("../Image/pawn.png");
@@ -39,27 +43,6 @@ void Pion::setCoordsPion(int x0, int y0) {
     x=x0;
     y=y0;
 }
-/*
-void ReturnPorte(int i1,int j1,int i2,int j2,int i3,int j3,vector<int[2]> TabPorte){
-    if (i1==i2 && j1==j2){
-        TabPorte->push_back({i3,j3});
-        TabPorte->push_back({i2,j2});
-    }
-}
-
-void VerifPorte(int i, int j,vector<int[2]>& TabPorte){
-    ReturnPorte(i,j,3,7,22,15,TabPorte);
-    ReturnPorte(i,j,3,7,23,13,TabPorte);
-    ReturnPorte(i,j,22,15,23,13,TabPorte);
-    ReturnPorte(i,j,4,15,24,6,TabPorte);
-    ReturnPorte(i,j,7,1,13,4,TabPorte);
-    ReturnPorte(i,j,8,8,8,11,TabPorte);
-    ReturnPorte(i,j,8,8,17,8,TabPorte);
-    ReturnPorte(i,j,8,8,17,11,TabPorte);
-    ReturnPorte(i,j,8,11,17,8,TabPorte);
-    ReturnPorte(i,j,8,11,17,11,TabPorte);
-    ReturnPorte(i,j,17,8,17,11,TabPorte);
-}*/
 
 void ReturnPorte(int i1,int j1,int i2,int j2,int i3,int j3,vector<int>* TabPorteI,vector<int>* TabPorteJ){
     if (i1==i2 && j1==j2){
@@ -73,10 +56,7 @@ void ReturnPorte(int i1,int j1,int i2,int j2,int i3,int j3,vector<int>* TabPorte
 }
 
 void VerifPorte(int i, int j,vector<int>* TabPorteI,vector<int>* TabPorteJ){
-    ReturnPorte(i,j,3,7,22,15,TabPorteI,TabPorteJ);
-    ReturnPorte(i,j,3,7,23,13,TabPorteI,TabPorteJ);
     ReturnPorte(i,j,22,15,23,13,TabPorteI,TabPorteJ);
-    ReturnPorte(i,j,4,15,24,6,TabPorteI,TabPorteJ);
     ReturnPorte(i,j,7,1,13,4,TabPorteI,TabPorteJ);
     ReturnPorte(i,j,8,8,8,11,TabPorteI,TabPorteJ);
     ReturnPorte(i,j,8,8,17,8,TabPorteI,TabPorteJ);
@@ -84,6 +64,22 @@ void VerifPorte(int i, int j,vector<int>* TabPorteI,vector<int>* TabPorteJ){
     ReturnPorte(i,j,8,11,17,8,TabPorteI,TabPorteJ);
     ReturnPorte(i,j,8,11,17,11,TabPorteI,TabPorteJ);
     ReturnPorte(i,j,17,8,17,11,TabPorteI,TabPorteJ);
+}
+
+void returnRaccoucis(int i1,int j1,int i2,int j2,int i3,int j3,Case plateau[NB_CASE_HAUTEUR][NB_CASE_LARGEUR]){
+    if (i1==i2 && j1==j2){
+        plateau[i3][j3].setDeplacementPossible(true);
+    }
+    if (i1==i3 && j1==j3){
+        plateau[i2][j2].setDeplacementPossible(true);
+    }
+}
+
+void VerifRacourcis(int i,int j,Case plateau[NB_CASE_HAUTEUR][NB_CASE_LARGEUR])
+{
+returnRaccoucis(i,j,3,7,22,15,plateau);
+returnRaccoucis(i,j,3,7,23,13,plateau);
+returnRaccoucis(i,j,4,15,24,6,plateau);
 }
 
 
@@ -118,21 +114,19 @@ void VerifAutour(Case plateau[NB_CASE_HAUTEUR][NB_CASE_LARGEUR],int I, int J,int
     }
 }
 
-void Pion::DeplacementPion(Case plateau[NB_CASE_HAUTEUR][NB_CASE_LARGEUR],int ValeurDe) {
-    int Ideplacement;
-    int Jdeplacement;
+void Pion::DeplacementPion(Case plateau[NB_CASE_HAUTEUR][NB_CASE_LARGEUR],int ValeurDe,bool verif) {
+
     int CopieDe=ValeurDe;
     vector<int> TabPorteI,TabPorteJ;
     for (int i = 0; i < NB_CASE_HAUTEUR; ++i) {
         for (int j = 0; j < NB_CASE_LARGEUR; ++j) {
             if (plateau[i][j].getX() == x && plateau[i][j].getY() == y) {
-                Ideplacement = i;
-                Jdeplacement = j;
-                VerifAutour(plateau,Ideplacement,Jdeplacement,CopieDe-1);
-                if  (plateau[i][j].getTypedeCase()==1){
-                   VerifPorte(i,j,&TabPorteI,&TabPorteJ);
+                VerifAutour(plateau,i,j,CopieDe-1);
+                if  (plateau[i][j].getTypedeCase()==1) {
+                    VerifPorte(i, j, &TabPorteI, &TabPorteJ);
+                    VerifRacourcis(i, j, plateau);
                     for (int k = 0; k < TabPorteI.size(); ++k) {
-                        VerifAutour(plateau,TabPorteI[k],TabPorteJ[k],CopieDe-1);
+                        VerifAutour(plateau, TabPorteI[k], TabPorteJ[k], CopieDe - 1);
                     }
                 }
             }
@@ -148,9 +142,9 @@ PeutLancerDe=A;
 void BlocNote::InitialisationBlocNote() {
     ifstream fichierTexte("../PointTXT/InitialisationNomCarte.txt");
     for (int i = 0; i < NB_CARTE; ++i) {
-        getline(fichierTexte,nomDeCartes[i]);
         barre[i]=false;
         entoure[i]=false;
+        getline(fichierTexte,nomDeCartes[i]);
     }
     fichierTexte.close();
 }

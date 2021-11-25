@@ -8,11 +8,11 @@ int Bouton::Clic(int variable) {
     return ERREUR;
 }
 
-void Bouton::DessinerRectangle(RenderWindow& window) {
+void Bouton::DessinerRectangle(RenderWindow& window,float line) {
     if (Mouse::getPosition().x> x && Mouse::getPosition().x< x + l && Mouse::getPosition().y > y && Mouse::getPosition().y < y + h) {
         RectangleShape rectangle(Vector2f(l, h));
         rectangle.setFillColor(Color::Transparent);
-        rectangle.setOutlineThickness(10.f);
+        rectangle.setOutlineThickness(line);
         rectangle.setOutlineColor(couleur);
         rectangle.setPosition(x, y);
         window.draw(rectangle);
